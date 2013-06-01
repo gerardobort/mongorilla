@@ -1,10 +1,10 @@
 {
-  "name": "mongorila",
-  "description": "Mongorila is an advanced, clean, and powerful NodeJS based content moderator for MongoDB.",
+  "name": "mongorilla",
+  "description": "Mongorilla is an advanced, clean, and powerful NodeJS based content moderator for MongoDB.",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node mongorila.js"
+    "start": "node mongorilla.js"
   },
   "dependencies": {
     "express": "3.2.5"
