@@ -5,13 +5,13 @@
             "humanName": "Composer",
             "backboneForms": {
                 "schema": {
-                    "fullname": { "dataType": "Text", "name": "Full Name" },
-                    "birth": { "dataType": "Date" },
-                    "death": { "dataType": "Date" },
-                    "wiki": { "dataType": "TextArea" },
+                    "fullname": { "type": "Text", "name": "Full Name" },
+                    "birth": { "type": "Date", "dataType": "Date" },
+                    "death": { "type": "Date", "dataType": "Date" },
+                    "wiki": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "created": { "dataType": "DateTime" },
-                    "updated": { "dataType": "DateTime" }
+                    "created": { "type": "DateTime" },
+                    "updated": { "type": "DateTime" }
                 },
                 "fieldsets": [
                     {
@@ -28,26 +28,32 @@
                     "death_year": 1890
                 }
             },
+            "fastSearch": {
+                "find": { "fullname": "(^|\\W*):q" },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["fullname", "uri", "created", "updated"]
+            },
             "mongoose": {
-                "schema": { }
+                "schema": null
             }
-        },
+        }/*,
         {
             "name": "composerCategory",
             "humanName": "Composer Category",
             "backboneForms": {
                 "schema": {
-                    "name": { "dataType": "Text", "name": "Full Name" },
-                    "description": { "dataType": "TextArea" },
+                    "name": { "type": "Text", "name": "Full Name" },
+                    "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "created": { "dataType": "DateTime" },
-                    "updated": { "dataType": "DateTime" }
+                    "created": { "type": "DateTime" , "dataType": "Date" },
+                    "updated": { "type": "DateTime", "dataType": "Date"  }
                 }
             }
         },
         { "name": "isntrument", "humanName": "Instrument" },
         { "name": "opus", "humanName": "Opus" },
         { "name": "period", "humanName": "Period" },
-        { "name": "score", "humanName": "Score" }
+        { "name": "score", "humanName": "Score" }*/
     ]
 }

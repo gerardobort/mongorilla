@@ -39,17 +39,18 @@ if ('development' == app.get('env')) {
 }
 
 // mongo and models
-/*app.set('db', mongoose.connect(process.env.MONGORILA_MONGO_URL));
+app.set('db', mongoose.connect(process.env.MONGORILA_MONGO_URL));
 var models_path = __dirname + '/models'
 fs.readdirSync(models_path).forEach(function (file) {
     if (file.match(/\.js$/)) {
         require(models_path+'/'+file);
     }
-});*/
+});
 
 
 // inlcude helpers module
 global.helpers = require('./lib/helpers');
+global.getModel = require('./models/handler').getModel;
 
 // routes
 app.get('/', appRoute.bootstrap, appRoute.index);
@@ -62,6 +63,7 @@ app.get('/form/:collectionName.js', appRoute.bootstrap, jsRoute.form);
 app.get('/config/:collectionName.json', apiRoute.bootstrap, jsRoute.config);
 
 app.get('/api/database/info', apiRoute.bootstrap, apiRoute.databaseInfo);
+app.get('/api/search/:collectionName', apiRoute.bootstrap, apiRoute.collectionSearch);
 app.get('/api/:collectionName', apiRoute.bootstrap, apiRoute.collection);
 app.get('/api/:collectionName/:objectId', apiRoute.bootstrap, apiRoute.collectionObject);
 

@@ -57,6 +57,7 @@ exports.searchContent = function(req, res){
 exports.editContent = function(req, res){
     var url = require('url'),
         collectionName = req.route.params.collectionName,
+        objectId = req.route.params.objectId,
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
@@ -66,6 +67,7 @@ exports.editContent = function(req, res){
 
     res.render('app/edit-content.html', {
         title: 'edit',
-        collection: collection
+        collection: collection,
+        objectId: objectId
     });
 };

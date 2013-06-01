@@ -24,11 +24,18 @@ require(['init/backbone'], function (Backbone) {
     
     var $collectionForm = $('#collection-form');
     if ($collectionForm.size()) {
-        var collectionName = $collectionForm.data('collection-name');
+        var collectionName = $collectionForm.data('collection-name'),
+            objectId = $collectionForm.data('object-id') || 'default';
 
-        require(['model/' + collectionName, 'form/' + collectionName, 'json!config/' + collectionName + '.json'], function (Model, Form, config) {
+        require([
+            'model/' + collectionName, 
+            'form/' + collectionName,
+            'json!/config/' + collectionName + '.json',
+            'json!/api/' + collectionName + '/' + objectId
+            ], function (Model, Form, config, modelData) {
 
-            var model = new Model(),
+
+            var model = new Model(modelData),
                 form = new Form({ model: model, fieldsets: config.fieldsets });
 
             $collectionForm.html(form.render().$el);
@@ -48,6 +55,34 @@ require(['init/backbone'], function (Backbone) {
             });
 
         });
+    }
+
+    var $collectionList = $('#collection-list'),
+        $fastSearchQ = $('#fast-search-q');
+
+    if ($collectionList.size() && $fastSearchQ.size()) {
+        var collectionName = $collectionList.data('collection-name');
+
+        $fastSearchQ.on('keyup', function (event) {
+            var criteria = $fastSearchQ.val() || '.';
+            require(['json!/api/search/' + collectionName + '?q=' + criteria], function (response) {
+
+                $collectionList.html('<table class="table table-stripped"></table>');
+                $('table', $collectionList).append(
+                    '<tr>' + response.columns.map(function (col) { return '<th>' + col + '</th>'; }) 
+                        + '<th>actions</th></tr>'
+                );
+                $('table', $collectionList).append(
+                    _(response.data).map(function (result) {
+                        return '<tr>' + response.columns.map(function (col) { return '<td>' + result[col] + '</td>'; })
+                            + '<td><a class="btn" href="/edit/' + collectionName+ '/' + result['_id'] + '"><i class="icon-edit"></i></a></td></tr>'
+                    }).join('')
+                );
+
+            });
+        });
+        $fastSearchQ.trigger('keyup');
+        $fastSearchQ.get(0).focus();
     }
 
 });

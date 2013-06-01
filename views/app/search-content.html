@@ -1,3 +1,10 @@
 <h1><%= collection.humanName %></h1>
 <h2>Serach Content</h2>
 
+<form class="form-search">
+    <div class="input-append">
+        <input type="search" class="span2 search-query" id="fast-search-q" />
+        <button type="submit" class="btn">Search</button>
+    </div>
+</form>
+<div id="collection-list" data-collection-name="<%= collection.name %>"></div>
