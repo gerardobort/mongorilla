@@ -17,6 +17,7 @@ var app = express();
 
 // config
 global.config = require('config');
+global.config.watchForConfigFileChanges(0);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
