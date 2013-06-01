@@ -64,7 +64,7 @@
             "mongoose": {
                 "schema": null
             }
-        }/*,
+        },
         {
             "name": "composerCategory",
             "humanName": "Composer Category",
@@ -76,11 +76,105 @@
                     "created": { "type": "DateTime" , "dataType": "Date" },
                     "updated": { "type": "DateTime", "dataType": "Date"  }
                 }
+            },
+            "fastSearch": {
+                "find": { "name": "(^|\\W*):q" },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "uri", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
             }
         },
-        { "name": "isntrument", "humanName": "Instrument" },
-        { "name": "opus", "humanName": "Opus" },
-        { "name": "period", "humanName": "Period" },
-        { "name": "score", "humanName": "Score" }*/
+        {
+            "name": "instrument",
+            "humanName": "Instrument",
+            "backboneForms": {
+                "schema": {
+                    "name": { "type": "Text", "name": "Full Name" },
+                    "description": { "type": "TextArea" },
+                    "uri": { "validators": ["required"] },
+                    "created": { "type": "DateTime" , "dataType": "Date" },
+                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                }
+            },
+            "fastSearch": {
+                "find": { "name": "(^|\\W*):q" },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "uri", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
+            }
+        },
+        {
+            "name": "opus",
+            "humanName": "Opus",
+            "backboneForms": {
+                "schema": {
+                    "name": { "type": "Text", "name": "Full Name" },
+                    "description": { "type": "TextArea" },
+                    "uri": { "validators": ["required"] },
+                    "created": { "type": "DateTime" , "dataType": "Date" },
+                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                }
+            },
+            "fastSearch": {
+                "find": { "name": "(^|\\W*):q" },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "uri", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
+            }
+
+        },
+        {
+            "name": "period",
+            "humanName": "Period",
+            "backboneForms": {
+                "schema": {
+                    "name": { "type": "Text", "name": "Full Name" },
+                    "description": { "type": "TextArea" },
+                    "uri": { "validators": ["required"] },
+                    "created": { "type": "DateTime" , "dataType": "Date" },
+                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                }
+            },
+            "fastSearch": {
+                "find": { "name": "(^|\\W*):q" },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "uri", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
+            }
+        },
+        {
+            "name": "score",
+            "humanName": "Score",
+            "backboneForms": {
+                "schema": {
+                    "name": { "type": "Text", "name": "Full Name" },
+                    "description": { "type": "TextArea" },
+                    "uri": { "validators": ["required"] },
+                    "created": { "type": "DateTime" , "dataType": "Date" },
+                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                }
+            },
+            "fastSearch": {
+                "find": { "name": "(^|\\W*):q" },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "uri", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
+            }
+        }
     ]
 }

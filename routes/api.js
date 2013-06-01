@@ -39,7 +39,7 @@ exports.collectionObject = function(req, res){
                 var collection = _(global.config.collections).find(function (col) {
                     return col.name === collectionName;
                 });
-                res.send(collection.backboneForms.defaults);
+                res.send(collection.backboneForms.defaults||{});
             } else {
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
