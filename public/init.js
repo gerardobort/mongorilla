@@ -67,14 +67,16 @@ require(['init/backbone'], function (Backbone) {
             var criteria = $fastSearchQ.val() || '.';
             require(['json!/api/search/' + collectionName + '?q=' + criteria], function (response) {
 
-                $collectionList.html('<table class="table table-stripped"></table>');
-                $('table', $collectionList).append(
-                    '<tr>' + response.columns.map(function (col) { return '<th>' + col + '</th>'; }) 
+                $collectionList.html('<table class="table table-striped"><thead></thead><tbody></tbody></table>');
+                $('thead', $collectionList).prepend(
+                        '<tr><th>#</th>' 
+                        + response.columns.map(function (col) { return '<th>' + col + '</th>'; }) 
                         + '<th>actions</th></tr>'
                 );
-                $('table', $collectionList).append(
-                    _(response.data).map(function (result) {
-                        return '<tr>' + response.columns.map(function (col) { return '<td>' + result[col] + '</td>'; })
+                $('tbody', $collectionList).append(
+                    _(response.data).map(function (result, i) {
+                        return '<tr><td>' + (i+1) + '</td>' 
+                            + response.columns.map(function (col) { return '<td>' + result[col] + '</td>'; })
                             + '<td><a class="btn" href="/edit/' + collectionName+ '/' + result['_id'] + '"><i class="icon-edit"></i></a></td></tr>'
                     }).join('')
                 );

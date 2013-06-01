@@ -1,3 +1,4 @@
+// edited by <gerardobort@gmail.com> : changed RelationalModel to extend from DeepModel
 /* vim: set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab: */
 /**
  * Backbone-relational.js 0.8.0+
@@ -532,7 +533,7 @@
 		}
 	};
 	// Fix inheritance :\
-	Backbone.Relation.extend = Backbone.Model.extend;
+	Backbone.Relation.extend = Backbone.DeepModel.extend;
 	// Set up all inheritable **Backbone.Relation** properties and methods.
 	_.extend( Backbone.Relation.prototype, Backbone.Events, Backbone.Semaphore, {
 		options: {
@@ -599,7 +600,7 @@
 
 		/**
 		 * Set the related model(s) for this relation
-		 * @param {Backbone.Model|Backbone.Collection} related
+		 * @param {Backbone.DeepModel|Backbone.Collection} related
 		 */
 		setRelated: function( related ) {
 			this.related = related;
@@ -681,7 +682,7 @@
 		/**
 		 * Find related Models.
 		 * @param {Object} [options]
-		 * @return {Backbone.Model}
+		 * @return {Backbone.DeepModel}
 		 */
 		findRelated: function( options ) {
 			var related = null;
@@ -701,7 +702,7 @@
 
 		/**
 		 * Normalize and reduce `keyContents` to an `id`, for easier comparison
-		 * @param {String|Number|Backbone.Model} keyContents
+		 * @param {String|Number|Backbone.DeepModel} keyContents
 		 */
 		setKeyContents: function( keyContents ) {
 			this.keyContents = keyContents;
@@ -1029,13 +1030,13 @@
 	});
 
 	/**
-	 * A type of Backbone.Model that also maintains relations to other models and collections.
+	 * A type of Backbone.DeepModel that also maintains relations to other models and collections.
 	 * New events when compared to the original:
 	 *  - 'add:<key>' (model, related collection, options)
 	 *  - 'remove:<key>' (model, related collection, options)
 	 *  - 'change:<key>' (model, related model or collection, options)
 	 */
-	Backbone.RelationalModel = Backbone.Model.extend({
+	Backbone.RelationalModel = Backbone.DeepModel.extend({
 		relations: null, // Relation descriptions on the prototype
 		_relations: null, // Relation instances
 		_isInitialized: false,
@@ -1081,7 +1082,7 @@
 			Backbone.Relational.eventQueue.block();
 
 			try {
-				Backbone.Model.apply( this, arguments );
+				Backbone.DeepModel.apply( this, arguments );
 			}
 			finally {
 				// Try to run the global queue holding external events
@@ -1131,11 +1132,11 @@
 						}
 					}
 
-					changed && Backbone.Model.prototype.trigger.apply( dit, args );
+					changed && Backbone.DeepModel.prototype.trigger.apply( dit, args );
 				});
 			}
 			else {
-				Backbone.Model.prototype.trigger.apply( this, arguments );
+				Backbone.DeepModel.prototype.trigger.apply( this, arguments );
 			}
 
 			return this;
@@ -1143,7 +1144,7 @@
 
 		/**
 		 * Initialize Relations present in this.relations; determine the type (HasOne/HasMany), then creates a new instance.
-		 * Invoked in the first call so 'set' (which is made from the Backbone.Model constructor).
+		 * Invoked in the first call so 'set' (which is made from the Backbone.DeepModel constructor).
 		 */
 		initializeRelations: function( options ) {
 			this.acquire(); // Setting up relations often also involve calls to 'set', and we only want to enter this function once
@@ -1210,7 +1211,7 @@
 		/**
 		 * Retrieve related objects.
 		 * @param key {string} The relation key to fetch models for.
-		 * @param [options] {Object} Options for 'Backbone.Model.fetch' and 'Backbone.sync'.
+		 * @param [options] {Object} Options for 'Backbone.DeepModel.fetch' and 'Backbone.sync'.
 		 * @param [refresh=false] {boolean} Fetch existing models from the server as well (in order to update them).
 		 * @return {jQuery.when[]} An array of request objects
 		 */
@@ -1289,7 +1290,7 @@
 		},
 
 		get: function( attr ) {
-			var originalResult = Backbone.Model.prototype.get.call( this, attr );
+			var originalResult = Backbone.DeepModel.prototype.get.call( this, attr );
 
 			// Use `originalResult` get if dotNotation not enabled or not required because no dot is in `attr`
 			if ( !this.dotNotation || attr.indexOf( '.' ) === -1 ) {
@@ -1299,11 +1300,11 @@
 			// Go through all splits and return the final result
 			var splits = attr.split( '.' );
 			var result = _.reduce(splits, function( model, split ) {
-				if ( !( model instanceof Backbone.Model ) ) {
-					throw new Error( 'Attribute must be an instanceof Backbone.Model. Is: ' + model + ', currentSplit: ' + split );
+				if ( !( model instanceof Backbone.DeepModel ) ) {
+					throw new Error( 'Attribute must be an instanceof Backbone.DeepModel. Is: ' + model + ', currentSplit: ' + split );
 				}
 
-				return Backbone.Model.prototype.get.call( model, split );
+				return Backbone.DeepModel.prototype.get.call( model, split );
 			}, this );
 
 			if ( originalResult !== undefined && result !== undefined ) {
@@ -1327,7 +1328,7 @@
 				attributes[ key ] = value;
 			}
 
-			var result = Backbone.Model.prototype.set.apply( this, arguments );
+			var result = Backbone.DeepModel.prototype.set.apply( this, arguments );
 			
 			// Ideal place to set up relations :)
 			try {
@@ -1358,7 +1359,7 @@
 		unset: function( attribute, options ) {
 			Backbone.Relational.eventQueue.block();
 
-			var result = Backbone.Model.prototype.unset.apply( this, arguments );
+			var result = Backbone.DeepModel.prototype.unset.apply( this, arguments );
 			this.updateRelations( options );
 
 			// Try to run the global queue holding external events
@@ -1370,7 +1371,7 @@
 		clear: function( options ) {
 			Backbone.Relational.eventQueue.block();
 			
-			var result = Backbone.Model.prototype.clear.apply( this, arguments );
+			var result = Backbone.DeepModel.prototype.clear.apply( this, arguments );
 			this.updateRelations( options );
 
 			// Try to run the global queue holding external events
@@ -1402,7 +1403,7 @@
 			}
 
 			this.acquire();
-			var json = Backbone.Model.prototype.toJSON.call( this, options );
+			var json = Backbone.DeepModel.prototype.toJSON.call( this, options );
 
 			if ( this.constructor._superModel && !( this.constructor._subModelTypeAttribute in json ) ) {
 				json[ this.constructor._subModelTypeAttribute ] = this.constructor._subModelTypeValue;
@@ -1422,7 +1423,7 @@
 					if ( related instanceof Backbone.Collection ) {
 						value = related.pluck( includeInJSON );
 					}
-					else if ( related instanceof Backbone.Model ) {
+					else if ( related instanceof Backbone.DeepModel ) {
 						value = related.get( includeInJSON );
 					}
 
@@ -1447,7 +1448,7 @@
 							value.push( curJson );
 						});
 					}
-					else if ( related instanceof Backbone.Model ) {
+					else if ( related instanceof Backbone.DeepModel ) {
 						value = {};
 						_.each( includeInJSON, function( key ) {
 							value[ key ] = related.get( key );
@@ -1529,10 +1530,10 @@
 		},
 
 		/**
-		 * Create a 'Backbone.Model' instance based on 'attributes'.
+		 * Create a 'Backbone.DeepModel' instance based on 'attributes'.
 		 * @param {Object} attributes
 		 * @param {Object} [options]
-		 * @return {Backbone.Model}
+		 * @return {Backbone.DeepModel}
 		 */
 		build: function( attributes, options ) {
 			var model = this;
@@ -1635,7 +1636,7 @@
 	Backbone.Collection.prototype._prepareModel = function ( attrs, options ) {
 		var model;
 		
-		if ( attrs instanceof Backbone.Model ) {
+		if ( attrs instanceof Backbone.DeepModel ) {
 			if ( !attrs.collection ) {
 				attrs.collection = this;
 			}
@@ -1682,7 +1683,7 @@
 
 		//console.debug( 'calling add on coll=%o; model=%o, options=%o', this, models, options );
 		_.each( models, function( model ) {
-			if ( !( model instanceof Backbone.Model ) ) {
+			if ( !( model instanceof Backbone.DeepModel ) ) {
 				model = Backbone.Collection.prototype._prepareModel.call( this, model, options );
 			}
 
@@ -1808,7 +1809,7 @@
 
 	// Override .extend() to automatically call .setup()
 	Backbone.RelationalModel.extend = function( protoProps, classProps ) {
-		var child = Backbone.Model.extend.apply( this, arguments );
+		var child = Backbone.DeepModel.extend.apply( this, arguments );
 		
 		child.setup( this );
 

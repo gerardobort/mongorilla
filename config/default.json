@@ -5,10 +5,18 @@
             "humanName": "Composer",
             "backboneForms": {
                 "schema": {
-                    "fullname": { "type": "Text", "name": "Full Name" },
-                    "birth": { "type": "Date", "dataType": "Date" },
-                    "death": { "type": "Date", "dataType": "Date" },
-                    "wiki": { "type": "TextArea" },
+                    "fullname": { "type": "Text", "title": "Full Name" },
+                    "birth_year": { "type": "Number", "title": "Birth Year" },
+                    "death_year": { "type": "Number", "title": "Death Year" },
+                    "wiki.en.source_url": { "type": "Text", "title": "Source URL" },
+                    "wiki.en.source_name": { "type": "Text", "title": "Source Name" },
+                    "wiki.en.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.es.source_url": { "type": "Text", "title": "Source URL" },
+                    "wiki.es.source_name": { "type": "Text", "title": "Source Name" },
+                    "wiki.es.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.it.source_url": { "type": "Text", "title": "Source URL" },
+                    "wiki.it.source_name": { "type": "Text", "title": "Source Name" },
+                    "wiki.it.content": { "type": "TextArea", "title": "Content" },
                     "uri": { "validators": ["required"] },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
@@ -16,7 +24,19 @@
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["fullname", "birth", "death", "wiki"]
+                        "fields": ["fullname", "birth_year", "death_year"]
+                    },
+                    {
+                        "legend": "Wiki (English)",
+                        "fields": ["wiki.en.content", "wiki.en.source_name", "wiki.en.source_url"]
+                    },
+                    {
+                        "legend": "Wiki (Spanish)",
+                        "fields": ["wiki.es.content", "wiki.es.source_name", "wiki.es.source_url"]
+                    },
+                    {
+                        "legend": "Wiki (Italian)",
+                        "fields": ["wiki.it.content", "wiki.it.source_name", "wiki.it.source_url"]
                     },
                     {
                         "legend": "System Data",
