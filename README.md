@@ -1,4 +1,4 @@
-mongorila
+![Logo](gerardobort.github.com/mongorilla/logo.jpg)
 =========
 
-Mongorila is an advanced, clean, and powerful NodeJS based content moderator for MongoDB.
+Mongorilla is an advanced, clean, and powerful NodeJS based content moderator for MongoDB.
