@@ -27,7 +27,7 @@
                     },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
-                    "categories": { "type": "List", "itemType": "NestedModel", "model": "Backbone.ComposerCategory", "title": "Categories" }
+                    "categories": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.ComposerCategory}", "title": "Categories" }
                 },
                 "fieldsets": [
                     {
