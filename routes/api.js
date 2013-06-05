@@ -32,17 +32,20 @@ exports.collectionObject = function(req, res){
         objectId = req.route.params.objectId,
         _ = require('underscore');
 
+    var collection = _(global.config.collections).find(function (col) {
+        return col.name === collectionName;
+    });
+
     switch (req.method) {
         case 'GET': 
 
             if ('default' === objectId) {
-                var collection = _(global.config.collections).find(function (col) {
-                    return col.name === collectionName;
-                });
                 res.send(collection.backboneForms.defaults||{});
             } else {
+                var populateFields = _(collection.relations).map(function (obj, key) { return key; }).join(' ');
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
+                    //.populate(populateFields)
                     .exec()
                     .then(function (data) {
                         res.send(data);

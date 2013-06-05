@@ -1,91 +1,88 @@
-/**
- * Include this file _after_ the main backbone-forms file to override the default templates.
- * You only need to include templates you want to override.
+/** 
+ * Include this template file after backbone-forms.amd.js to override the default templates
  * 
- * Requirements when customising templates:
- * - Each template must have one 'parent' element tag.
- * - "data-type" attributes are required.
- * - The main placeholder tags such as the following are required: fieldsets, fields
+ * 'data-*' attributes control where elements are placed
  */
-;(function() {
-  var Form = Backbone.Form;
+;(function(Form) {
 
+    
+  /**
+   * Templates to match those used previous versions of Backbone Form, i.e. <= 0.11.0.
+   * NOTE: These templates are deprecated.
+   */
+  Form.template = _.template('\
+    <form class="bbf-form" data-fieldsets></form>\
+  ');
+
+
+  Form.Fieldset.template = _.template('\
+    <fieldset>\
+      <% if (legend) { %>\
+        <legend><%= legend %></legend>\
+      <% } %>\
+      <ul data-fields></ul>\
+    </fieldset>\
+  ');
+
+
+  Form.Field.template = _.template('\
+    <li class="bbf-field field-<%= key %>">\
+      <label for="<%= editorId %>"><%= title %></label>\
+      <div class="bbf-editor" data-editor></div>\
+      <div class="bbf-help"><%= help %></div>\
+      <div class="bbf-error" data-error></div>\
+    </li>\
+  ');
+
+
+  Form.NestedField.template = _.template('\
+    <li class="bbf-field bbf-nested-field field-<%= key %>">\
+      <label for="<%= editorId %>"><%= title %></label>\
+      <div class="bbf-editor" data-editor></div>\
+      <div class="bbf-help"><%= help %></div>\
+      <div class="bbf-error" data-error></div>\
+    </li>\
+  ');
+
+
+  Form.editors.Date.template = _.template('\
+    <div class="bbf-date">\
+      <select class="bbf-date" data-type="date"><%= dates %></select>\
+      <select class="bbf-month" data-type="month"><%= months %></select>\
+      <select class="bbf-year" data-type="year"><%= years %></select>\
+    </div>\
+  ');
+
+
+  Form.editors.DateTime.template = _.template('\
+    <div class="bbf-datetime">\
+      <div class="bbf-date-container" data-date></div>\
+      <select data-type="hour"><%= hours %></select>\
+      :\
+      <select data-type="min"><%= mins %></select>\
+    </div>\
+  ');
+
+
+  Form.editors.List.template = _.template('\
+    <div class="bbf-list">\
+      <ul data-items></ul>\
+      <div class="bbf-actions"><button type="button" data-action="add">Add</div>\
+    </div>\
+  ');
+
+
+  Form.editors.List.Item.template = _.template('\
+    <li>\
+      <button type="button" data-action="remove" class="bbf-remove">&times;</button>\
+      <div class="bbf-editor-container" data-editor></div>\
+    </li>\
+  ');
   
-  //DEFAULT TEMPLATES
-  Form.setTemplates({
-    
-    //HTML
-    form: '\
-      <form class="bbf-form">{{fieldsets}}</form>\
-    ',
-    
-    fieldset: '\
-      <fieldset>\
-        <legend>{{legend}}</legend>\
-        <ul>{{fields}}</ul>\
-      </fieldset>\
-    ',
-    
-    field: '\
-      <li class="bbf-field field-{{key}}">\
-        <label for="{{id}}">{{title}}</label>\
-        <div class="bbf-editor">{{editor}}</div>\
-        <div class="bbf-help">{{help}}</div>\
-        <div class="bbf-error">{{error}}</div>\
-      </li>\
-    ',
 
-    nestedField: '\
-      <li class="bbf-field bbf-nested-field field-{{key}}" title="{{title}}">\
-        <label for="{{id}}">{{title}}</label>\
-        <div class="bbf-editor">{{editor}}</div>\
-        <div class="bbf-help">{{help}}</div>\
-        <div class="bbf-error">{{error}}</div>\
-      </li>\
-    ',
-
-    list: '\
-      <div class="bbf-list">\
-        <ul>{{items}}</ul>\
-        <div class="bbf-actions"><button type="button" data-action="add">Add</div>\
-      </div>\
-    ',
-
-    listItem: '\
-      <li>\
-        <button type="button" data-action="remove" class="bbf-remove">&times;</button>\
-        <div class="bbf-editor-container">{{editor}}</div>\
-      </li>\
-    ',
-
-    date: '\
-      <div class="bbf-date">\
-        <select data-type="date" class="bbf-date">{{dates}}</select>\
-        <select data-type="month" class="bbf-month">{{months}}</select>\
-        <select data-type="year" class="bbf-year">{{years}}</select>\
-      </div>\
-    ',
-
-    dateTime: '\
-      <div class="bbf-datetime">\
-        <div class="bbf-date-container">{{date}}</div>\
-        <select data-type="hour">{{hours}}</select>\
-        :\
-        <select data-type="min">{{mins}}</select>\
-      </div>\
-    ',
-
-    'list.Modal': '\
-      <div class="bbf-list-modal">\
-        {{summary}}\
-      </div>\
-    '
-  }, {
-
-    //CLASSNAMES
-    error: 'bbf-error'
-
-  });
+  Form.editors.List.Object.template = Form.editors.List.NestedModel.template = _.template('\
+    <div class="bbf-list-modal"><%= summary %></div>\
+  ');
 
 
-})();
+})(Backbone.Form);

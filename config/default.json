@@ -26,7 +26,8 @@
                         ]
                     },
                     "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
+                    "updated": { "type": "DateTime" },
+                    "categories": { "type": "List", "itemType": "NestedModel", "model": "Backbone.ComposerCategory", "title": "Categories" }
                 },
                 "fieldsets": [
                     {
@@ -48,6 +49,10 @@
                     {
                         "legend": "System Data",
                         "fields": ["uri", "created", "updated"]
+                    },
+                    {
+                        "legend": "Categories",
+                        "fields": ["categories"]
                     }
                 ],
                 "defaults": {
@@ -61,6 +66,20 @@
                 "limit": 10,
                 "columns": ["fullname", "uri", "created", "updated"]
             },
+            "relations": { // mongorilla notation
+                "categories": {
+                    "type": "HasMany",
+                    "relatedCollection": "composerCategory"
+                },
+                "periods": {
+                    "type": "HasMany",
+                    "relatedCollection": "period"
+                },
+                "opuses": {
+                    "type": "HasMany",
+                    "relatedCollection": "opus"
+                }
+            },
             "mongoose": {
                 "schema": null
             }
@@ -73,8 +92,8 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "created": { "type": "DateTime" , "dataType": "Date" },
-                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                    "created": { "type": "DateTime" },
+                    "updated": { "type": "DateTime" }
                 }
             },
             "fastSearch": {
@@ -95,8 +114,8 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "created": { "type": "DateTime" , "dataType": "Date" },
-                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                    "created": { "type": "DateTime" },
+                    "updated": { "type": "DateTime" }
                 }
             },
             "fastSearch": {
@@ -117,8 +136,8 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "created": { "type": "DateTime" , "dataType": "Date" },
-                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                    "created": { "type": "DateTime" },
+                    "updated": { "type": "DateTime" }
                 }
             },
             "fastSearch": {
@@ -140,8 +159,8 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "created": { "type": "DateTime" , "dataType": "Date" },
-                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                    "created": { "type": "DateTime" },
+                    "updated": { "type": "DateTime" }
                 }
             },
             "fastSearch": {
@@ -162,8 +181,8 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "created": { "type": "DateTime" , "dataType": "Date" },
-                    "updated": { "type": "DateTime", "dataType": "Date"  }
+                    "created": { "type": "DateTime" },
+                    "updated": { "type": "DateTime" }
                 }
             },
             "fastSearch": {
