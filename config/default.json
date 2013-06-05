@@ -1,0 +1,53 @@
+{
+    "collections": [
+        {
+            "name": "composer",
+            "humanName": "Composer",
+            "backboneForms": {
+                "schema": {
+                    "fullname": { "dataType": "Text", "name": "Full Name" },
+                    "birth": { "dataType": "Date" },
+                    "death": { "dataType": "Date" },
+                    "wiki": { "dataType": "TextArea" },
+                    "uri": { "validators": ["required"] },
+                    "created": { "dataType": "DateTime" },
+                    "updated": { "dataType": "DateTime" }
+                },
+                "fieldsets": [
+                    {
+                        "legend": "Basic Information",
+                        "fields": ["fullname", "birth", "death", "wiki"]
+                    },
+                    {
+                        "legend": "System Data",
+                        "fields": ["uri", "created", "updated"]
+                    }
+                ],
+                "defaults": {
+                    "birth_year": 1800,
+                    "death_year": 1890
+                }
+            },
+            "mongoose": {
+                "schema": { }
+            }
+        },
+        {
+            "name": "composerCategory",
+            "humanName": "Composer Category",
+            "backboneForms": {
+                "schema": {
+                    "name": { "dataType": "Text", "name": "Full Name" },
+                    "description": { "dataType": "TextArea" },
+                    "uri": { "validators": ["required"] },
+                    "created": { "dataType": "DateTime" },
+                    "updated": { "dataType": "DateTime" }
+                }
+            }
+        },
+        { "name": "isntrument", "humanName": "Instrument" },
+        { "name": "opus", "humanName": "Opus" },
+        { "name": "period", "humanName": "Period" },
+        { "name": "score", "humanName": "Score" }
+    ]
+}

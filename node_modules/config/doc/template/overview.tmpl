@@ -1,0 +1,267 @@
+<h2><b>Online Documentation</b> </h2>
+<div id="overview" class="summary description">
+
+  <h2>Introduction</h2>
+  <p>
+    Node-config is a configuration system for Node.js application server
+    deployments.  It lets you define a default set of application parameters,
+    and tune them for different runtime environments (development, qa,
+    staging, production, etc.).
+  </p>
+  <p>
+    Parameters defined by node-config can be monitored and tuned at runtime
+    without bouncing your production servers.
+  </p>
+
+  <h2>Project Guidelines</h2>
+  <ul>
+    <li>Simple - Get started fast</li>
+    <li>Predictable - Well tested and stable</li>
+    <li>Flexible - Reasonable defaults & hackable</li>
+    <li>Powerful - For multi-node enterprise deployment</li>
+    <li>Lightweight - Small memory and download footprint</li>
+    <li>Stable - Foundation for module developers</li>
+  </ul>
+
+  <h2>Getting Started</h2>
+  <p>
+    See the quick-start guide hosted on <a href="https://github.com/lorenwest/node-config">github</a>
+  </p>
+
+  <h2>Configuration Files</h2>
+  <p>
+    Node-config reads configuration files stored in the directory specified by
+    the <i>NODE_CONFIG_DIR</i> environment variable, which defaults to the <i>config</i>
+    directory within your top-level application directory.  Configuration files can be
+    in JavaScript format, JSON format, COFFEE format, or YAML format - whichever you prefer.
+  </p>
+  <p>
+    Configuration files in the config directory are loaded in the following order:
+  </p>
+  <pre>
+    default.EXT
+    <i>hostname</i>.EXT
+    <i>deployment</i>.EXT
+    <i>hostname</i>-<i>deployment</i>.EXT
+    runtime.json
+  </pre>
+  <p>
+    Where EXT can be .yml, .yaml, .coffee, .json, or .js depending on the format you prefer.
+    NOTE: If you use .yml, .yaml, or .coffee file extensions, the 'yaml' or 'coffee-script'
+    modules must be available.  These external dependencies are not included from
+    this package.
+  </p>
+  <p>
+    <i>hostname</i> is the \$HOST environment variable if set, otherwise the \$HOSTNAME 
+    environment variable if set, otherwise the hostname found from 
+    require('os').hostname(). Once a hostname is found, everything from the 
+    first period ('.') onwards is removed. For example, abc.example.com becomes abc
+  </p>
+  <p>
+    <i>deployment</i> is the deployment type, found in the \$NODE_ENV environment
+    variable.  Defaults to 'development'.
+  </p>
+  <p>
+    The runtime.json file contains configuration changes made at runtime either
+    manually, or by the application setting a configuration value.  The location is
+    specified by <i>NODE_CONFIG_RUNTIME_JSON</i> environment variable. By default, it
+    is a file called runtime.json in <i>NODE_CONFIG_DIR</i> directory.  Node-config
+    monitors this file and loads any new configurations it detects.
+  </p>
+  <p>
+    In the running application, each configuration parameter is internally
+    monitored for changes, and persisted to runtime.json upon change.
+    This keeps configurations in sync in a mutli-node deployment.
+  </p>
+
+  <h2>File Comments</h2>
+  <p>
+    Javascript-style comments are stripped out of files before parsing,
+    regardless of the file format type.
+  </p>
+
+  <h2>File Formats</h2>
+  <p>
+    JSON files (.json) expose configuration parameters as a JSON object.
+    Example:
+  </p>
+  <pre>
+  /* Customer parameters
+   *
+   * This controls database access and legacy system synchronization
+   */
+  {
+    "Customer": {
+      "dbName": "customers",
+      "dbHost": "localhost",
+      "dbPort": 5984
+      // Database synchronization frequency
+      "syncFrequency": 60
+    }
+  }
+  </pre>
+  <p>
+  </p>
+
+  <p>
+    JavaScript files (.js) expose configuration parameters as module.exports.  Example:
+  </p>
+  <pre>
+  module.exports = {
+    Customer: {
+      dbName: "customers",
+      dbHost: "localhost",
+      dbPort: 5984,
+      creditLimit: 600 // Default initial credit limit
+    }
+  }
+  </pre>
+
+  <p>
+    YAML files (.yaml or .yml) expose configuration parameters in YAML format.  Example:
+  </p>
+  <pre>
+  Customer:
+      dbName: customers
+      dbHost: localhost
+      dbPort: 5984
+      creditLimit: 600
+  </pre>
+
+  <p>
+    Coffee-script files (.coffee) expose configuration parameters in coffee-script format.  Example:
+  </p>
+  <pre>
+  module.exports =
+    Customer:
+      dbName: "customers"
+      dbHost: "localhost"
+      dbPort: 5984
+      creditLimit: 600
+  </pre>
+
+  <h2>Multiple Instance Configuration</h2>
+  <p>
+    When running multiple instances of your application, you may specify the
+    <i>\$NODE_APP_INSTANCE</i> environment variable prior to running
+    your app. If set, this variable should contain an identifier for
+    the specific instance of your app on this server, or within the network.
+  </p>
+  <p>
+    Configuration files appended with this identifier will be loaded after
+    the configuration file without the instance identifier.
+  </p>
+  <p>
+    Example:
+  </p>
+  <pre>
+    $ export NODE_ENV=staging
+    $ export NODE_APP_INSTANCE=3
+    $ node myApp.js
+  </pre>
+  <p>
+    This instructs node-config to load <i>default-3.json</i> (if present)
+    immediately after <i>default.json</i>, and <i>staging-3.json</i> after
+    <i>staging.json</i>.
+  </p>
+  <p>
+    All configuration files (except runtime.json) follow this pattern, allowing
+    your application to specify instance-specific configurations at any level.
+  </p>
+
+  <h2>Environment Variable Configuration</h2>
+  <p>
+    Environment variables can be used to override file configurations.
+    Any environment variable that starts with <i>\$CONFIG_</i>
+    is set into the CONFIG object.
+  </p>
+  <p>
+    For example, setting <i>\$CONFIG_Customer_dbPort=5984</i> will set
+    the CONFIG.Customer.dbPort variable, overriding all file configurations.
+  </p>
+  <p>
+    Underscores in variable names can be escaped by a double underscore <strong>__</strong>.
+    Example:  <i>\$CONFIG_Customer_DB__PORT=5984</i> will set the CONFIG.Customer.DB_PORT
+    configuration variable to 5984.
+  </p>
+
+  <h2>Monitoring Changes</h2>
+  <p>
+    One important attribute of node-config is the ability to tune configuration
+    parameters at runtime.  Configuration parameters fall into one of the
+    following categories:
+  </p>
+  <ul>
+    <li>
+      <strong>OK to change</strong> - This parameter type can change without
+      adverse effect.  Most parameters fall into this category, where the
+      parameter value is read every time it's used.
+    </li>
+    <li>
+      <strong>Monitored</strong> - Some parameters are read infrequently
+      (usually at the start of the application), and need to be monitored for
+      change.  The CONFIG.watch() function is available to watch these
+      parameters, and run a function when the value changes.  See the
+      <a href="Config.html#method_watch">watch</a> method definition for more
+      information.
+    </li>
+    <li>
+      <strong>Not OK to change</strong> - Some parameters must be fixed at
+      runtime and remain stable throughout the lifecycle of the application.
+      For these parameters, the
+      <a href="Config.html#method_makeImmutable">makeImmutable</a> method is
+      offered to guarantee the parameter cannot be changed.
+    </li>
+  </ul>
+
+  <h2>Production Deployments</h2>
+  <p>
+    Node-config is designed to run in a multi-node deployment, where many
+    instances of your application are running on a production server (usually
+    one per core processor).
+  </p>
+  <p>
+    If configuration values change at runtime, these changes are persisted
+    into the runtime.json file within the config directory.  Multi-node
+    application instances keep in synch by watching for and loading changes
+    in runtime.json when detected.
+  </p>
+  <p>
+    This paradigm does not extend beyond a single machine.
+  </p>
+
+  <h2>For Module Developers</h2>
+  <p>
+    Module developers can use node-config to define module specific
+    configuration parameters, and offer the same runtime tuning and multiple
+    deployment capability as the local application.
+  </p>
+  <p>
+    Node.js modules don't live in the same directory as the application, so
+    a different mechanism is offered to specify your default configuration.
+  </p>
+  <p>
+    The <a href="Config.html#method_setModuleDefaults">setModuleDefaults</a>
+    method creates an object (named after the module) within the CONFIG object
+    containing all module configuration parameters, and their defaults.
+  </p>
+  <p>
+    Example:
+  </p>
+  <pre>
+    var CONFIG = require("config");
+    CONFIG.setModuleDefaults("MyModule", {
+      templateName: "t-50",
+      colorScheme: "green"
+    });
+  </pre>
+  <p>
+    Users of your module may override your defaults in their config/defaults
+    file, or any of their deployment-specific configuration files.
+  </p>
+
+  <p style="text-align:right; padding-bottom:0; font-size:93%;">
+    Online docs built by <a href="http://developer.yahoo.com/yui/yuidoc/">yui-doc</a> and hosted by <a href="http://lorenwest.github.com">github</a>.
+  </p>
+
+</div>

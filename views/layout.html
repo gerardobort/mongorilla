@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mongorila<%= title ? ' | ' + title : '' %></title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+        <link href="/lib/bootstrap/css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/lib/templates/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="#">Mongorila</a>
+                <div class="row">
+                    <ul class="nav span4">
+                        <li>
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="icon-search"></i> Search
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                <% collections.forEach(function (collection) { %>
+                                    <li><a href="/search/<%= collection.name %>"><%= collection.humanName %></a></li>
+                                <% }) %>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="icon-plus"></i> Add Content
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                <% collections.forEach(function (collection) { %>
+                                    <li><a href="/add/<%= collection.name %>"><%= collection.humanName %></a></li>
+                                <% }) %>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="nav span1">
+                        <li>
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <i class="icon-user"></i> User
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/user/settings"><i class="icon-cog"></i> Settings</a></li>
+                                    <li><a href="/user/logout"><i class="icon-off"></i> Logout</a></li>
+                                </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+        <%= body %>
+        </div>
+
+        <script src="/lib/jquery.min.js"></script>
+        <script src="/lib/underscore.js"></script>
+        <script src="/lib/backbone.js"></script>
+        <script src="/lib/backbone-relational.js"></script>
+        <script src="/lib/backbone-forms.js"></script>
+        <script src="/lib/adapters/backbone.bootstrap-modal.js"></script>
+        <script src="/lib/editors/list.js"></script>
+        <script src="/lib/templates/bootstrap.js"></script>
+        <script src="/lib/bootstrap-modal.js"></script>
+        <script src="/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="/lib/require/require-js.js" data-main="/init.js" ></script>
+    </body>
+</html>
