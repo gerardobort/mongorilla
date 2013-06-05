@@ -21,9 +21,19 @@ exports.getModel = function (collectionName) {
             return col.name === collectionName;
         });
 
-        var ModelSchema = new Schema(
-            collection.mongoose.schema || { _id: ObjectId }
-        );
+        var schema = collection.mongoose.schema || { _id: ObjectId };
+
+        /// add custom relations
+        _(collection.relations).each(function (relation, key) {
+            var relatedModel = global.getModel(relation.relatedCollection); // this is only for loading purposes
+            if ('HasMany' === relation.type) {
+                schema[key] = [ { type: ObjectId, ref: relation.relatedCollection } ];
+            } else if ('HasOne' === relation.type) {
+                schema[key] = { type: ObjectId, ref: relation.relatedCollection };
+            }
+        });
+
+        var ModelSchema = new Schema(schema);
 
         ModelSchema.methods = {
         };

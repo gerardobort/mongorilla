@@ -60,6 +60,7 @@
                     "death_year": 1890
                 }
             },
+            "toStringField": "name",
             "fastSearch": {
                 "find": { "fullname": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
@@ -96,6 +97,7 @@
                     "updated": { "type": "DateTime" }
                 }
             },
+            "toStringField": "name",
             "fastSearch": {
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
@@ -118,6 +120,7 @@
                     "updated": { "type": "DateTime" }
                 }
             },
+            "toStringField": "name",
             "fastSearch": {
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
@@ -140,6 +143,7 @@
                     "updated": { "type": "DateTime" }
                 }
             },
+            "toStringField": "name",
             "fastSearch": {
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
@@ -163,6 +167,7 @@
                     "updated": { "type": "DateTime" }
                 }
             },
+            "toStringField": "name",
             "fastSearch": {
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
@@ -185,6 +190,7 @@
                     "updated": { "type": "DateTime" }
                 }
             },
+            "toStringField": "name",
             "fastSearch": {
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },

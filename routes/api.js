@@ -45,7 +45,7 @@ exports.collectionObject = function(req, res){
                 var populateFields = _(collection.relations).map(function (obj, key) { return key; }).join(' ');
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
-                    //.populate(populateFields)
+                    .populate(populateFields)
                     .exec()
                     .then(function (data) {
                         res.send(data);

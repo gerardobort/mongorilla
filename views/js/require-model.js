@@ -20,8 +20,10 @@ define('model/<%= collection.name %>', [
                     }
                 },
             <% }) %>
-        ]
-        
+        ],
+        toString: function () {
+            return this.get('<%= collection.toStringField %>') || 'Missing config setting: collection.toStringField must be set';
+        }
     });
 
     return Backbone.Model.<%= collection.name.toCamelCase() %>;
