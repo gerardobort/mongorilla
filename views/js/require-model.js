@@ -43,6 +43,7 @@ define('model/<%= collection.name %>', [
         //id: '_id',
         defaults: <%= JSON.stringify(collection.backboneForms.defaults||{}) %>,
         schema: <%= global.helpers.stringify(schema) %>,
+        /*
         relations: [
             <% _(collection.relations).each(function (relation, key) { %>
                 {
@@ -59,6 +60,7 @@ define('model/<%= collection.name %>', [
                 },
             <% }) %>
         ],
+        */
         toString: function () {
             <% if (collection.toStringField) { %>
             return this.get('<%= collection.toStringField %>');

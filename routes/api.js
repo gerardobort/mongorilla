@@ -62,7 +62,7 @@ exports.collectionSearch = function(req, res){
     var url = require('url'),
         collectionName = req.route.params.collectionName,
         url_parts = url.parse(req.url, true),
-        q = (url_parts.query.q||'').sanitize(),
+        q = (url_parts.query.q||'').sanitize().makeSafeForRegex(),
         _ = require('underscore');
 
     var collection = _(global.config.collections).find(function (col) {
