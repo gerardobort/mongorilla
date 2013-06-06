@@ -43,7 +43,6 @@ exports.collectionObject = function(req, res){
                 res.send(collection.backboneForms.defaults||{});
             } else {
                 var populateFields = _(collection.relations).map(function (obj, key) { return key; }).join(' ');
-console.log(populateFields)
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
                     .populate(populateFields)
@@ -70,6 +69,14 @@ exports.collectionSearch = function(req, res){
         return col.name === collectionName;
     });
 
+    var columnsHumanNames = _(collection.fastSearch.columns).map(function (col) {
+        if (collection.backboneForms.schema[col]) {
+            return collection.backboneForms.schema[col].title || col;
+        }
+        return col;
+    });
+
+
     var findParams = {};
 
     _(collection.fastSearch.find).each(function (regexStr, key) {
@@ -86,6 +93,7 @@ exports.collectionSearch = function(req, res){
                 collectionName: collectionName,
                 q: q,
                 columns: collection.fastSearch.columns,
+                columnsHumanNames: columnsHumanNames,
                 data: results
             });
         });

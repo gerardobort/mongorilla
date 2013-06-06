@@ -49,9 +49,15 @@ fs.readdirSync(models_path).forEach(function (file) {
 });
 
 
+
 // inlcude helpers module
 global.helpers = require('./lib/helpers');
 global.getModel = require('./models/handler').getModel;
+
+// preload all the models set in the config file
+global.config.collections.forEach(function (collection) {
+    var model = global.getModel(collection.name);
+});
 
 // routes
 app.get('/', appRoute.bootstrap, appRoute.index);

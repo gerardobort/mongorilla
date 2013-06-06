@@ -38,9 +38,7 @@ define('model/<%= collection.name %>', [
         ],
         toString: function () {
             <% if (collection.toStringField) { %>
-            return this.get('<%= collection.toStringField %>') 
-                + ' <a class="btn" target="_blank" href="/edit/<%= collection.name %>/'
-                + this.get('_id') + '"><i class="icon-edit"></i></a>';
+            return this.get('<%= collection.toStringField %>');
             <% } else { %>
             return 'Missing config setting: collection.toStringField must be set';
             <% } %>

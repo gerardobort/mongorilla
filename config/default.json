@@ -64,7 +64,7 @@
                     "death_year": 1890
                 }
             },
-            "toStringField": "name",
+            "toStringField": "fullname",
             "fastSearch": {
                 "find": { "fullname": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
@@ -95,25 +95,21 @@
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "name": "Full Name" },
-                    "description": { "type": "TextArea" },
+                    "description": { "type": "TextArea", "name": "Description" },
                     "uri": { "validators": ["required"] },
-                    "composers": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composers" },
+                    "count": { "type": "Number", "name": "Composers Amount", "editorAttrs": { "disabled": "disabled" } },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
                 }
             },
             "relations": { // mongorilla notation
-                "composers": {
-                    "type": "HasMany",
-                    "relatedCollection": "composer"
-                }
             },
             "toStringField": "name",
             "fastSearch": {
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
                 "limit": 10,
-                "columns": ["name", "uri", "created", "updated"]
+                "columns": ["name", "uri", "count", "created", "updated"]
             },
             "mongoose": {
                 "schema": null
@@ -150,7 +146,7 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
-                    "composer": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
+                    "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
                 }

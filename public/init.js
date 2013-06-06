@@ -38,6 +38,8 @@ require(['init/backbone'], function (Backbone) {
             var model = new Model(modelData),
                 form = new Form({ model: model, fieldsets: config.fieldsets, schema: Form.prototype.schema }); // force the schema against the model one
 
+            $('[data-collection-name]').html(model.toString());
+
             $collectionForm.html(form.render().$el);
             $collectionForm.append(
                 '<button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button>'
@@ -70,7 +72,9 @@ require(['init/backbone'], function (Backbone) {
                 $collectionList.html('<table class="table table-striped"><thead></thead><tbody></tbody></table>');
                 $('thead', $collectionList).prepend(
                         '<tr><th>#</th>' 
-                        + response.columns.map(function (col) { return '<th>' + col + '</th>'; }) 
+                        + response.columns.map(function (col, i) {
+                            return '<th>' + response.columnsHumanNames[i] + '</th>'; 
+                        }) 
                         + '<th>actions</th></tr>'
                 );
                 $('tbody', $collectionList).append(

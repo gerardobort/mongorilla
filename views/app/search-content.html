@@ -1,10 +1,9 @@
 <h1><%= collection.humanName %></h1>
-<h2>Search Content</h2>
 
 <form class="form-search">
     <div class="input-append">
-        <input type="search" class="span2 search-query" id="fast-search-q" />
-        <button type="submit" class="btn">Search</button>
+        <input type="search" class="span3 search-query" id="fast-search-q" />
+        <button type="submit" class="btn" disabled="disabled"><i class="icon-search"></i></button>
     </div>
 </form>
 <div id="collection-list" data-collection-name="<%= collection.name %>"></div>

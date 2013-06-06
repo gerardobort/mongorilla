@@ -32,7 +32,6 @@ exports.getModel = function (collectionName) {
             }
         });
 
-console.log(collectionName, schema)
         var ModelSchema = new Schema(schema);
 
         ModelSchema.methods = {
@@ -40,7 +39,6 @@ console.log(collectionName, schema)
 
 
         mongoose.model(collectionName, ModelSchema, collectionName);
-
 
         // this is only for loading purposes: whitout this the refs may not work
         _(collection.relations).each(function (relation, key) {
