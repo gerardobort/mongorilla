@@ -38,29 +38,10 @@ define('model/<%= collection.name %>', [
         };
     %>
 
-    Backbone.Model.<%= collection.name.toCamelCase() %> = Backbone.RelationalModel.extend({
-        // TODO path backbone-forms to perform findOrCreate instead of new when instantiating models... then we can remove this
-        //id: '_id',
+    Backbone.Model.<%= collection.name.toCamelCase() %> = Backbone.DeepModel.extend({
+        id: '_id',
         defaults: <%= JSON.stringify(collection.backboneForms.defaults||{}) %>,
         schema: <%= global.helpers.stringify(schema) %>,
-        /*
-        relations: [
-            <% _(collection.relations).each(function (relation, key) { %>
-                {
-                    type: Backbone.<%= relation.type %>,
-                    key: '<%= key %>',
-                    relatedModel: <%= relation.relatedCollection.toCamelCase() %>,
-                    <% if ('HasOne' !== relation.type) { %>
-                    collectionType: Backbone.Collection,
-                    <% } %>
-                    reverseRelation: {
-                        key: '<%= collection.name %>',
-                        includeInJSON: false
-                    }
-                },
-            <% }) %>
-        ],
-        */
         toString: function () {
             <% if (collection.toStringField) { %>
             return this.get('<%= collection.toStringField %>');
