@@ -22,9 +22,7 @@
                     "uri": {
                         "type": "Text",
                         "validators": [
-                            "required"
-                            // TODO there's a bug in node-config with deep config files... this level isn't reached properly
-                            //, { "type": "regaexp", "regaexp": "/^[0-9a-zA-Z-]{3,}$/g" }
+                            "required", { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
                         ]
                     },
                     "created": { "type": "DateTime" },
