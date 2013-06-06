@@ -3,20 +3,8 @@ define('model/<%= collection.name %>', [
     ], function (
         <%= _(collection.relations).map(function (relation, key) { return relation.relatedCollection.toCamelCase(); }).join(', ') %>
     ) {
-
-
     <%
-        /*
-        var schema = {};
-        // exclude all relationship fields from the model schema, they must be set on the form schemas
-        _(collection.backboneForms.schema).each(function (def, key) {
-            if (!(collection.relations && collection.relations[key])) {
-                schema[key] = def;
-            }
-        });
-        */
 
-        // TODO this may be the refactor approach to take in order to maintain relations using ObjectID in mongo
         var schema = {};
 
         schema['_id'] = {
@@ -36,10 +24,12 @@ define('model/<%= collection.name %>', [
                 'autocomplete': 'off'
             }
         };
+
     %>
 
     Backbone.Model.<%= collection.name.toCamelCase() %> = Backbone.DeepModel.extend({
-        id: '_id',
+        idAttribute: '_id',
+        urlRoot: '/api/<%= collection.name %>',
         defaults: <%= JSON.stringify(collection.backboneForms.defaults||{}) %>,
         schema: <%= global.helpers.stringify(schema) %>,
         toString: function () {

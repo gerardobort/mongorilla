@@ -38,7 +38,6 @@ exports.collectionObject = function(req, res){
 
     switch (req.method) {
         case 'GET': 
-
             if ('default' === objectId) {
                 res.send(collection.backboneForms.defaults||{});
             } else {
@@ -54,6 +53,17 @@ exports.collectionObject = function(req, res){
                         res.send(arguments);
                     });
             }
+            break;
+        case 'PUT':
+            var attributes = _.extend({}, req.body);
+            _(collection.relations).each(function (data, relKey) {
+                attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
+                    //return val['_id'];
+                    return ObjectId(val['_id'].toString());
+                });
+            });
+            //console.log(req.body);
+            console.log(attributes);
             break;
     }
 };
