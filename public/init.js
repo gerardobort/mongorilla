@@ -18,7 +18,7 @@ String.prototype.toCamelCase = function () {
 
 require(['init/backbone'], function (Backbone) {
 
-    console.log('Mongorila satrted!');
+    console.log('Mongorilla satrted!');
 
     // TODO move this
     
