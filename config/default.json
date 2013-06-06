@@ -224,8 +224,25 @@
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
                         ] 
                     },
+                    "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
+                    "opus": { "type": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opus" },
+                    "instruments": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Instrument}", "title": "Instruments" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
+                }
+            },
+            "relations": { // mongorilla notation
+                "composer": {
+                    "type": "HasOne",
+                    "relatedCollection": "composer"
+                },
+                "opus": {
+                    "type": "HasOne",
+                    "relatedCollection": "opus"
+                },
+                "instruments": {
+                    "type": "HasMany",
+                    "relatedCollection": "instrument"
                 }
             },
             "toStringField": "name",
