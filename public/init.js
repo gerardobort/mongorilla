@@ -56,6 +56,47 @@ require(['init/backbone'], function (Backbone) {
                 }
             });
 
+            $(document).delegate('input[data-autocomplete-collection-name]', 'focus', function (e) {
+                var $field = $(this),
+                    fieldName = $field.data('autocomplete-field').toString(),
+                    dataCache = {};
+
+                if ($field.data('typeahead')) {
+                    return;
+                }
+                $field.on('change', function () {
+                    var $this = $(this),
+                        res = dataCache[$this.val()];
+                    $this.closest('fieldset').find('[name="_id"]').val(res._id);
+                });
+                $field.typeahead({
+                    ajax: {
+                        url: '/api/search/' + $field.data('autocomplete-collection-name').toString(),
+                        timeout: 300,
+                        displayField: 'endpoint',
+                        triggerLength: 1,
+                        method: 'get',
+                        loadingClass: "loading-circle",
+                        preDispatch: function (query) {
+                            return {
+                                q: query
+                            }
+                        },
+                        preProcess: function (data) {
+                            dataCache = {};
+                            var results = _(data.data).map(function (res) {
+                                dataCache[res[fieldName]] = res;
+                                return {
+                                    name: res[fieldName],
+                                    _id: res._id
+                                };
+                            });
+                            return results;
+                        }
+                    }
+                });
+            });
+
         });
     }
 

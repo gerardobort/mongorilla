@@ -84,7 +84,7 @@ exports.collectionSearch = function(req, res){
     });
 
     global.getModel(collectionName)
-        .find(findParams, collection.fastSearch.columns.join(' '))
+        .find(findParams, collection.fastSearch.columns.join(' ') + ' ' + collection.toStringField)
         .sort(collection.fastSearch.sort)
         .limit(collection.fastSearch.limit)
         .exec()
