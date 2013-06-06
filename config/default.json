@@ -69,7 +69,7 @@
                 "find": { "fullname": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
                 "limit": 10,
-                "columns": ["fullname", "uri", "created", "updated"]
+                "columns": ["lastname", "firstname", "uri", "created", "updated"]
             },
             "relations": { // mongorilla notation
                 "categories": {
