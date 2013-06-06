@@ -36,7 +36,7 @@ require(['init/backbone'], function (Backbone) {
 
 
             var model = new Model(modelData),
-                form = new Form({ model: model, fieldsets: config.fieldsets });
+                form = new Form({ model: model, fieldsets: config.fieldsets, schema: Form.prototype.schema }); // force the schema against the model one
 
             $collectionForm.html(form.render().$el);
             $collectionForm.append(

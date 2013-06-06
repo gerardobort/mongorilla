@@ -6,6 +6,8 @@
             "backboneForms": {
                 "schema": {
                     "fullname": { "type": "Text", "title": "Full Name" },
+                    "firstname": { "type": "Text", "title": "First Name" },
+                    "lastname": { "type": "Text", "title": "Last Name" },
                     "birth_year": { "type": "Number", "title": "Birth Year" },
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "wiki.en.source_url": { "type": "Text", "title": "Source URL" },
@@ -27,12 +29,14 @@
                     },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
-                    "categories": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.ComposerCategory}", "title": "Categories" }
+                    "categories": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.ComposerCategory}", "title": "Categories" },
+                    "periods": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Period}", "title": "Periods" },
+                    "opuses": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opuses" }
                 },
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["fullname", "birth_year", "death_year"]
+                        "fields": ["fullname", "firstname", "lastname", "birth_year", "death_year"]
                     },
                     {
                         "legend": "Wiki (English)",
@@ -51,8 +55,8 @@
                         "fields": ["uri", "created", "updated"]
                     },
                     {
-                        "legend": "Categories",
-                        "fields": ["categories"]
+                        "legend": "Content Relations",
+                        "fields": ["categories", "periods", "opuses"]
                     }
                 ],
                 "defaults": {
@@ -93,8 +97,15 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
+                    "composers": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composers" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
+                }
+            },
+            "relations": { // mongorilla notation
+                "composers": {
+                    "type": "HasMany",
+                    "relatedCollection": "composer"
                 }
             },
             "toStringField": "name",
@@ -139,8 +150,15 @@
                     "name": { "type": "Text", "name": "Full Name" },
                     "description": { "type": "TextArea" },
                     "uri": { "validators": ["required"] },
+                    "composer": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
+                }
+            },
+            "relations": { // mongorilla notation
+                "composer": {
+                    "type": "HasOne",
+                    "relatedCollection": "composer"
                 }
             },
             "toStringField": "name",

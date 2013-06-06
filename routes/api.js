@@ -43,6 +43,7 @@ exports.collectionObject = function(req, res){
                 res.send(collection.backboneForms.defaults||{});
             } else {
                 var populateFields = _(collection.relations).map(function (obj, key) { return key; }).join(' ');
+console.log(populateFields)
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
                     .populate(populateFields)

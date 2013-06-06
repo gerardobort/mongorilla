@@ -25,7 +25,6 @@ exports.getModel = function (collectionName) {
 
         /// add custom relations
         _(collection.relations).each(function (relation, key) {
-            var relatedModel = global.getModel(relation.relatedCollection); // this is only for loading purposes
             if ('HasMany' === relation.type) {
                 schema[key] = [ { type: ObjectId, ref: relation.relatedCollection } ];
             } else if ('HasOne' === relation.type) {
@@ -33,12 +32,22 @@ exports.getModel = function (collectionName) {
             }
         });
 
+console.log(collectionName, schema)
         var ModelSchema = new Schema(schema);
 
         ModelSchema.methods = {
         };
 
+
         mongoose.model(collectionName, ModelSchema, collectionName);
+
+
+        // this is only for loading purposes: whitout this the refs may not work
+        _(collection.relations).each(function (relation, key) {
+            if (!mongoose.models[relation.relatedCollection]) {
+                var relatedModel = global.getModel(relation.relatedCollection);
+            }
+        });
 
         return mongoose.model(collectionName);
     }
