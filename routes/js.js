@@ -63,3 +63,4 @@ exports.config = function(req, res){
         res.send({ error: 'Backbone-Forms Schema Not defined for this collection.' });
     }
 };
+

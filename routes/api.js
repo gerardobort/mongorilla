@@ -55,15 +55,27 @@ exports.collectionObject = function(req, res){
             }
             break;
         case 'PUT':
-            var attributes = _.extend({}, req.body);
+
+            var attributes = _.clone(req.body);
             _(collection.relations).each(function (data, relKey) {
                 attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
-                    //return val['_id'];
-                    return ObjectId(val['_id'].toString());
+                    return val['_id'].toString();
                 });
             });
-            //console.log(req.body);
-            console.log(attributes);
+            var responseData = _.clone(attributes);
+            delete attributes['_id'];
+            // TODO skip all attributes not specified in schema
+            var attributesToSet = global.helpers.toFlat(attributes);
+
+            global.getModel(collectionName)
+                .update({ _id: objectId }, { $set: attributesToSet }, null, function (err, numberAffected, raw) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.send(responseData);
+                    }
+                });
+
             break;
     }
 };

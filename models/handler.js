@@ -23,6 +23,18 @@ exports.getModel = function (collectionName) {
 
         var schema = collection.mongoose.schema || { _id: ObjectId };
 
+
+        _(collection.backboneForms.schema).each(function (def, key) {
+            switch (def.type) {
+                case 'Text':     schema[key] = String; break;
+                case 'TextArea': schema[key] = String; break;
+                case 'Number':   schema[key] = Number; break;
+                case 'Object':   schema[key] = Object; break;
+                case 'List':     schema[key] = Array; break;
+                // TODO review this
+            }
+        });
+
         /// add custom relations
         _(collection.relations).each(function (relation, key) {
             if ('HasMany' === relation.type) {
