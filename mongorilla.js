@@ -40,7 +40,7 @@ if ('development' == app.get('env')) {
 }
 
 // mongo and models
-app.set('db', mongoose.connect(process.env.MONGORILA_MONGO_URL));
+app.set('db', mongoose.connect(global.config.MONGO_URL || process.env.MONGORILA_MONGO_URL));
 var models_path = __dirname + '/models'
 fs.readdirSync(models_path).forEach(function (file) {
     if (file.match(/\.js$/)) {
