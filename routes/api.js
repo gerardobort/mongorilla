@@ -58,9 +58,13 @@ exports.collectionObject = function(req, res){
 
             var attributes = _.clone(req.body);
             _(collection.relations).each(function (data, relKey) {
-                attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
-                    return val['_id'].toString();
-                });
+                if (_.isArray(req.body[relKey])) {
+                    attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
+                        return val['_id'].toString();
+                    });
+                } else {
+                    attributes[relKey] = req.body[relKey]['_id'].toString();
+                }
             });
             var responseData = _.clone(attributes);
             delete attributes['_id'];
