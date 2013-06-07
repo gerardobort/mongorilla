@@ -31,6 +31,7 @@ define('init/edit-create-form', [], function () {
                     var isNew = model.isNew();
                     model.save({}, {
                         success: function () {
+                            alert('success!');
                             if (isNew) {
                                 document.location.href = '/edit/' + collectionName + '/' + model.id;
                             }

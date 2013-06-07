@@ -28,7 +28,8 @@
                     },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
-                    "categories": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.ComposerCategory}", "title": "Categories" },
+                    // both definition works!  itemType: Object and itemType: NestedModel
+                    "categories": { "type": "List", "itemType": "Object", "title": "Categories" },
                     "periods": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Period}", "title": "Periods" },
                     "opuses": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opuses" }
                 },
