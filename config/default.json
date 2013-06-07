@@ -87,7 +87,8 @@
             },
             "mongoose": {
                 "schema": null
-            }
+            },
+            "readonly": true
         },
         {
             "name": "composerCategory",

@@ -24,34 +24,38 @@ define('init/edit-create-form', [], function () {
                 + (model.id ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '')
             );
 
-            $('.submit', $collectionForm).on('click', function () {
-                var err;
-                if (!(err = form.commit())) {
-                    console.log('model submitted', form.model.toJSON());
-                    var isNew = model.isNew();
-                    model.save({}, {
-                        success: function () {
-                            alert('success!');
-                            if (isNew) {
-                                document.location.href = '/edit/' + collectionName + '/' + model.id;
+            if (!$collectionForm.data('readonly')) {
+                $('.submit', $collectionForm).on('click', function () {
+                    var err;
+                    if (!(err = form.commit())) {
+                        console.log('model submitted', form.model.toJSON());
+                        var isNew = model.isNew();
+                        model.save({}, {
+                            success: function () {
+                                alert('success!');
+                                if (isNew) {
+                                    document.location.href = '/edit/' + collectionName + '/' + model.id;
+                                }
                             }
-                        }
-                    });
-                } else {
-                    console.log('model err', err);
-                    alert('validation failed, look at the console for details.');
-                }
-            });
+                        });
+                    } else {
+                        console.log('model err', err);
+                        alert('validation failed, look at the console for details.');
+                    }
+                });
 
-            $('.remove', $collectionForm).on('click', function () {
-                if (confirm('Are you sure you want to delete this '+ collectionName)) {
-                    model.destroy({
-                        success: function () {
-                            document.location.href = '/search/' + collectionName;
-                        }
-                    });
-                }
-            });
+                $('.remove', $collectionForm).on('click', function () {
+                    if (confirm('Are you sure you want to delete this '+ collectionName)) {
+                        model.destroy({
+                            success: function () {
+                                document.location.href = '/search/' + collectionName;
+                            }
+                        });
+                    }
+                });
+            } else {
+                $('.submit, .remove', $collectionForm).attr('disabled', 'disabled');
+            }
 
             $(document).delegate('input[data-autocomplete-collection-name]', 'focus', function (e) {
                 var $field = $(this),
