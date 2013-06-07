@@ -54,7 +54,7 @@ exports.collectionObject = function(req, res){
                     });
             }
             break;
-        case 'PUT':
+        case 'POST':
 
             var attributes = _.clone(req.body);
             _(collection.relations).each(function (data, relKey) {
@@ -67,12 +67,54 @@ exports.collectionObject = function(req, res){
             // TODO skip all attributes not specified in schema
             var attributesToSet = global.helpers.toFlat(attributes);
 
+            var model = new global.getModel(collectionName)();
+            model.set(attributesToSet);
+            model.save(function (err, model) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    var responseData = model.toObject();
+                    delete responseData.__v;
+                    res.send(responseData);
+                }
+            });
+
+            break;
+        case 'PUT':
+
+            var attributes = _.clone(req.body);
+            _(collection.relations).each(function (data, relKey) {
+                if (_.isArray(req.body[relKey])) {
+                    attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
+                        return val['_id'].toString();
+                    });
+                } else {
+                    attributes[relKey] = req.body[relKey]['_id'].toString();
+                }
+            });
+            var responseData = _.clone(attributes);
+            delete attributes['_id'];
+            // TODO skip all attributes not specified in schema
+            var attributesToSet = global.helpers.toFlat(attributes);
+
             global.getModel(collectionName)
-                .update({ _id: objectId }, { $set: attributesToSet }, null, function (err, numberAffected, raw) {
+                .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
                     if (err) {
                         res.send(err);
                     } else {
                         res.send(responseData);
+                    }
+                });
+
+            break;
+        case 'DELETE':
+
+            global.getModel(collectionName)
+                .findByIdAndRemove(objectId, function (err, model) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+                        res.send(model);
                     }
                 });
 

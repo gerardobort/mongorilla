@@ -72,8 +72,10 @@ app.get('/config/:collectionName.json', apiRoute.bootstrap, jsRoute.config);
 app.get('/api/database/info', apiRoute.bootstrap, apiRoute.databaseInfo);
 app.get('/api/search/:collectionName', apiRoute.bootstrap, apiRoute.collectionSearch);
 app.get('/api/:collectionName', apiRoute.bootstrap, apiRoute.collection);
+app.post('/api/:collectionName', apiRoute.bootstrap, apiRoute.collectionObject);
 app.get('/api/:collectionName/:objectId', apiRoute.bootstrap, apiRoute.collectionObject);
 app.put('/api/:collectionName/:objectId', apiRoute.bootstrap, apiRoute.collectionObject);
+app.del('/api/:collectionName/:objectId', apiRoute.bootstrap, apiRoute.collectionObject);
 
 app.locals(global.config);
 

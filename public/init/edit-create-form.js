@@ -21,20 +21,34 @@ define('init/edit-create-form', [], function () {
             $collectionForm.html(form.render().$el);
             $collectionForm.append(
                 '<button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button>'
+                + (model.id ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '')
             );
 
             $('.submit', $collectionForm).on('click', function () {
                 var err;
                 if (!(err = form.commit())) {
                     console.log('model submitted', form.model.toJSON());
+                    var isNew = model.isNew();
                     model.save({}, {
                         success: function () {
-                            alert('model saved!');
+                            if (isNew) {
+                                document.location.href = '/edit/' + collectionName + '/' + model.id;
+                            }
                         }
                     });
                 } else {
                     console.log('model err', err);
                     alert('validation failed, look at the console for details.');
+                }
+            });
+
+            $('.remove', $collectionForm).on('click', function () {
+                if (confirm('Are you sure you want to delete this '+ collectionName)) {
+                    model.destroy({
+                        success: function () {
+                            document.location.href = '/search/' + collectionName;
+                        }
+                    });
                 }
             });
 
@@ -47,9 +61,11 @@ define('init/edit-create-form', [], function () {
                     return;
                 }
                 $field.on('change', function () {
-                    var $this = $(this),
-                        res = dataCache[$this.val()];
-                    $this.closest('fieldset').find('[name="_id"]').val(res._id);
+                    var $this = $(this);
+                    setTimeout(function () {
+                        var res = dataCache[$this.val()];
+                        $this.closest('fieldset').find('[name="_id"]').val(res._id);
+                    }, 200); // this is to avoid the delay since clicking until the value is set
                 });
                 $field.typeahead({
                     ajax: {
@@ -73,6 +89,7 @@ define('init/edit-create-form', [], function () {
                                     _id: res._id
                                 };
                             });
+console.log(dataCache)
                             return results;
                         }
                     }

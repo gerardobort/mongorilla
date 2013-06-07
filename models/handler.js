@@ -21,16 +21,38 @@ exports.getModel = function (collectionName) {
             return col.name === collectionName;
         });
 
-        var schema = collection.mongoose.schema || { _id: ObjectId };
+        // _id should not be specified in schema ... http://stackoverflow.com/a/10835032
+        var schema = collection.mongoose.schema || { };
 
+        /*
+            default types
+                String
+                Number
+                Boolean
+                DocumentArray
+                Array
+                Buffer
+                Date
+                ObjectId
+                Mixed
+                Oid
+                Object
+                Bool
+            https://github.com/bnoguchi/mongoose-types
+                Email
+                Url
+        */
 
         _(collection.backboneForms.schema).each(function (def, key) {
             switch (def.type) {
+                default:
                 case 'Text':     schema[key] = String; break;
                 case 'TextArea': schema[key] = String; break;
                 case 'Number':   schema[key] = Number; break;
                 case 'Object':   schema[key] = Object; break;
                 case 'List':     schema[key] = Array; break;
+                case 'Date':     schema[key] = Date; break;
+                case 'DateTime': schema[key] = Date; break;
                 // TODO review this
             }
         });
@@ -44,7 +66,12 @@ exports.getModel = function (collectionName) {
             }
         });
 
-        var ModelSchema = new Schema(schema);
+        var options = {
+            // http://aaronheckmann.tumblr.com/post/48943525537/mongoose-v3-part-1-versioning
+            versionKey: '_mongorillaVersion'
+        };
+
+        var ModelSchema = new Schema(schema, options);
 
         ModelSchema.methods = {
         };
