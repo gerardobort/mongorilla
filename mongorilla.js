@@ -40,7 +40,9 @@ if ('development' == app.get('env')) {
 }
 
 // mongo and models
-app.set('db', mongoose.connect(global.config.MONGO_URL || process.env.MONGORILA_MONGO_URL));
+var dbConnString = global.config.MONGO_URL || process.env.MONGORILA_MONGO_URL;
+console.log('Connecting to ' + dbConnString.replace(/^.*@/, '') + ' ...');
+app.set('db', mongoose.connect(dbConnString));
 var models_path = __dirname + '/models'
 fs.readdirSync(models_path).forEach(function (file) {
     if (file.match(/\.js$/)) {
