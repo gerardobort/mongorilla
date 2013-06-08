@@ -8,6 +8,7 @@ var express = require('express'),
     fs = require('fs'),
     mongoose = require('mongoose'),
     mongooseWhen = require('mongoose-when'),
+    _ = require('underscore'),
     appRoute = require('./routes/app'),
     jsRoute = require('./routes/js'),
     apiRoute = require('./routes/api');
@@ -61,23 +62,29 @@ global.config.collections.forEach(function (collection) {
     var model = global.getModel(collection.name);
 });
 
+// asynchronous basic authentication
+var auth = express.basicAuth(function(user, pass, callback) {
+   var result = (_(global.config.users).find(function (u) { return u.username === user && u.password === pass; }));
+   callback(null /* error */, result);
+});
+
 // routes
 app.get('/', appRoute.bootstrap, appRoute.index);
-app.get('/add/:collectionName', appRoute.bootstrap, appRoute.addContent);
-app.get('/search/:collectionName', appRoute.bootstrap, appRoute.searchContent);
-app.get('/edit/:collectionName/:objectId', appRoute.bootstrap, appRoute.editContent);
+app.get('/add/:collectionName', auth, appRoute.bootstrap, appRoute.addContent);
+app.get('/search/:collectionName', auth, appRoute.bootstrap, appRoute.searchContent);
+app.get('/edit/:collectionName/:objectId', auth, appRoute.bootstrap, appRoute.editContent);
 
-app.get('/model/:collectionName.js', appRoute.bootstrap, jsRoute.model);
-app.get('/form/:collectionName.js', appRoute.bootstrap, jsRoute.form);
-app.get('/config/:collectionName.json', apiRoute.bootstrap, jsRoute.config);
+app.get('/model/:collectionName.js', auth, appRoute.bootstrap, jsRoute.model);
+app.get('/form/:collectionName.js', auth, appRoute.bootstrap, jsRoute.form);
+app.get('/config/:collectionName.json', auth, apiRoute.bootstrap, jsRoute.config);
 
-app.get('/api/database/info', apiRoute.bootstrap, apiRoute.databaseInfo);
-app.get('/api/search/:collectionName', apiRoute.bootstrap, apiRoute.collectionSearch);
-app.get('/api/:collectionName', apiRoute.bootstrap, apiRoute.collection);
-app.post('/api/:collectionName', apiRoute.bootstrap, apiRoute.collectionObject);
-app.get('/api/:collectionName/:objectId', apiRoute.bootstrap, apiRoute.collectionObject);
-app.put('/api/:collectionName/:objectId', apiRoute.bootstrap, apiRoute.collectionObject);
-app.del('/api/:collectionName/:objectId', apiRoute.bootstrap, apiRoute.collectionObject);
+app.get('/api/database/info', auth, apiRoute.bootstrap, apiRoute.databaseInfo);
+app.get('/api/search/:collectionName', auth, apiRoute.bootstrap, apiRoute.collectionSearch);
+app.get('/api/:collectionName', auth, apiRoute.bootstrap, apiRoute.collection);
+app.post('/api/:collectionName', auth, apiRoute.bootstrap, apiRoute.collectionObject);
+app.get('/api/:collectionName/:objectId', auth, apiRoute.bootstrap, apiRoute.collectionObject);
+app.put('/api/:collectionName/:objectId', auth, apiRoute.bootstrap, apiRoute.collectionObject);
+app.del('/api/:collectionName/:objectId', auth, apiRoute.bootstrap, apiRoute.collectionObject);
 
 app.locals(global.config);
 

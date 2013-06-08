@@ -1,5 +1,9 @@
 {
     "MONGO_URL": "",
+    "users": [
+        { "username": "test", "password": "123" },
+        { "username": "admin", "password": "123" }
+    ],
     "collections": [
         {
             "name": "composer",
