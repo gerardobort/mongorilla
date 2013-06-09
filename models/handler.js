@@ -81,7 +81,7 @@ exports.getModel = function (collectionName) {
 
         // this is only for loading purposes: whitout this the refs may not work
         _(collection.relations).each(function (relation, key) {
-            if (!mongoose.models[relation.relatedCollection]) {
+            if (!mongoose.models[relation.relatedCollection] && 'fs.files' !== relation.relatedCollection) {
                 var relatedModel = global.getModel(relation.relatedCollection);
             }
         });

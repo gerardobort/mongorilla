@@ -23,7 +23,7 @@ exports.collectionObject = function(req, res){
             if ('default' === objectId) {
                 res.send(collection.backboneForms.defaults||{});
             } else {
-                var populateFields = _(collection.relations).map(function (obj, key) { return key; }).join(' ');
+                var populateFields = _(collection.relations).filter(function (obj, key) { return 'fs.files' !== key; }).map(function (obj, key) { return key; }).join(' ');
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
                     .populate(populateFields)

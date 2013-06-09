@@ -31,6 +31,7 @@
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
                         ]
                     },
+                    "photo": { "type": "File", "title": "Photo" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
                     // both definition works!  itemType: Object and itemType: NestedModel
@@ -41,7 +42,7 @@
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["fullname", "firstname", "lastname", "birth_year", "death_year"]
+                        "fields": ["fullname", "firstname", "lastname", "birth_year", "death_year", "photo"]
                     },
                     {
                         "legend": "Wiki (English)",
@@ -88,6 +89,10 @@
                 "opuses": {
                     "type": "HasMany",
                     "relatedCollection": "opus"
+                },
+                "photo": {
+                    "type": "HasOne",
+                    "relatedCollection": "fs.files"
                 }
             },
             "mongoose": {
