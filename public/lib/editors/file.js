@@ -11,7 +11,7 @@
         defaultValue: '',
         
         initialize: function(options) {
-            this.$el.addClass('file');
+            this.$el.addClass('control-group');
             this.value = this.model.get(options.key);
             //this._dayLabels = options.schema.dayLabels;
             //this._dayPeriodLabels = options.schema.dayPeriodLabels;
@@ -25,11 +25,19 @@
          * Adds the editor to the DOM
          */
         render: function() {
+            var editor = this;
             this.$el.html(
-                '<img src="" class="image-preview" style="width:100px;height:100px;">' + 
-                '<input name="upload" type="file" data-toggle="fancyfile" data-placeholder="Select a file..." data-text="Uplaod">'
+                '<img src="" class="image-preview img-polaroid" style="width:200px;height:200px;" />' + 
+                '<input name="upload" type="file" data-toggle="fancyfile" />'
             );
-            $('[type="file"]', this.$el).fancyfile();
+            setTimeout(function () { // once appended to the DOM
+                $('[type="file"]', editor.$el).fancyfile({
+                    text  : 'Uplaod',
+                    icon  : '',
+                    style : 'btn-info',
+                    placeholder : 'Select File…'
+                });
+            }, 200)
             if (this.value) {
                 $('.image-preview', this.$el).attr('src', '/api/fs.file/' + this.value);
             }
