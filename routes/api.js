@@ -149,3 +149,40 @@ exports.collectionSearch = function(req, res){
         });
 
 };
+
+
+
+
+exports.fileObject = function(req, res){
+    var url = require('url'),
+        objectId = req.route.params.objectId,
+        gfs = req.app.get('gfs'),
+        _ = require('underscore');
+
+    switch (req.method) {
+        case 'GET': 
+            gfs.createReadStream({ _id: objectId }).pipe(res);
+            break;
+        case 'POST':
+            _(req.files).each(function (file) {
+                require('fs').exists(file.path, function (exists) {
+                    if(!exists) {
+                        res.send({ error: 'Ah crap! Something bad happened' });
+                        return;
+                    }
+                    var writestream = gfs.createWriteStream({
+                        filename: file.name
+                    });
+                    require('fs').createReadStream(file.path).pipe(writestream);//.pipe(res);
+                    
+                    console.log(writestream);
+                    res.send({ _id: writestream.id, url: '/api/file/' + writestream.id });
+                });
+            });
+            break;
+        case 'PUT':
+            break;
+        case 'DELETE':
+            break;
+    }
+};

@@ -8,6 +8,7 @@ var express = require('express'),
     fs = require('fs'),
     mongoose = require('mongoose'),
     mongooseWhen = require('mongoose-when'),
+    gridfs = require('gridfs-stream'),
     _ = require('underscore'),
     authRoute = require('./routes/auth'),
     appRoute = require('./routes/app'),
@@ -30,11 +31,14 @@ app.set('view engine', 'html')
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
+//app.use(express.json())
+//   .use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.limit('5mb'));
 
 // development only
 if ('development' == app.get('env')) {
@@ -45,6 +49,9 @@ if ('development' == app.get('env')) {
 var dbConnString = global.config.MONGO_URL || process.env.MONGORILA_MONGO_URL;
 console.log('Connecting to ' + dbConnString.replace(/^.*@/, '') + ' ...');
 app.set('db', mongoose.connect(dbConnString));
+// this sucks
+app.set('gfs', gridfs(app.get('db').connections[0].db, mongoose.mongo));
+
 var models_path = __dirname + '/models'
 fs.readdirSync(models_path).forEach(function (file) {
     if (file.match(/\.js$/)) {
@@ -80,6 +87,8 @@ app.get('/form/:collectionName.js', authRoute.bootstrap, jsRoute.form);
 app.get('/config/:collectionName.json', authRoute.bootstrap, jsRoute.config);
 
 app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionSearch);
+app.post('/api/file', authRoute.bootstrap, apiRoute.fileObject);
+app.get('/api/file/:objectId', authRoute.bootstrap, apiRoute.fileObject);
 app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);
 app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
