@@ -14,6 +14,7 @@
             <div class="navbar-inner">
                 <a class="brand" href="/">Mongorilla</a>
                 <div class="row">
+                    <% if (sessionUser) { %>
                     <ul class="nav span4">
                         <li>
                             <div class="btn-group">
@@ -45,8 +46,8 @@
                     <ul class="nav span1">
                         <li>
                             <div class="btn-group">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="icon-user"></i> User
+                                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                                    <i class="icon-user"></i> <%= sessionUser.fullname %>
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -55,6 +56,7 @@
                                 </ul>
                         </li>
                     </ul>
+                    <% } %>
                 </div>
             </div>
         </div>

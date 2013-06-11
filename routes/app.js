@@ -7,17 +7,28 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
-exports.bootstrap = function(req, res, next){
-    res.lang = req.lang = 'en' || 'en';
-    next();
-};
-
 exports.index = function(req, res){
     var url = require('url'),
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
+    if (req.sessionUser) {
+        res.redirect('/dashboard');
+        return;
+    }
     res.render('app/index.html', {
+        title: 'welcome'
+    });
+};
+
+exports.dashboard = function(req, res){
+    var url = require('url'),
+        url_parts = url.parse(req.url, true),
+        _ = require('underscore');
+
+    console.log(res.locals.sessionUser);
+    console.log(req.sessionStore.user);
+    res.render('app/dashboard.html', {
         title: 'Dashboard'
     });
 };
