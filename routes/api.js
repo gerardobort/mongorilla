@@ -163,10 +163,21 @@ exports.fileObject = function(req, res){
 
     switch (req.method) {
         case 'GET': 
-            try {
-                gfs.createReadStream({ _id: objectId }).pipe(res);
-            } catch (error) {
-                res.send('file not found');
+            var readStream = gfs.createReadStream({ _id: objectId });
+            if (readStream) {
+                try {
+                    readStream.on('end', function() {
+                        res.send();
+                    })
+                    .on('error', function() {
+                        res.send();
+                    })
+                    .pipe(res);
+                } catch (error) {
+                    res.send('file not found');
+                }
+            } else {
+                    res.send('file not found');
             }
             break;
         case 'POST':

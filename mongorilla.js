@@ -48,7 +48,7 @@ if ('development' == app.get('env')) {
 // mongo and models
 var dbConnString = global.config.MONGO_URL || process.env.MONGORILA_MONGO_URL;
 console.log('Connecting to ' + dbConnString.replace(/^.*@/, '') + ' ...');
-app.set('db', mongoose.connect(dbConnString));
+app.set('db', mongoose.connect(dbConnString, { db: { safe: true }}));
 // this sucks
 app.set('gfs', gridfs(app.get('db').connections[0].db, mongoose.mongo));
 
@@ -87,8 +87,8 @@ app.get('/form/:collectionName.js', authRoute.bootstrap, jsRoute.form);
 app.get('/config/:collectionName.json', authRoute.bootstrap, jsRoute.config);
 
 app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionSearch);
-app.post('/api/fs.file', authRoute.bootstrap, apiRoute.fileObject);
-app.get('/api/fs.file/:objectId', authRoute.bootstrap, apiRoute.fileObject);
+app.post('/api/fs.files', authRoute.bootstrap, apiRoute.fileObject);
+app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
 app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);
 app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);

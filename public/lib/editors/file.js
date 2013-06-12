@@ -27,7 +27,7 @@
         render: function() {
             var editor = this;
             editor.$el.html(
-                '<img src="" class="image-preview img-polaroid" style="width:200px;height:200px;" />' + 
+                '<img src="" class="image-preview img-polaroid" style="display:block;width:200px;height:200px;" />' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
                 '<button class="btn btn-danger remove-file">Remove</button>' +
                 '<div class="progress-container"></div>'
@@ -41,9 +41,10 @@
                 });
                 $('.fancy-file', editor.$el).toggle(!editor.value);
                 $('.remove-file', editor.$el).toggle(!!editor.value);
+                $('.image-preview', editor.$el).toggle(!!editor.value);
             }, 200)
             if (editor.value) {
-                $('.image-preview', editor.$el).attr('src', '/api/fs.file/' + editor.value);
+                $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value);
             }
             this._delegateEvents();
 
@@ -55,6 +56,7 @@
 
             editor.oFReader.onload = function (oFREvent) {
                 $('.image-preview', editor.$el).attr('src', oFREvent.target.result);
+                $('.image-preview', editor.$el).toggle(true);
             };
  
             $('[type="file"]', editor.$el).on('change', function (event) {
@@ -67,7 +69,7 @@
 
                 //---
                 var xhr = new XMLHttpRequest();
-                xhr.open('POST', '/api/fs.file');
+                xhr.open('POST', '/api/fs.files');
 
                 xhr.upload.onprogress = function (e) {
                     console.log(e.loaded + ' of ' + e.total);
@@ -79,6 +81,7 @@
                     editor.setValue(response);
                     $('.remove-file', editor.$el).toggle(!!editor.value);
                     $('.fancy-file', editor.$el).toggle(!editor.value);
+                    $('.image-preview', editor.$el).toggle(!!editor.value);
                     $('.progress-container', editor.$el).html('');
                 };
 
@@ -101,6 +104,7 @@
                     $('.image-preview', editor.$el).attr('src', 'about:blank');
                     $('.remove-file', editor.$el).toggle(!!editor.value);
                     $('.fancy-file', editor.$el).toggle(!editor.value);
+                    $('.image-preview', editor.$el).toggle(!!editor.value);
                 }
             });
  
