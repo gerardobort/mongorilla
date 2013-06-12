@@ -38,7 +38,7 @@ app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.limit('5mb'));
+app.use(express.limit('15mb'));
 
 // development only
 if ('development' == app.get('env')) {

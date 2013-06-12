@@ -26,9 +26,10 @@
          */
         render: function() {
             var editor = this;
-            this.$el.html(
+            editor.$el.html(
                 '<img src="" class="image-preview img-polaroid" style="width:200px;height:200px;" />' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
+                '<button class="btn btn-danger remove-file">Remove</button>' +
                 '<div class="progress-container"></div>'
             );
             setTimeout(function () { // once appended to the DOM
@@ -38,11 +39,12 @@
                     style : 'btn-info',
                     placeholder : 'Select File…'
                 });
+                $('.fancy-file', editor.$el).toggle(!editor.value);
+                $('.remove-file', editor.$el).toggle(!!editor.value);
             }, 200)
-            if (this.value) {
-                $('.image-preview', this.$el).attr('src', '/api/fs.file/' + this.value);
+            if (editor.value) {
+                $('.image-preview', editor.$el).attr('src', '/api/fs.file/' + editor.value);
             }
-            this.setValue(this.value);
             this._delegateEvents();
 
             return this;
@@ -75,6 +77,8 @@
                 xhr.onload = function (xhr) {
                     var response = JSON.parse(arguments[0].currentTarget.response);
                     editor.setValue(response);
+                    $('.remove-file', editor.$el).toggle(!!editor.value);
+                    $('.fancy-file', editor.$el).toggle(!editor.value);
                     $('.progress-container', editor.$el).html('');
                 };
 
@@ -88,6 +92,16 @@
                     '</div>'
                 );
                 //---
+            });
+
+            $('.remove-file', editor.$el).on('click', function (event) {
+                event.preventDefault();
+                if (confirm('Are you sure you want to remove this file?')) {
+                    editor.setValue(null);
+                    $('.image-preview', editor.$el).attr('src', 'about:blank');
+                    $('.remove-file', editor.$el).toggle(!!editor.value);
+                    $('.fancy-file', editor.$el).toggle(!editor.value);
+                }
             });
  
         },
