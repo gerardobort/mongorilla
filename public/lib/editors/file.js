@@ -28,7 +28,8 @@
             var editor = this;
             this.$el.html(
                 '<img src="" class="image-preview img-polaroid" style="width:200px;height:200px;" />' + 
-                '<input name="upload" type="file" data-toggle="fancyfile" />'
+                '<input name="upload" type="file" data-toggle="fancyfile" />' +
+                '<div class="progress-container"></div>'
             );
             setTimeout(function () { // once appended to the DOM
                 $('[type="file"]', editor.$el).fancyfile({
@@ -67,18 +68,25 @@
                 xhr.open('POST', '/api/fs.file');
 
                 xhr.upload.onprogress = function (e) {
-                     console.log(e.loaded + ' of ' + e.total);
+                    console.log(e.loaded + ' of ' + e.total);
+                    $('.progress-container .bar', editor.$el).css('width', (e.loaded/(e.total||1))*100 + '%');
                 };
 
                 xhr.onload = function (xhr) {
                     var response = JSON.parse(arguments[0].currentTarget.response);
                     editor.setValue(response);
+                    $('.progress-container', editor.$el).html('');
                 };
 
                 var form = new FormData();
                 form.append('title', this.files[0].name);
                 form.append('picture', this.files[0]);
                 xhr.send(form);
+                $('.progress-container', editor.$el).html(
+                    '<div class="progress progress-striped active">' +
+                    '   <div class="bar" style="width:0%;"></div>' +
+                    '</div>'
+                );
                 //---
             });
  

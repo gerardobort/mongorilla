@@ -23,7 +23,9 @@ exports.collectionObject = function(req, res){
             if ('default' === objectId) {
                 res.send(collection.backboneForms.defaults||{});
             } else {
-                var populateFields = _(collection.relations).filter(function (obj, key) { return 'fs.files' !== key; }).map(function (obj, key) { return key; }).join(' ');
+                var populateFields = _(collection.relations)
+                    .map(function (relation, key) { return 'fs.files' !== relation.relatedCollection ? key : ''; })
+                    .join(' ');
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
                     .populate(populateFields)
@@ -161,7 +163,11 @@ exports.fileObject = function(req, res){
 
     switch (req.method) {
         case 'GET': 
-            gfs.createReadStream({ _id: objectId }).pipe(res);
+            try {
+                gfs.createReadStream({ _id: objectId }).pipe(res);
+            } catch (error) {
+                res.send('file not found');
+            }
             break;
         case 'POST':
             _(req.files).each(function (file) {
@@ -173,9 +179,7 @@ exports.fileObject = function(req, res){
                     var writestream = gfs.createWriteStream({
                         filename: file.name
                     });
-                    require('fs').createReadStream(file.path).pipe(writestream);//.pipe(res);
-                    
-                    console.log(writestream);
+                    require('fs').createReadStream(file.path).pipe(writestream);
                     res.send({ _id: writestream.id, url: '/api/file/' + writestream.id });
                 });
             });
