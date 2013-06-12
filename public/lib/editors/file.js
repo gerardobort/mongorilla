@@ -27,7 +27,7 @@
         render: function() {
             var editor = this;
             editor.$el.html(
-                '<img src="" class="image-preview img-polaroid" style="display:block;width:200px;height:200px;" />' + 
+                '<img src="" class="image-preview img-polaroid" style="display:block;width:200px;max-height:200px;" />' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
                 '<button class="btn btn-danger remove-file">Remove</button>' +
                 '<div class="progress-container"></div>'
@@ -55,8 +55,10 @@
             var editor = this;
 
             editor.oFReader.onload = function (oFREvent) {
+                $('.image-preview', editor.$el).one('load', function () {
+                    $('.image-preview', editor.$el).toggle(true);
+                });
                 $('.image-preview', editor.$el).attr('src', oFREvent.target.result);
-                $('.image-preview', editor.$el).toggle(true);
             };
  
             $('[type="file"]', editor.$el).on('change', function (event) {

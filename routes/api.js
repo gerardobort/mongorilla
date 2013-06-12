@@ -46,7 +46,7 @@ exports.collectionObject = function(req, res){
                     attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
                         return val['_id'].toString();
                     });
-                } else if (req.body[relKey]) {
+                } else if (_.isObject(req.body[relKey])) {
                     attributes[relKey] = req.body[relKey]['_id'].toString();
                 }
             });
@@ -76,7 +76,7 @@ exports.collectionObject = function(req, res){
                     attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
                         return val['_id'].toString();
                     });
-                } else if (req.body[relKey]) {
+                } else if (_.isObject(req.body[relKey])) {
                     attributes[relKey] = req.body[relKey]['_id'].toString();
                 }
             });
