@@ -12,7 +12,7 @@ exports.index = function(req, res){
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
-    if (req.sessionUser) {
+    if (req.session.user) {
         res.redirect('/dashboard');
         return;
     }
@@ -26,8 +26,6 @@ exports.dashboard = function(req, res){
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
-    console.log(res.locals.sessionUser);
-    console.log(req.sessionStore.user);
     res.render('app/dashboard.html', {
         title: 'Dashboard'
     });

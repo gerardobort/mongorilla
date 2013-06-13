@@ -12,13 +12,13 @@ exports.bootstrap = function(req, res, next){
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
-    if (!req.sessionStore.user && url_parts.path !== '/') {
+    if (!req.session.user && url_parts.path !== '/') {
         res.redirect('/');
-    } else if (req.sessionStore.user && url_parts.path === '/') {
+    } else if (req.session.user && url_parts.path === '/') {
         res.redirect('/dashboard');
     }
 
-    res.locals.sessionUser = req.sessionStore.user;
+    res.locals.sessionUser = req.session.user;
     res.locals.host = req.headers.host;
     next();
 };
@@ -28,10 +28,10 @@ exports.login = function(req, res){
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
-    req.sessionStore.user = _(global.config.users).find(function (u) {
+    req.session.user = _(global.config.users).find(function (u) {
         return u.username === req.body.user && u.password === req.body.pass;
     });
-    if (req.sessionStore.user) {
+    if (req.session.user) {
         res.redirect('/dashboard');
     } else {
         res.redirect('/');
@@ -43,7 +43,7 @@ exports.logout = function(req, res){
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
-    delete req.sessionStore.user;
+    delete req.session.user;
     res.redirect('/');
 };
 
