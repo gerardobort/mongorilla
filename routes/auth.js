@@ -33,6 +33,8 @@ exports.login = function(req, res){
     });
     if (req.sessionStore.user) {
         res.redirect('/dashboard');
+    } else {
+        res.redirect('/');
     }
 };
 
