@@ -1,8 +1,8 @@
 {
     "MONGO_URL": "",
     "users": [
-        { "username": "test", "password": "123", "fullname": "Test User" },
-        { "username": "admin", "password": "123", "fullname": "Administrator" }
+        { "username": "pbort", "password": "5ap1t0!A", "fullname": "Pablo Bort" },
+        { "username": "gbort", "password": "5ap1t0!B", "fullname": "Gerardo Bort" }
     ],
     "collections": [
         {
