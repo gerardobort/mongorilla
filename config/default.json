@@ -8,6 +8,7 @@
         {
             "name": "composer",
             "humanName": "Composer",
+            "previewUrl": "http://example.com/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"] },
@@ -162,6 +163,7 @@
         {
             "name": "opus",
             "humanName": "Opus",
+            "previewUrl": "http://example.com/${composer.uri}/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
@@ -188,7 +190,7 @@
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
                 "limit": 10,
-                "columns": ["name", "uri", "created", "updated"]
+                "columns": ["name", "composer.uri", "uri", "created", "updated"]
             },
             "mongoose": {
                 "schema": null
