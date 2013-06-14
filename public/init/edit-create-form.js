@@ -23,8 +23,11 @@ define('init/edit-create-form', [], function () {
 
             // save, cancel
             $collectionForm.append(
-                '<button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button>'
-                + (model.id ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '')
+                '<div class="row">'
+                + '<div class="offset6 span2">' + (model.id ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '') + '</div>'
+                + '<div class="span2"><button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button></div>'
+                + '<div class="span2"><a class="btn btn-info btn-large" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a></div>'
+                + '</div><div class="row">...</div>'
             );
 
             if (!$collectionForm.data('readonly')) {
@@ -56,6 +59,7 @@ define('init/edit-create-form', [], function () {
                         });
                     }
                 });
+
 
             } else {
                 $('.submit, .remove', $collectionForm).attr('disabled', 'disabled');

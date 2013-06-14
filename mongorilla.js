@@ -31,8 +31,6 @@ app.set('view engine', 'html')
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
-//app.use(express.json())
-//   .use(express.urlencoded());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
@@ -81,6 +79,7 @@ app.get('/dashboard', authRoute.bootstrap, appRoute.dashboard);
 app.get('/add/:collectionName', authRoute.bootstrap, appRoute.addContent);
 app.get('/search/:collectionName', authRoute.bootstrap, appRoute.searchContent);
 app.get('/edit/:collectionName/:objectId', authRoute.bootstrap, appRoute.editContent);
+app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appRoute.previewContent);
 
 app.get('/model/:collectionName.js', authRoute.bootstrap, jsRoute.model);
 app.get('/form/:collectionName.js', authRoute.bootstrap, jsRoute.form);
