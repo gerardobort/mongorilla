@@ -2,6 +2,7 @@
 
     /**
      * Backbone Forms File editor
+     * @author gerardobort <gerardobort@gmail.com>
      * @requires fancy-file
      */
     Backbone.Form.editors.File = Backbone.Form.editors.Base.extend({
@@ -13,8 +14,6 @@
         initialize: function(options) {
             this.$el.addClass('control-group');
             this.value = this.model.get(options.key);
-            //this._dayLabels = options.schema.dayLabels;
-            //this._dayPeriodLabels = options.schema.dayPeriodLabels;
 
             // taken from: https://developer.mozilla.org/en-US/docs/Web/API/FileReader?redirectlocale=en-US&redirectslug=DOM%2FFileReader#readAsDataURL%28%29
             this.oFReader = new FileReader();
