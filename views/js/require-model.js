@@ -7,25 +7,15 @@ define('model/<%= collection.name %>', [
 
         var schema = {};
 
-        /*
-        schema['_id'] = {
-            type: 'Text',
-            title: collection.name.toCamelCase() + 'Id',
-            validators: ['required'],
-            editorAttrs: { 'disabled': 'disabled' }
-        };
-        schema[collection.toStringField] = {
-            type: 'Text',
-            title: collection.backboneForms.schema[collection.toStringField].title || collection.toStringField,
-            validators: ['required'],
-            editorAttrs: {
-                'data-autocomplete-field': collection.toStringField,
-                'data-autocomplete-collection-name': collection.name,
-                'placeholder': 'Search...',
-                'autocomplete': 'off'
-            }
-        };
-        */
+        if ((s.type === 'List' && s.itemType === 'ObjectId') || (s.type === 'ObjectId')) {
+            var relatedCol = _(global.config.collections).find(function (c) {
+                return c.name === collection.relations[key].relatedCollection;
+            });
+            schema[key].help = 'Search for ' + relatedCol.humanName 
+                + ' > ' + (relatedCol.backboneForms.schema[relatedCol.toStringField].title||relatedCol.toStringField);
+            schema[key].autocompleteField = relatedCol.toStringField;
+            schema[key].autocompleteCollectionName = relatedCol.name;
+        }
 
     %>
 
