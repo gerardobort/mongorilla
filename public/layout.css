@@ -2,3 +2,7 @@
     height: 0;
     overflow: hidden;
 }
+
+.bbf-date-container {
+    display: inline-block;
+}
