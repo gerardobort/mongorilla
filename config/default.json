@@ -278,7 +278,7 @@
         {
             "name": "score",
             "humanName": "Score",
-            "previewUrl": "http://damusiq.com/${composer.uri}/${opus.uri}/${uri}.html",
+            "previewUrl": "http://damusiq.com/${composer.uri}/${opus.uri}/${_id}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
