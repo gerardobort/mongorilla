@@ -17,13 +17,13 @@
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "wiki.en.source_url": { "type": "Text", "title": "Source URL" },
                     "wiki.en.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.en.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.en.content": { "type": "Aloha", "title": "Content" },
                     "wiki.es.source_url": { "type": "Text", "title": "Source URL" },
                     "wiki.es.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.es.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.es.content": { "type": "Aloha", "title": "Content" },
                     "wiki.it.source_url": { "type": "Text", "title": "Source URL" },
                     "wiki.it.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.it.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.it.content": { "type": "Aloha", "title": "Content" },
                     "uri": {
                         "type": "Text",
                         "validators": [
