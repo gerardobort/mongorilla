@@ -29,9 +29,10 @@
                         "validators": [
                             "required",
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ]
+                        ],
+                        "editorAttrs": { "disabled": "disabled" }
                     },
-                    "photo": { "type": "File", "title": "Photo" },
+                    "images": { "type": "List", "itemType": "Text", "title": "Image (URL)", "validators": ["url"] },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
                     // both definition works!  itemType: Object and itemType: NestedModel
@@ -42,18 +43,18 @@
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["fullname", "firstname", "lastname", "birth_year", "death_year", "photo"]
+                        "fields": ["fullname", "firstname", "lastname", "birth_year", "death_year", "images"]
                     },
                     {
-                        "legend": "Wiki (English)",
+                        "legend": "English Content",
                         "fields": ["wiki.en.content", "wiki.en.source_name", "wiki.en.source_url"]
                     },
                     {
-                        "legend": "Wiki (Spanish)",
+                        "legend": "Spanish Content",
                         "fields": ["wiki.es.content", "wiki.es.source_name", "wiki.es.source_url"]
                     },
                     {
-                        "legend": "Wiki (Italian)",
+                        "legend": "Italian Content",
                         "fields": ["wiki.it.content", "wiki.it.source_name", "wiki.it.source_url"]
                     },
                     {
@@ -89,10 +90,6 @@
                 "opuses": {
                     "type": "HasMany",
                     "relatedCollection": "opus"
-                },
-                "photo": {
-                    "type": "HasOne",
-                    "relatedCollection": "fs.files"
                 }
             },
             "mongoose": {
@@ -107,11 +104,13 @@
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
                     "description": { "type": "TextArea", "title": "Description" },
+                    "lang": { "type": "Text", "title": "Language ISO" },
                     "uri": {
                         "validators": [
                             "required",
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
+                        ],
+                        "editorAttrs": { "disabled": "disabled" }
                     },
                     "count": { "type": "Number", "title": "Composers Amount", "editorAttrs": { "disabled": "disabled" } },
                     "created": { "type": "DateTime" },
@@ -136,17 +135,40 @@
             "humanName": "Instrument",
             "backboneForms": {
                 "schema": {
-                    "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea" },
+                    "name": { "type": "Text", "title": "Name (English)", "validators": ["required"] },
+                    "t.name.es": { "type": "Text", "title": "Name (Spanish)" },
+                    "t.name.it": { "type": "Text", "title": "Name (Italian)" },
+                    "description": { "type": "TextArea", "title": "Description (English)" },
+                    "t.description.es": { "type": "TextArea", "title": "Description (Spanish)" },
+                    "t.description.it": { "type": "TextArea", "title": "Description (Italian)" },
                     "uri": {
                         "validators": [
                             "required",
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
+                        ],
+                        "editorAttrs": { "disabled": "disabled" }
                     },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
-                }
+                },
+                "fieldsets": [
+                    {
+                        "legend": "English Content",
+                        "fields": ["name", "description"]
+                    },
+                    {
+                        "legend": "Spanish Translation",
+                        "fields": ["t.name.es", "t.description.es"]
+                    },
+                    {
+                        "legend": "Italian Translation",
+                        "fields": ["t.name.it", "t.description.it"]
+                    },
+                    {
+                        "legend": "System Data",
+                        "fields": ["uri", "created", "updated"]
+                    }
+                ]
             },
             "toStringField": "name",
             "fastSearch": {
@@ -170,7 +192,8 @@
                         "validators": [
                             "required",
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
+                        ],
+                        "editorAttrs": { "disabled": "disabled" }
                     },
                     "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
                     "created": { "type": "DateTime" },
@@ -201,16 +224,39 @@
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
+                    "t.name.es": { "type": "Text", "title": "Name" },
+                    "t.name.it": { "type": "Text", "title": "Name" },
                     "description": { "type": "TextArea" },
+                    "t.description.es": { "type": "TextArea" },
+                    "t.description.it": { "type": "TextArea" },
                     "uri": {
                         "validators": [
                             "required",
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
+                        ],
+                        "editorAttrs": { "disabled": "disabled" } 
                     },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
-                }
+                },
+                "fieldsets": [
+                    {
+                        "legend": "English Content",
+                        "fields": ["name", "description"]
+                    },
+                    {
+                        "legend": "Spanish Translation",
+                        "fields": ["t.name.es", "t.description.es"]
+                    },
+                    {
+                        "legend": "Italian Translation",
+                        "fields": ["t.name.it", "t.description.it"]
+                    },
+                    {
+                        "legend": "System Data",
+                        "fields": ["uri", "created", "updated"]
+                    }
+                ]
             },
             "toStringField": "name",
             "fastSearch": {
@@ -234,7 +280,8 @@
                         "validators": [
                             "required",
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
+                        ],
+                        "editorAttrs": { "disabled": "disabled" }
                     },
                     "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
                     "opus": { "type": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opus" },
