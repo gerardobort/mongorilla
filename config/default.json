@@ -104,7 +104,7 @@
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea", "title": "Description" },
+                    "description": { "type": "Aloha", "title": "Description" },
                     "lang": { "type": "Text", "title": "Language ISO" },
                     "uri": {
                         "validators": [
@@ -139,9 +139,9 @@
                     "name": { "type": "Text", "title": "Name (English)", "validators": ["required"] },
                     "t.name.es": { "type": "Text", "title": "Name (Spanish)" },
                     "t.name.it": { "type": "Text", "title": "Name (Italian)" },
-                    "description": { "type": "TextArea", "title": "Description (English)" },
-                    "t.description.es": { "type": "TextArea", "title": "Description (Spanish)" },
-                    "t.description.it": { "type": "TextArea", "title": "Description (Italian)" },
+                    "description": { "type": "Aloha", "title": "Description (English)" },
+                    "t.description.es": { "type": "Aloha", "title": "Description (Spanish)" },
+                    "t.description.it": { "type": "Aloha", "title": "Description (Italian)" },
                     "uri": {
                         "validators": [
                             "required",
@@ -189,7 +189,7 @@
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea" },
+                    "description": { "type": "Aloha" },
                     "uri": {
                         "validators": [
                             "required",
@@ -213,7 +213,7 @@
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
                 "limit": 10,
-                "columns": ["name", "composer.uri", "uri", "created", "updated"]
+                "columns": ["name", "uri", "created", "updated"]
             },
             "mongoose": {
                 "schema": null
@@ -225,12 +225,12 @@
             "humanName": "Period",
             "backboneForms": {
                 "schema": {
-                    "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "t.name.es": { "type": "Text", "title": "Name" },
-                    "t.name.it": { "type": "Text", "title": "Name" },
-                    "description": { "type": "TextArea" },
-                    "t.description.es": { "type": "TextArea" },
-                    "t.description.it": { "type": "TextArea" },
+                    "name": { "type": "Text", "title": "Name (English)", "validators": ["required"] },
+                    "t.name.es": { "type": "Text", "title": "Name (Spanish)" },
+                    "t.name.it": { "type": "Text", "title": "Name (Italian)" },
+                    "description": { "type": "Aloha", "title": "Description (English)" },
+                    "t.description.es": { "type": "Aloha", "title": "Description (Spanish)" },
+                    "t.description.it": { "type": "Aloha", "title": "Description (Italian)" },
                     "uri": {
                         "validators": [
                             "required",
@@ -257,7 +257,7 @@
                     },
                     {
                         "legend": "System Data",
-                        "fields": ["uri", "created", "updated"]
+                        "fields": ["uri", "order_index", "created", "updated"]
                     }
                 ]
             },
@@ -278,7 +278,7 @@
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea" },
+                    "description": { "type": "Aloha" },
                     "uri": {
                         "validators": [
                             "required",
