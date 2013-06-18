@@ -8,7 +8,7 @@
         {
             "name": "composer",
             "humanName": "Composer",
-            "previewUrl": "http://example.com/${uri}.html",
+            "previewUrl": "http://damusiq.com/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"] },
@@ -101,6 +101,7 @@
         {
             "name": "composerCategory",
             "humanName": "Composer Category",
+            "previewUrl": "http://damusiq.com/composers/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
@@ -134,6 +135,7 @@
         {
             "name": "instrument",
             "humanName": "Instrument",
+            "previewUrl": "http://damusiq.com/instruments/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name (English)", "validators": ["required"] },
@@ -185,7 +187,7 @@
         {
             "name": "opus",
             "humanName": "Opus",
-            "previewUrl": "http://example.com/${composer.uri}/${uri}.html",
+            "previewUrl": "http://damusiq.com/${composer.uri}/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
@@ -223,6 +225,7 @@
         {
             "name": "period",
             "humanName": "Period",
+            "previewUrl": "http://damusiq.com/periods/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name (English)", "validators": ["required"] },
@@ -275,6 +278,7 @@
         {
             "name": "score",
             "humanName": "Score",
+            "previewUrl": "http://damusiq.com/${composer.uri}/${opus.uri}/${_id}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
