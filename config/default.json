@@ -8,6 +8,7 @@
         {
             "name": "composer",
             "humanName": "Composer",
+            "previewUrl": "http://example.com/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"] },
@@ -17,13 +18,13 @@
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "wiki.en.source_url": { "type": "Text", "title": "Source URL" },
                     "wiki.en.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.en.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.en.content": { "type": "Aloha", "title": "Content" },
                     "wiki.es.source_url": { "type": "Text", "title": "Source URL" },
                     "wiki.es.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.es.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.es.content": { "type": "Aloha", "title": "Content" },
                     "wiki.it.source_url": { "type": "Text", "title": "Source URL" },
                     "wiki.it.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.it.content": { "type": "TextArea", "title": "Content" },
+                    "wiki.it.content": { "type": "Aloha", "title": "Content" },
                     "uri": {
                         "type": "Text",
                         "validators": [
@@ -184,6 +185,7 @@
         {
             "name": "opus",
             "humanName": "Opus",
+            "previewUrl": "http://example.com/${composer.uri}/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
@@ -211,7 +213,7 @@
                 "find": { "name": "(^|\\W*):q" },
                 "sort": { "updated": -1 },
                 "limit": 10,
-                "columns": ["name", "uri", "created", "updated"]
+                "columns": ["name", "composer.uri", "uri", "created", "updated"]
             },
             "mongoose": {
                 "schema": null
