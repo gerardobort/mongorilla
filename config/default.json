@@ -6,69 +6,53 @@
     ],
     "collections": [
         {
-            "name": "composer",
-            "humanName": "Composer",
+            "name": "user",
+            "humanName": "User",
             "previewUrl": "http://example.com/${uri}.html",
             "backboneForms": {
                 "schema": {
                     "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"] },
                     "firstname": { "type": "Text", "title": "First Name", "validators": ["required"] },
                     "lastname": { "type": "Text", "title": "Last Name", "validators": ["required"] },
-                    "birth_year": { "type": "Number", "title": "Birth Year" },
+                    "twitter.username": { "type": "Text", "title": "Twitter Usename", "description": "e.g. @pepe" },
+                    "github.username": { "type": "Text", "title": "GitHub Usename", "description": "e.g. pepe" },
+                    "dob": { "type": "Date", "title": "Day of Birth" },
                     "death_year": { "type": "Number", "title": "Death Year" },
-                    "wiki.en.source_url": { "type": "Text", "title": "Source URL" },
-                    "wiki.en.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.en.content": { "type": "Aloha", "title": "Content" },
-                    "wiki.es.source_url": { "type": "Text", "title": "Source URL" },
-                    "wiki.es.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.es.content": { "type": "Aloha", "title": "Content" },
-                    "wiki.it.source_url": { "type": "Text", "title": "Source URL" },
-                    "wiki.it.source_name": { "type": "Text", "title": "Source Name" },
-                    "wiki.it.content": { "type": "Aloha", "title": "Content" },
-                    "uri": {
+                    "bio": { "type": "Aloha", "title": "Bio" },
+                    "website_url": {
                         "type": "Text",
-                        "validators": [
-                            "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ]
+                        "validators": ["required", "url"]
                     },
                     "photo": { "type": "File", "title": "Photo" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
-                    // both definition works!  itemType: Object and itemType: NestedModel
-                    "categories": { "type": "List", "itemType": "Object", "title": "Categories" },
-                    "periods": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Period}", "title": "Periods" },
-                    "opuses": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opuses" }
+                    "company": { "type": "List", "itemType": "Object", "title": "Company" },
+                    "uri": {
+                        "validators": [
+                            "required",
+                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
+                        ] 
+                    }
                 },
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["fullname", "firstname", "lastname", "birth_year", "death_year", "photo"]
+                        "fields": ["fullname", "firstname", "lastname", "dob", "photo"]
                     },
                     {
-                        "legend": "Wiki (English)",
-                        "fields": ["wiki.en.content", "wiki.en.source_name", "wiki.en.source_url"]
+                        "legend": "About",
+                        "fields": ["github.username", "twitter.username", "bio", "website_url"]
                     },
                     {
-                        "legend": "Wiki (Spanish)",
-                        "fields": ["wiki.es.content", "wiki.es.source_name", "wiki.es.source_url"]
-                    },
-                    {
-                        "legend": "Wiki (Italian)",
-                        "fields": ["wiki.it.content", "wiki.it.source_name", "wiki.it.source_url"]
+                        "legend": "Content Relations",
+                        "fields": ["company"]
                     },
                     {
                         "legend": "System Data",
                         "fields": ["uri", "created", "updated"]
-                    },
-                    {
-                        "legend": "Content Relations",
-                        "fields": ["categories", "periods", "opuses"]
                     }
                 ],
                 "defaults": {
-                    "birth_year": 1800,
-                    "death_year": 1890
                 }
             },
             "toStringField": "fullname",
@@ -79,17 +63,9 @@
                 "columns": ["lastname", "firstname", "uri", "created", "updated"]
             },
             "relations": { // mongorilla notation
-                "categories": {
-                    "type": "HasMany",
-                    "relatedCollection": "composerCategory"
-                },
-                "periods": {
-                    "type": "HasMany",
-                    "relatedCollection": "period"
-                },
-                "opuses": {
-                    "type": "HasMany",
-                    "relatedCollection": "opus"
+                "company": {
+                    "type": "HasOne",
+                    "relatedCollection": "company"
                 },
                 "photo": {
                     "type": "HasOne",
@@ -102,162 +78,23 @@
             "readonly": false
         },
         {
-            "name": "composerCategory",
-            "humanName": "Composer Category",
+            "name": "company",
+            "humanName": "Company",
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea", "title": "Description" },
+                    "description": { "type": "Aloha", "title": "Description" },
                     "uri": {
                         "validators": [
                             "required",
                             { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
                         ] 
                     },
-                    "count": { "type": "Number", "title": "Composers Amount", "editorAttrs": { "disabled": "disabled" } },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" }
                 }
             },
             "relations": { // mongorilla notation
-            },
-            "toStringField": "name",
-            "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
-                "sort": { "updated": -1 },
-                "limit": 10,
-                "columns": ["name", "uri", "count", "created", "updated"]
-            },
-            "mongoose": {
-                "schema": null
-            }
-        },
-        {
-            "name": "instrument",
-            "humanName": "Instrument",
-            "backboneForms": {
-                "schema": {
-                    "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea" },
-                    "uri": {
-                        "validators": [
-                            "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
-                    },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
-                }
-            },
-            "toStringField": "name",
-            "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
-                "sort": { "updated": -1 },
-                "limit": 10,
-                "columns": ["name", "uri", "created", "updated"]
-            },
-            "mongoose": {
-                "schema": null
-            }
-        },
-        {
-            "name": "opus",
-            "humanName": "Opus",
-            "previewUrl": "http://example.com/${composer.uri}/${uri}.html",
-            "backboneForms": {
-                "schema": {
-                    "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea" },
-                    "uri": {
-                        "validators": [
-                            "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
-                    },
-                    "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
-                }
-            },
-            "relations": { // mongorilla notation
-                "composer": {
-                    "type": "HasOne",
-                    "relatedCollection": "composer"
-                }
-            },
-            "toStringField": "name",
-            "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
-                "sort": { "updated": -1 },
-                "limit": 10,
-                "columns": ["name", "composer.uri", "uri", "created", "updated"]
-            },
-            "mongoose": {
-                "schema": null
-            }
-
-        },
-        {
-            "name": "period",
-            "humanName": "Period",
-            "backboneForms": {
-                "schema": {
-                    "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea" },
-                    "uri": {
-                        "validators": [
-                            "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
-                    },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
-                }
-            },
-            "toStringField": "name",
-            "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
-                "sort": { "updated": -1 },
-                "limit": 10,
-                "columns": ["name", "uri", "created", "updated"]
-            },
-            "mongoose": {
-                "schema": null
-            }
-        },
-        {
-            "name": "score",
-            "humanName": "Score",
-            "backboneForms": {
-                "schema": {
-                    "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "TextArea" },
-                    "uri": {
-                        "validators": [
-                            "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ] 
-                    },
-                    "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
-                    "opus": { "type": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opus" },
-                    "instruments": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Instrument}", "title": "Instruments" },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
-                }
-            },
-            "relations": { // mongorilla notation
-                "composer": {
-                    "type": "HasOne",
-                    "relatedCollection": "composer"
-                },
-                "opus": {
-                    "type": "HasOne",
-                    "relatedCollection": "opus"
-                },
-                "instruments": {
-                    "type": "HasMany",
-                    "relatedCollection": "instrument"
-                }
             },
             "toStringField": "name",
             "fastSearch": {

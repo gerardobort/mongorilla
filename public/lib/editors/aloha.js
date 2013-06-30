@@ -1,5 +1,10 @@
 (function() {
 
+
+    Aloha.ready(function() {
+        Aloha.Sidebar.right.hide();
+    });
+
     /**
      * Backbone Forms Aloha editor
      * @author gerardobort <gerardobort@gmail.com>
