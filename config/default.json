@@ -14,19 +14,16 @@
                     "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"] },
                     "firstname": { "type": "Text", "title": "First Name", "validators": ["required"] },
                     "lastname": { "type": "Text", "title": "Last Name", "validators": ["required"] },
-                    "twitter.username": { "type": "Text", "title": "Twitter Usename", "description": "e.g. @pepe" },
-                    "github.username": { "type": "Text", "title": "GitHub Usename", "description": "e.g. pepe" },
+                    "twitter.username": { "type": "Text", "title": "Twitter Usename", "help": "e.g. @pepe" },
+                    "github.username": { "type": "Text", "title": "GitHub Usename", "help": "e.g. pepe" },
                     "dob": { "type": "Date", "title": "Day of Birth" },
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "bio": { "type": "Aloha", "title": "Bio" },
-                    "website_url": {
-                        "type": "Text",
-                        "validators": ["required", "url"]
-                    },
+                    "website_url": { "type": "Text", "validators": ["required", "url"], "title": "Website URL", "help": "please, include http:// prefix" },
                     "photo": { "type": "File", "title": "Photo" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
-                    "company": { "type": "List", "itemType": "Object", "title": "Company" },
+                    "company": { "type": "Object", "title": "Company" },
                     "uri": {
                         "validators": [
                             "required",

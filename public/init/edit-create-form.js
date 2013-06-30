@@ -26,7 +26,9 @@ define('init/edit-create-form', [], function () {
                 '<div class="row">'
                 + '<div class="offset6 span2">' + (model.id ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '') + '</div>'
                 + '<div class="span2"><button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button></div>'
-                + '<div class="span2"><a class="btn btn-info btn-large" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a></div>'
+                + (!model.isNew() ?
+'<div class="span2"><a class="btn btn-info btn-large preview" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a></div>'
+                    : '')
                 + '</div><div class="row">...</div>'
             );
 
@@ -94,7 +96,6 @@ define('init/edit-create-form', [], function () {
                             }
                         },
                         preProcess: function (data) {
-                            dataCache = {};
                             var results = _(data.data).map(function (res) {
                                 dataCache[res[fieldName]] = res;
                                 return {
@@ -102,7 +103,6 @@ define('init/edit-create-form', [], function () {
                                     _id: res._id
                                 };
                             });
-console.log(dataCache)
                             return results;
                         }
                     }
