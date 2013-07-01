@@ -21,6 +21,7 @@
                     "bio": { "type": "Aloha", "title": "Bio" },
                     "website_url": { "type": "Text", "validators": ["required", "url"], "title": "Website URL", "help": "please, include http:// prefix" },
                     "photo": { "type": "File", "title": "Photo" },
+                    "other_photos": { "type": "List", "itemType": "File", "title": "Other Photos" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
                     "company": { "type": "ObjectId", "title": "Actual Company", "validators": ["required"] },
@@ -35,7 +36,7 @@
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["fullname", "firstname", "lastname", "dob", "photo"]
+                        "fields": ["fullname", "firstname", "lastname", "dob", "photo", "other_photos"]
                     },
                     {
                         "legend": "About",
@@ -63,6 +64,10 @@
             "relations": { // mongorilla notation
                 "photo": {
                     "type": "HasOne",
+                    "relatedCollection": "fs.files"
+                },
+                "other_photos": {
+                    "type": "HasMany",
                     "relatedCollection": "fs.files"
                 },
                 "company": {

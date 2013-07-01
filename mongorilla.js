@@ -88,6 +88,7 @@ app.get('/config/:collectionName.json', authRoute.bootstrap, jsRoute.config);
 app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionSearch);
 app.post('/api/fs.files', authRoute.bootstrap, apiRoute.fileObject);
 app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
+app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
 app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);
 app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);

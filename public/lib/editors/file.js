@@ -12,8 +12,28 @@
         defaultValue: '',
         
         initialize: function(options) {
+            var editor = this;
+
+            var options = options || {};
+
+            //Set initial value
+            if (options.model) {
+                if (!options.key) throw "Missing option: 'key'";
+
+                this.model = options.model;
+
+                // string from model
+                this.value = this.model.get(options.key);
+            } else if (options.value) {
+                // object from list
+                this.value = options.value;
+            }
+
             this.$el.addClass('control-group');
-            this.value = this.model.get(options.key);
+            editor.options = options;
+            _.extend(editor, _.pick(options, 'key', 'form'));
+            var schema = editor.schema = options.schema || {};
+            editor.validators = options.validators || schema.validators;
 
             // taken from: https://developer.mozilla.org/en-US/docs/Web/API/FileReader?redirectlocale=en-US&redirectslug=DOM%2FFileReader#readAsDataURL%28%29
             this.oFReader = new FileReader();
@@ -101,11 +121,20 @@
             $('.remove-file', editor.$el).on('click', function (event) {
                 event.preventDefault();
                 if (confirm('Are you sure you want to remove this file?')) {
-                    editor.setValue(null);
-                    $('.image-preview', editor.$el).attr('src', 'about:blank');
-                    $('.remove-file', editor.$el).toggle(!!editor.value);
-                    $('.fancy-file', editor.$el).toggle(!editor.value);
-                    $('.image-preview', editor.$el).toggle(!!editor.value);
+                    $.ajax({
+                        url: '/api/fs.files/' + editor.value._id,
+                        method: 'DELETE'
+                    })
+                    .success(function () {
+                        editor.setValue(null);
+                        $('.image-preview', editor.$el).attr('src', 'about:blank');
+                        $('.remove-file', editor.$el).toggle(!!editor.value);
+                        $('.fancy-file', editor.$el).toggle(!editor.value);
+                        $('.image-preview', editor.$el).toggle(!!editor.value);
+                    })
+                    .error(function () {
+                        alert('An error has occurred.');
+                    })
                 }
             });
  
@@ -127,6 +156,10 @@
         setValue: function(value) { 
             // set the file object w/ObjectId
             this.value = value;
+        },
+
+        focus: function () {
+            $('[type="file"]', this.$el).get(0).focus();
         }
 
     });

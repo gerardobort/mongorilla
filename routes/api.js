@@ -210,6 +210,14 @@ exports.fileObject = function(req, res){
         case 'PUT':
             break;
         case 'DELETE':
+            gfs.remove({ _id: ObjectId }, function (err) {
+                if (err) {
+                    res.status(400);
+                    return res.send(err);
+                }
+                res.status(200);
+                res.send({ ok: true });
+            });
             break;
     }
 };
