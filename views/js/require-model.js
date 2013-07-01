@@ -7,6 +7,7 @@ define('model/<%= collection.name %>', [
 
         var schema = {};
 
+        /*
         schema['_id'] = {
             type: 'Text',
             title: collection.name.toCamelCase() + 'Id',
@@ -24,6 +25,7 @@ define('model/<%= collection.name %>', [
                 'autocomplete': 'off'
             }
         };
+        */
 
     %>
 

@@ -44,6 +44,9 @@ exports.collectionObject = function(req, res){
             _(collection.relations).each(function (data, relKey) {
                 if (_.isArray(req.body[relKey])) {
                     attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
+                        if ('string' === typeof val ) {
+                            return val;
+                        }
                         return val['_id'].toString();
                     });
                     if (0 === attributes[relKey].length) {
@@ -77,6 +80,9 @@ exports.collectionObject = function(req, res){
             _(collection.relations).each(function (data, relKey) {
                 if (_.isArray(req.body[relKey])) {
                     attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
+                        if ('string' === typeof val ) {
+                            return val;
+                        }
                         return val['_id'].toString();
                     });
                     if (0 === attributes[relKey].length) {

@@ -67,47 +67,6 @@ define('init/edit-create-form', [], function () {
                 $('.submit, .remove', $collectionForm).attr('disabled', 'disabled');
             }
 
-            $(document).delegate('input[data-autocomplete-collection-name]', 'focus', function (e) {
-                var $field = $(this),
-                    fieldName = $field.data('autocomplete-field').toString(),
-                    dataCache = {};
-
-                if ($field.data('typeahead')) {
-                    return;
-                }
-                $field.on('change', function () {
-                    var $this = $(this);
-                    setTimeout(function () {
-                        var res = dataCache[$this.val()];
-                        $this.closest('fieldset').find('[name="_id"]').val(res._id);
-                    }, 200); // this is to avoid the delay since clicking until the value is set
-                });
-                $field.typeahead({
-                    ajax: {
-                        url: '/api/search/' + $field.data('autocomplete-collection-name').toString(),
-                        timeout: 300,
-                        displayField: 'endpoint',
-                        triggerLength: 1,
-                        method: 'get',
-                        loadingClass: "loading-circle",
-                        preDispatch: function (query) {
-                            return {
-                                q: query
-                            }
-                        },
-                        preProcess: function (data) {
-                            var results = _(data.data).map(function (res) {
-                                dataCache[res[fieldName]] = res;
-                                return {
-                                    name: res[fieldName],
-                                    _id: res._id
-                                };
-                            });
-                            return results;
-                        }
-                    }
-                });
-            });
 
         });
     }

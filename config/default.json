@@ -23,7 +23,8 @@
                     "photo": { "type": "File", "title": "Photo" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
-                    "company": { "type": "Object", "title": "Company" },
+                    "company": { "type": "ObjectId", "title": "Actual Company", "validators": ["required"] },
+                    "previous_companies": { "type": "List", "itemType": "ObjectId", "title": "Previous Companies" },
                     "uri": {
                         "validators": [
                             "required",
@@ -41,8 +42,8 @@
                         "fields": ["github.username", "twitter.username", "bio", "website_url"]
                     },
                     {
-                        "legend": "Content Relations",
-                        "fields": ["company"]
+                        "legend": "Work",
+                        "fields": ["company", "previous_companies"]
                     },
                     {
                         "legend": "System Data",
@@ -60,13 +61,17 @@
                 "columns": ["lastname", "firstname", "uri", "created", "updated"]
             },
             "relations": { // mongorilla notation
+                "photo": {
+                    "type": "HasOne",
+                    "relatedCollection": "fs.files"
+                },
                 "company": {
                     "type": "HasOne",
                     "relatedCollection": "company"
                 },
-                "photo": {
-                    "type": "HasOne",
-                    "relatedCollection": "fs.files"
+                "previous_companies": {
+                    "type": "HasMany",
+                    "relatedCollection": "company"
                 }
             },
             "mongoose": {
