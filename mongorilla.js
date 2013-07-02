@@ -44,7 +44,7 @@ if ('development' == app.get('env')) {
 }
 
 // mongo and models
-var dbConnString = global.config.MONGO_URL || process.env.MONGORILA_MONGO_URL;
+var dbConnString = global.config.MONGO_URL || process.env.MONGORILLA_MONGO_URL;
 console.log('Connecting to ' + dbConnString.replace(/^.*@/, '') + ' ...');
 app.set('db', mongoose.connect(dbConnString, { db: { safe: true }}));
 // this sucks
