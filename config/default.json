@@ -1,5 +1,6 @@
 {
     "MONGO_URL": "",
+    "project_name": "Mongorilla CMS Example",
     "users": [
         { "username": "test", "password": "123", "fullname": "Test User" },
         { "username": "admin", "password": "123", "fullname": "Administrator" }

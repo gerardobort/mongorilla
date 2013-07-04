@@ -34,7 +34,6 @@
             _.extend(editor, _.pick(options, 'key', 'form'));
             var schema = editor.schema = options.schema || {};
             editor.validators = options.validators || schema.validators;
-console.log(editor.model, options);
         },
 
         /**
