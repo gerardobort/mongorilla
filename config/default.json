@@ -31,7 +31,10 @@
                     "uri": {
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
                         ] 
                     }
                 },
