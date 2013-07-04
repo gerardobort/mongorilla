@@ -58,7 +58,7 @@
             },
             "toStringField": "fullname",
             "fastSearch": {
-                "find": { "fullname": "(^|\\W*):q" },
+                "find": { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*):q", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["lastname", "firstname", "uri", "created", "updated"]
@@ -100,7 +100,10 @@
                     "uri": {
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
                         ] 
                     },
                     "created": { "type": "DateTime" },
@@ -111,7 +114,7 @@
             },
             "toStringField": "name",
             "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*):q", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
