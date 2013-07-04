@@ -26,9 +26,29 @@ exports.dashboard = function(req, res){
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
-    res.render('app/dashboard.html', {
-        title: 'Dashboard'
+    var collectionsStatsPromises = _(global.config.collections).map(function (col) {
+        var colStatPromise = new mongoose.Promise();
+        mongoose.Promise.when(
+            global.getModel(col.name).find({}).count().exec(),
+            global.getModel(col.name).find({ }).sort({ _id: -1 }).limit(5).exec()
+        ).addBack(function (err, colTotalCount, colLastCreated) {
+            colStatPromise.resolve(null, {
+                collection: col,
+                colTotalCount: colTotalCount,
+                colLastCreated: colLastCreated
+            });
+        });
+        return colStatPromise;
     });
+
+    mongoose.Promise.when.apply(null, collectionsStatsPromises)
+        .addBack(function (err) {
+            var args = _(arguments).map(function (o) { return o; });
+            res.render('app/dashboard.html', {
+                title: 'Dashboard',
+                colsStats: args.slice(1)
+            });
+        });
 };
 
 exports.addContent = function(req, res){
@@ -43,7 +63,8 @@ exports.addContent = function(req, res){
 
     res.render('app/add-content.html', {
         title: 'edit',
-        collection: collection
+        collection: collection,
+        includeFormsAssets: true
     });
 };
 
@@ -77,7 +98,8 @@ exports.editContent = function(req, res){
     res.render('app/edit-content.html', {
         title: 'edit',
         collection: collection,
-        objectId: objectId
+        objectId: objectId,
+        includeFormsAssets: true
     });
 };
 

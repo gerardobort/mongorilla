@@ -5,7 +5,7 @@
      * @author gerardobort <gerardobort@gmail.com>
      * @requires fancy-file
      */
-    Backbone.Form.editors.File = Backbone.Form.editors.Base.extend({
+    Backbone.Form.editors.Image = Backbone.Form.editors.Base.extend({
 
         tagName: 'div',
         
@@ -34,6 +34,10 @@
             _.extend(editor, _.pick(options, 'key', 'form'));
             var schema = editor.schema = options.schema || {};
             editor.validators = options.validators || schema.validators;
+
+            // taken from: https://developer.mozilla.org/en-US/docs/Web/API/FileReader?redirectlocale=en-US&redirectslug=DOM%2FFileReader#readAsDataURL%28%29
+            this.oFReader = new FileReader();
+            this.rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
         },
 
         /**
@@ -43,7 +47,7 @@
             var editor = this;
             editor.$el.toggle(false);
             editor.$el.html(
-                '<span src="" class="preview"></span>' + 
+                '<img src="" class="image-preview img-polaroid" style="display:block;width:200px;max-height:200px;" />' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
                 '<button class="btn btn-danger remove-file">Remove</button>' +
                 '<div class="progress-container"></div>'
@@ -54,14 +58,14 @@
                     text  : 'Upload',
                     icon  : '',
                     style : 'btn-info',
-                    placeholder : 'Select File…'
+                    placeholder : 'Select Image…'
                 });
                 $('.fancy-file', editor.$el).toggle(!editor.value);
                 $('.remove-file', editor.$el).toggle(!!editor.value);
-                $('.preview', editor.$el).toggle(!!editor.value);
+                $('.image-preview', editor.$el).toggle(!!editor.value);
             }, 200)
             if (editor.value) {
-                $('.preview', editor.$el).html('<a target="_blank" href="/api/fs.files/' + editor.value + '">Open</a>');
+                $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value);
             }
             this._delegateEvents();
 
@@ -70,9 +74,21 @@
 
         _delegateEvents: function () {
             var editor = this;
+
+            editor.oFReader.onload = function (oFREvent) {
+                $('.image-preview', editor.$el).one('load', function () {
+                    $('.image-preview', editor.$el).toggle(true);
+                });
+                $('.image-preview', editor.$el).attr('src', oFREvent.target.result);
+            };
  
             $('[type="file"]', editor.$el).on('change', function (event) {
                 if (this.files.length === 0) { return; }
+                var oFile = this.files[0];
+                // only in the case of images... TODO
+                if (!editor.rFilter.test(oFile.type)) { alert("You must select a valid image file!"); return; }
+
+                editor.oFReader.readAsDataURL(oFile);
 
                 //---
                 var xhr = new XMLHttpRequest();
@@ -88,7 +104,7 @@
                     editor.setValue(response);
                     $('.remove-file', editor.$el).toggle(!!editor.value);
                     $('.fancy-file', editor.$el).toggle(!editor.value);
-                    $('.preview', editor.$el).toggle(!!editor.value);
+                    $('.image-preview', editor.$el).toggle(!!editor.value);
                     $('.progress-container', editor.$el).html('');
                 };
 
@@ -113,7 +129,7 @@
                     })
                     .success(function () {
                         editor.setValue(null);
-                        $('.preview', editor.$el).attr('src', 'about:blank');
+                        $('.image-preview', editor.$el).attr('src', 'about:blank');
                         $('.remove-file', editor.$el).toggle(!!editor.value);
                         $('.fancy-file', editor.$el).toggle(!editor.value);
                         $('.image-preview', editor.$el).toggle(!!editor.value);

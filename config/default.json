@@ -20,8 +20,9 @@
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "bio": { "type": "Aloha", "title": "Bio" },
                     "website_url": { "type": "Text", "validators": ["required", "url"], "title": "Website URL", "help": "please, include http:// prefix" },
-                    "photo": { "type": "File", "title": "Photo" },
-                    "other_photos": { "type": "List", "itemType": "File", "title": "Other Photos" },
+                    "photo": { "type": "Image", "title": "Photo" },
+                    "other_photos": { "type": "List", "itemType": "Image", "title": "Other Photos" },
+                    "cv": { "type": "File", "title": "Curriculum Vitae" },
                     "created": { "type": "DateTime" },
                     "updated": { "type": "DateTime" },
                     "company": { "type": "ObjectId", "title": "Actual Company", "validators": ["required"] },
@@ -44,7 +45,7 @@
                     },
                     {
                         "legend": "Work",
-                        "fields": ["company", "previous_companies"]
+                        "fields": ["cv", "company", "previous_companies"]
                     },
                     {
                         "legend": "System Data",
@@ -68,6 +69,10 @@
                 },
                 "other_photos": {
                     "type": "HasMany",
+                    "relatedCollection": "fs.files"
+                },
+                "cv": {
+                    "type": "HasOne",
                     "relatedCollection": "fs.files"
                 },
                 "company": {
