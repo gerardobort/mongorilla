@@ -49,7 +49,7 @@
             editor.$el.html(
                 '<img src="" class="image-preview img-polaroid" style="display:block;width:200px;max-height:200px;" />' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
-                '<button class="btn btn-danger remove-file">Remove</button>' +
+                '<button class="btn btn-danger remove-file"><i class="icon-remove"></i></button>' +
                 '<div class="progress-container"></div>'
             );
             setTimeout(function () { // once appended to the DOM
@@ -129,6 +129,7 @@
                     })
                     .success(function () {
                         editor.setValue(null);
+                        //$('[type="file"]', editor.$el).val();
                         $('.image-preview', editor.$el).attr('src', 'about:blank');
                         $('.remove-file', editor.$el).toggle(!!editor.value);
                         $('.fancy-file', editor.$el).toggle(!editor.value);

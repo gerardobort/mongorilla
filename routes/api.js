@@ -42,7 +42,7 @@ exports.collectionObject = function(req, res){
 
             var attributes = _.clone(req.body);
             _(collection.relations).each(function (data, relKey) {
-                if (_.isArray(req.body[relKey])) {
+                if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
                     attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
                         if ('string' === typeof val ) {
                             return val;
@@ -52,7 +52,7 @@ exports.collectionObject = function(req, res){
                     if (0 === attributes[relKey].length) {
                         delete attributes[relKey];
                     }
-                } else if (_.isObject(req.body[relKey])) {
+                } else if (_.isObject(req.body[relKey]) && req.body[relKey]['_id']) {
                     attributes[relKey] = req.body[relKey]['_id'].toString();
                 }
             });
@@ -78,7 +78,7 @@ exports.collectionObject = function(req, res){
 
             var attributes = _.clone(req.body);
             _(collection.relations).each(function (data, relKey) {
-                if (_.isArray(req.body[relKey])) {
+                if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
                     attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
                         if ('string' === typeof val ) {
                             return val;
@@ -88,7 +88,7 @@ exports.collectionObject = function(req, res){
                     if (0 === attributes[relKey].length) {
                         delete attributes[relKey];
                     }
-                } else if (_.isObject(req.body[relKey])) {
+                } else if (_.isObject(req.body[relKey]) && req.body[relKey]['_id']) {
                     attributes[relKey] = req.body[relKey]['_id'].toString();
                 }
             });

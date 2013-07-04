@@ -45,7 +45,7 @@
             editor.$el.html(
                 '<span src="" class="preview"></span>' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
-                '<button class="btn btn-danger remove-file">Remove</button>' +
+                '<button class="btn btn-danger remove-file"><i class="icon-remove"></i></button>' +
                 '<div class="progress-container"></div>'
             );
             setTimeout(function () { // once appended to the DOM
@@ -61,11 +61,26 @@
                 $('.preview', editor.$el).toggle(!!editor.value);
             }, 200)
             if (editor.value) {
-                $('.preview', editor.$el).html('<a target="_blank" href="/api/fs.files/' + editor.value + '">Open</a>');
+                editor.repaintPreview();
             }
             this._delegateEvents();
 
             return this;
+        },
+
+        repaintPreview: function () {
+            var editor = this;
+            if (editor.value) {
+                $('.preview', editor.$el).html(
+                    '<a target="_blank" href="/api/fs.files/'
+                    + ('string' === typeof editor.value ? editor.value : editor.value._id)
+                    + '"'
+                    + ' class="btn"'
+                    + '><i class="icon-download-alt"></i></a> '
+                );
+            } else {
+                $('.preview', editor.$el).html('');
+            }
         },
 
         _delegateEvents: function () {
@@ -90,6 +105,7 @@
                     $('.fancy-file', editor.$el).toggle(!editor.value);
                     $('.preview', editor.$el).toggle(!!editor.value);
                     $('.progress-container', editor.$el).html('');
+                    editor.repaintPreview();
                 };
 
                 var form = new FormData();
@@ -113,10 +129,12 @@
                     })
                     .success(function () {
                         editor.setValue(null);
+                        //$('[type="file"]', editor.$el).val();
                         $('.preview', editor.$el).attr('src', 'about:blank');
                         $('.remove-file', editor.$el).toggle(!!editor.value);
                         $('.fancy-file', editor.$el).toggle(!editor.value);
                         $('.image-preview', editor.$el).toggle(!!editor.value);
+                        editor.repaintPreview();
                     })
                     .error(function () {
                         alert('An error has occurred.');
