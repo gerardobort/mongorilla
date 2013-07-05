@@ -24,8 +24,6 @@
                     "photo": { "type": "Image", "title": "Photo" },
                     "other_photos": { "type": "List", "itemType": "Image", "title": "Other Photos" },
                     "cv": { "type": "File", "title": "Curriculum Vitae" },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" },
                     "company": { "type": "ObjectId", "title": "Actual Company", "validators": ["required"] },
                     "previous_companies": { "type": "List", "itemType": "ObjectId", "title": "Previous Companies" },
                     "uri": {
@@ -53,13 +51,15 @@
                     },
                     {
                         "legend": "System Data",
-                        "fields": ["uri", "created", "updated"]
+                        "fields": ["uri"]
                     }
                 ],
                 "defaults": {
                 }
             },
             "toStringField": "fullname",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
                 "find": { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
@@ -108,19 +108,19 @@
                                 "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
                             }
                         ] 
-                    },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
+                    }
                 }
             },
             "relations": { // mongorilla notation
             },
             "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
                 "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
-                "columns": ["name", "uri", "created", "updated"]
+                "columns": ["name", "uri"]
             },
             "mongoose": {
                 "schema": null

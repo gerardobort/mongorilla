@@ -66,11 +66,14 @@ exports.getModel = function (collectionName) {
             }
         });
 
+
+        schema[collection.createdField.key] = global[collection.createdField.type||'Date'];
+        schema[collection.updatedField.key] = global[collection.updatedField.type||'Date'];
+
         var options = {
             // http://aaronheckmann.tumblr.com/post/48943525537/mongoose-v3-part-1-versioning
             versionKey: '_mongorillaVersion'
         };
-
         var ModelSchema = new Schema(schema, options);
 
         ModelSchema.methods = {

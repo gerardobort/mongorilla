@@ -17,7 +17,10 @@
         <td>
             <ul>
             <% _(stat.colLastCreated).each(function (obj) { %>
-                <li><a href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a>
+                <li>
+                    <a class="badge" href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a>
+                    <span>Updated <date><%= obj[stat.collection.updatedField.key].toString() %></date></span>
+                </li>
             <% }) %>
             </ul>
         </td>

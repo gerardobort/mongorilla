@@ -28,9 +28,12 @@ exports.dashboard = function(req, res){
 
     var collectionsStatsPromises = _(global.config.collections).map(function (col) {
         var colStatPromise = new mongoose.Promise();
+        var sort = {};
+        sort[col.updatedField.key] = -1;
+        sort[col.createdField.key] = -1;
         mongoose.Promise.when(
-            global.getModel(col.name).find({}).count().exec(),
-            global.getModel(col.name).find({ }).sort({ _id: -1 }).limit(5).exec()
+            global.getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({}).count().exec(),
+            global.getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({ }).sort(sort).limit(5).exec()
         ).addBack(function (err, colTotalCount, colLastCreated) {
             colStatPromise.resolve(null, {
                 collection: col,

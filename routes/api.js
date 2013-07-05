@@ -63,6 +63,8 @@ exports.collectionObject = function(req, res){
 
             var model = new global.getModel(collectionName)();
             model.set(attributesToSet);
+            model.set(collection.createdField.key, new global[collection.createdField.type||'Date']());
+            model.set(collection.updatedField.key, new global[collection.createdField.type||'Date']());
             model.save(function (err, model) {
                 if (err) {
                     res.send(err);
@@ -96,6 +98,7 @@ exports.collectionObject = function(req, res){
             delete attributes['_id'];
             // TODO skip all attributes not specified in schema
             var attributesToSet = global.helpers.toFlat(attributes);
+            attributesToSet[collection.updatedField.key] = new global[collection.createdField.type||'Date']().toISOString();
 
             global.getModel(collectionName)
                 .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
