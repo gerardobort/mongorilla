@@ -26,7 +26,9 @@ define('init/edit-create-form', [], function () {
                 '<div class="row">'
                 + '<div class="offset6 span2">' + (model.id ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '') + '</div>'
                 + '<div class="span2"><button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button></div>'
-                + '<div class="span2"><a class="btn btn-info btn-large" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a></div>'
+                + (!model.isNew() ?
+'<div class="span2"><a class="btn btn-info btn-large preview" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a></div>'
+                    : '')
                 + '</div><div class="row">...</div>'
             );
 
@@ -65,49 +67,6 @@ define('init/edit-create-form', [], function () {
                 $('.submit, .remove', $collectionForm).attr('disabled', 'disabled');
             }
 
-            $(document).delegate('input[data-autocomplete-collection-name]', 'focus', function (e) {
-                var $field = $(this),
-                    fieldName = $field.data('autocomplete-field').toString(),
-                    dataCache = {};
-
-                if ($field.data('typeahead')) {
-                    return;
-                }
-                $field.on('change', function () {
-                    var $this = $(this);
-                    setTimeout(function () {
-                        var res = dataCache[$this.val()];
-                        $this.closest('fieldset').find('[name="_id"]').val(res._id);
-                    }, 200); // this is to avoid the delay since clicking until the value is set
-                });
-                $field.typeahead({
-                    ajax: {
-                        url: '/api/search/' + $field.data('autocomplete-collection-name').toString(),
-                        timeout: 300,
-                        displayField: 'endpoint',
-                        triggerLength: 1,
-                        method: 'get',
-                        loadingClass: "loading-circle",
-                        preDispatch: function (query) {
-                            return {
-                                q: query
-                            }
-                        },
-                        preProcess: function (data) {
-                            dataCache = {};
-                            var results = _(data.data).map(function (res) {
-                                dataCache[res[fieldName]] = res;
-                                return {
-                                    name: res[fieldName],
-                                    _id: res._id
-                                };
-                            });
-console.log(dataCache)
-                            return results;
-                        }
-                    }
-                });
-            });
 
         });
     }

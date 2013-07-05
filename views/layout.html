@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Mongorilla<%= title ? ' | ' + title : '' %></title>
+        <title><%= global.config.project_name||'Mongorilla' %><%= title ? ' | ' + title : '' %></title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
@@ -9,12 +9,12 @@
         <link href="/lib/templates/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
         <link href="/layout.css" media="all" rel="stylesheet" type="text/css" />
         <link href="/lib/fancyfile/bootstrap-fancyfile.min.css" media="all" rel="stylesheet" type="text/css" />
-        <link href="http://cdn.aloha-editor.org/latest/css/aloha.css" type="text/css" rel="stylesheet" />
+        <link href="/lib/aloha/css/aloha.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
         <div class="navbar">
             <div class="navbar-inner">
-                <a class="brand" href="/">Mongorilla</a>
+                <a class="brand" href="/"><%= global.config.project_name||'Mongorilla' %></a>
                 <div class="row">
                     <% if (sessionUser) { %>
                     <ul class="nav span4">
@@ -71,18 +71,22 @@
         <script src="/lib/underscore.js"></script>
         <script src="/lib/backbone.js"></script>
         <script src="/lib/backbone-deep-model.js"></script>
+        <script src="/lib/bootstrap-modal.js"></script>
+        <script src="/lib/bootstrap/js/bootstrap.js"></script>
+        <script src="/lib/bootstrap-typeahead.js"></script>
+
+        <% if ('boolean' === typeof includeFormsAssets && true === includeFormsAssets) { %>
         <script src="/lib/backbone-forms.js"></script>
         <script src="/lib/adapters/backbone.bootstrap-modal.js"></script>
         <script src="/lib/editors/list.js"></script>
         <script src="/lib/editors/file.js"></script>
+        <script src="/lib/editors/image.js"></script>
+        <script src="/lib/editors/object-id.js"></script>
         <script src="/lib/templates/default.js"></script>
         <script src="/lib/templates/bootstrap.js"></script>
-        <script src="/lib/bootstrap-modal.js"></script>
-        <script src="/lib/bootstrap/js/bootstrap.js"></script>
-        <script src="/lib/bootstrap-typeahead.js"></script>
         <script src="/lib/fancyfile/bootstrap-fancyfile.js"></script>
         <script src="/lib/require/require-js.js" data-main="/init.js" ></script>
-        <script type="text/javascript" src="http://cdn.aloha-editor.org/latest/lib/aloha.js"
+        <script type="text/javascript" src="/lib/aloha/lib/aloha.js"
                     data-aloha-plugins="common/ui,
                                         common/format,
                                         common/table,
@@ -96,5 +100,9 @@
                                         common/commands,
                                         common/abbr"></script>
         <script src="/lib/editors/aloha.js"></script>
+        <% } else { %>
+        <script src="/lib/require/require-js.js" data-main="/init.js" ></script>
+        <% } %>
+
     </body>
 </html>

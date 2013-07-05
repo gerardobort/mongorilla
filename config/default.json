@@ -1,5 +1,6 @@
 {
     "MONGO_URL": "",
+    "project_name": "Damusiq CMS",
     "users": [
         { "username": "pbort", "password": "5ap1t0!A", "fullname": "Pablo Bort" },
         { "username": "gbort", "password": "5ap1t0!B", "fullname": "Gerardo Bort" }
@@ -29,17 +30,17 @@
                         "type": "Text",
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ],
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
+                        ], 
                         "editorAttrs": { "disabled": "disabled" }
                     },
                     "images": { "type": "List", "itemType": "Text", "title": "Image (URL)", "validators": ["url"] },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" },
-                    // both definition works!  itemType: Object and itemType: NestedModel
-                    "categories": { "type": "List", "itemType": "Object", "title": "Categories" },
-                    "periods": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Period}", "title": "Periods" },
-                    "opuses": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opuses" }
+                    "categories": { "type": "List", "itemType": "ObjectId", "title": "Categories" },
+                    "periods": { "type": "List", "itemType": "ObjectId", "title": "Periods" },
+                    "opuses": { "type": "List", "itemType": "ObjectId", "title": "Opuses" }
                 },
                 "fieldsets": [
                     {
@@ -60,7 +61,7 @@
                     },
                     {
                         "legend": "System Data",
-                        "fields": ["uri", "created", "updated"]
+                        "fields": ["uri"]
                     },
                     {
                         "legend": "Content Relations",
@@ -73,8 +74,10 @@
                 }
             },
             "toStringField": "fullname",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
-                "find": { "fullname": "(^|\\W*):q" },
+                "find": { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["lastname", "firstname", "uri", "created", "updated"]
@@ -108,22 +111,26 @@
                     "description": { "type": "Aloha", "title": "Description" },
                     "lang": { "type": "Text", "title": "Language ISO" },
                     "uri": {
+                        "type": "Text",
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ],
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
+                        ], 
                         "editorAttrs": { "disabled": "disabled" }
                     },
-                    "count": { "type": "Number", "title": "Composers Amount", "editorAttrs": { "disabled": "disabled" } },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
+                    "count": { "type": "Number", "title": "Composers Amount", "editorAttrs": { "disabled": "disabled" } }
                 }
             },
             "relations": { // mongorilla notation
             },
             "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "count", "created", "updated"]
@@ -145,14 +152,16 @@
                     "t.description.es": { "type": "Aloha", "title": "Description (Spanish)" },
                     "t.description.it": { "type": "Aloha", "title": "Description (Italian)" },
                     "uri": {
+                        "type": "Text",
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ],
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
+                        ], 
                         "editorAttrs": { "disabled": "disabled" }
-                    },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
+                    }
                 },
                 "fieldsets": [
                     {
@@ -169,13 +178,15 @@
                     },
                     {
                         "legend": "System Data",
-                        "fields": ["uri", "created", "updated"]
+                        "fields": ["uri"]
                     }
                 ]
             },
             "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
@@ -193,15 +204,17 @@
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
                     "description": { "type": "Aloha" },
                     "uri": {
+                        "type": "Text",
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ],
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
+                        ], 
                         "editorAttrs": { "disabled": "disabled" }
                     },
-                    "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
+                    "composer": { "type": "ObjectId", "title": "Composer" }
                 }
             },
             "relations": { // mongorilla notation
@@ -211,8 +224,10 @@
                 }
             },
             "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
@@ -240,15 +255,17 @@
                     "from_year": { "type": "Number", "title": "From (Year)" },
                     "to_year": { "type": "Number", "title": "To (Year)" },
                     "uri": {
+                        "type": "Text",
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ],
-                        "editorAttrs": { "disabled": "disabled" } 
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
+                        ], 
+                        "editorAttrs": { "disabled": "disabled" }
                     },
-                    "order_index": { "type": "Number", "title": "Sort Number" },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
+                    "order_index": { "type": "Number", "title": "Sort Number" }
                 },
                 "fieldsets": [
                     {
@@ -265,13 +282,15 @@
                     },
                     {
                         "legend": "System Data",
-                        "fields": ["uri", "from_year", "to_year", "order_index", "created", "updated"]
+                        "fields": ["uri", "from_year", "to_year", "order_index"]
                     }
                 ]
             },
             "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
@@ -289,18 +308,20 @@
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
                     "description": { "type": "Aloha" },
                     "uri": {
+                        "type": "Text",
                         "validators": [
                             "required",
-                            { "type": "regexp", "regexp": "/^[0-9a-z-]{2,}[0-9a-z]$/g" }
-                        ],
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$", "g"] }
+                            }
+                        ], 
                         "editorAttrs": { "disabled": "disabled" }
                     },
-                    "composer": { "type": "NestedModel", "model": "${Backbone.Model.Composer}", "title": "Composer" },
-                    "opus": { "type": "NestedModel", "model": "${Backbone.Model.Opus}", "title": "Opus" },
-                    "instruments": { "type": "List", "itemType": "NestedModel", "model": "${Backbone.Model.Instrument}", "title": "Instruments" },
-                    "order_index": { "type": "String", "title": "Sort String", "editorAttrs": { "disabled": "disabled" } },
-                    "created": { "type": "DateTime" },
-                    "updated": { "type": "DateTime" }
+                    "composer": { "type": "ObjectId", "title": "Composer" },
+                    "opus": { "type": "ObjectId", "title": "Opus" },
+                    "instruments": { "type": "List", "itemType": "ObjectId", "title": "Instruments" },
+                    "order_index": { "type": "Text", "title": "Sort String", "editorAttrs": { "disabled": "disabled" } }
                 }
             },
             "relations": { // mongorilla notation
@@ -318,8 +339,10 @@
                 }
             },
             "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
-                "find": { "name": "(^|\\W*):q" },
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]

@@ -1,5 +1,15 @@
 (function() {
 
+
+    define('jquery', [], function () {
+        window.jQuery.fn.live = window.jQuery.fn.on;
+        window.jQuery.browser = {};
+        return window.jQuery;
+    });
+    Aloha.ready(function() {
+        Aloha.Sidebar.right.hide();
+    });
+
     /**
      * Backbone Forms Aloha editor
      * @author gerardobort <gerardobort@gmail.com>

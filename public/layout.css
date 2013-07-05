@@ -1,8 +1,11 @@
-.control-group.field-_id {
-    height: 0;
-    overflow: hidden;
-}
-
 .bbf-date-container {
     display: inline-block;
+}
+
+.bbf-object-id .info {
+    margin-left: 30px;
+}
+
+.bbf-object-id .info a {
+    color: #000;
 }

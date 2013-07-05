@@ -1,2 +1,31 @@
 <h1>Dashboard</h1>
 <div id="test-container"></div>
+
+<h2>Latest updates</h2>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Content Type</th>
+        <th>Last 5 edited</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _(colsStats).each(function (stat) { %>
+    <tr>
+        <td><%= stat.collection.humanName %></td>
+        <td>
+            <ul>
+            <% _(stat.colLastCreated).each(function (obj) { %>
+                <li>
+                    <a class="badge" href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a>
+                    <span>Updated <date><%= obj[stat.collection.updatedField.key].toString() %></date></span>
+                </li>
+            <% }) %>
+            </ul>
+        </td>
+        <td><%= stat.colTotalCount %></td>
+    </tr>
+    <% }) %>
+    </tbody>
+</table>
