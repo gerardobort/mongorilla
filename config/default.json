@@ -61,7 +61,7 @@
             },
             "toStringField": "fullname",
             "fastSearch": {
-                "find": { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*):q", "ig"] } },
+                "find": { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["lastname", "firstname", "uri", "created", "updated"]
@@ -117,7 +117,7 @@
             },
             "toStringField": "name",
             "fastSearch": {
-                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*):q", "ig"] } },
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]

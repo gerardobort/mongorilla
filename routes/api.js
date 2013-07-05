@@ -142,8 +142,7 @@ exports.collectionSearch = function(req, res){
 
 
     var findParams = global.helpers.toJS(_(collection.fastSearch.find).clone(), function (arg) {
-        console.log(arg.replace(/:q/g, q));
-        return arg.replace(/:q/g, q);
+        return arg.replace(/\$\{q\}/g, q);
     });
 
     global.getModel(collectionName)
