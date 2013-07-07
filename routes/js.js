@@ -57,7 +57,13 @@ exports.config = function(req, res){
     });
 
     if (collection && collection.backboneForms && collection.backboneForms.schema) {
-        res.send(collection.backboneForms);
+        res.send(_.extend(
+            collection.backboneForms,
+            {
+                createdField: collection.createdField,
+                updatedField: collection.updatedField
+            }
+        ));
     } else {
         res.status(404);
         res.send({ error: 'Backbone-Forms Schema Not defined for this collection.' });

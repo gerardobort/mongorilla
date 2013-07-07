@@ -17,6 +17,8 @@ define('init/edit-create-form', [], function () {
                 form = new Form({ model: model, fieldsets: config.fieldsets, schema: Form.prototype.schema }); // force the schema against the model one
 
             $('[data-collection-name]').html(model.toString());
+            $('[data-created]').html(model.get(config.createdField.key));
+            $('[data-updated]').html(model.get(config.updatedField.key));
 
             $collectionForm.html(form.render().$el);
 
@@ -61,7 +63,6 @@ define('init/edit-create-form', [], function () {
                         });
                     }
                 });
-
 
             } else {
                 $('.submit, .remove', $collectionForm).attr('disabled', 'disabled');
