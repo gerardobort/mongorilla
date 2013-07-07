@@ -51,7 +51,7 @@ define('init/edit-create-form', [], function () {
 
             var refreshRevisionsList = function () {
                 if (objectId !== 'default') {
-                    require(['json!/api/' + collectionName + '/' + objectId + '/revisions'], function (modelRevisions) {
+                    require(['json!/api/' + collectionName + '/' + objectId + '/revisions?t=' + Math.random()], function (modelRevisions) {
                         $('[data-revisions-list]').html(_(modelRevisions).map(function (rev, i) {
                             return '<li><a class="restore" data-revision-i="' + i + '">'
                                 + '<i class="icon-fast-backward"></i> '
