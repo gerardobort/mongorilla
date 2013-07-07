@@ -79,7 +79,6 @@ exports.getModel = function (collectionName) {
         ModelSchema.methods = {
         };
 
-
         mongoose.model(collectionName, ModelSchema, collectionName);
 
         // this is only for loading purposes: whitout this the refs may not work
@@ -88,6 +87,7 @@ exports.getModel = function (collectionName) {
                 var relatedModel = global.getModel(relation.relatedCollection);
             }
         });
+
 
         return mongoose.model(collectionName);
     }

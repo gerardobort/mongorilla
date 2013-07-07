@@ -91,7 +91,8 @@
             "mongoose": {
                 "schema": null
             },
-            "readonly": false
+            "readonly": false,
+            "revisionable": true
         },
         {
             "name": "company",
@@ -124,7 +125,9 @@
             },
             "mongoose": {
                 "schema": null
-            }
+            },
+            "readonly": false,
+            "revisionable": true
         }
     ]
 }
