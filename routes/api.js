@@ -71,6 +71,21 @@ exports.collectionObject = function(req, res){
                 } else {
                     var responseData = model.toObject();
                     delete responseData.__v;
+
+                    if (collection.revisionable) {
+                        // mongoose hooks doesn't have  support for update, so here is the "hook"
+                        var RevisionModel = global.getRevisionModel(collectionName);
+                        var revisionModel = new RevisionModel();
+                        revisionModel.set({
+                            objectId: model.get('_id'),
+                            collectionName: collectionName,
+                            user: req.session.user.username,
+                            created: new Date(),
+                            modelSnapshot: model
+                        });
+                        revisionModel.save();
+                    }
+
                     res.send(responseData);
                 }
             });
@@ -105,6 +120,21 @@ exports.collectionObject = function(req, res){
                     if (err) {
                         res.send(err);
                     } else {
+
+                        if (collection.revisionable) {
+                            // mongoose hooks doesn't have  support for update, so here is the "hook"
+                            var RevisionModel = global.getRevisionModel(collectionName);
+                            var revisionModel = new RevisionModel();
+                            revisionModel.set({
+                                objectId: model.get('_id'),
+                                collectionName: collectionName,
+                                user: req.session.user.username,
+                                created: new Date(),
+                                modelSnapshot: model
+                            });
+                            revisionModel.save();
+                        }
+
                         res.send(responseData);
                     }
                 });
@@ -221,4 +251,27 @@ exports.fileObject = function(req, res){
             });
             break;
     }
+};
+
+exports.revisions = function(req, res){
+    var url = require('url'),
+        collectionName = req.route.params.collectionName,
+        objectId = req.route.params.objectId,
+        url_parts = url.parse(req.url, true),
+        _ = require('underscore');
+
+    var collection = _(global.config.collections).find(function (col) {
+        return col.name === collectionName;
+    });
+
+    global.getRevisionModel(collectionName)
+        .find({ objectId: objectId })
+        .sort({ created: -1 })
+        .exec()
+        .then(function (data) {
+            res.send(data);
+        })
+        .reject(function () {
+            res.send(arguments);
+        });
 };

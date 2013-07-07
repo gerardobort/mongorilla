@@ -62,6 +62,7 @@ fs.readdirSync(models_path).forEach(function (file) {
 // inlcude helpers module
 global.helpers = require('./lib/helpers');
 global.getModel = require('./models/handler').getModel;
+global.getRevisionModel = require('./models/revision').getRevisionModel;
 
 // preload all the models set in the config file
 global.config.collections.forEach(function (collection) {
@@ -89,6 +90,7 @@ app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionS
 app.post('/api/fs.files', authRoute.bootstrap, apiRoute.fileObject);
 app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
 app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
+app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRoute.revisions);
 app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);
 app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
