@@ -18,7 +18,6 @@ You only need to define a document structure/schema in a JSON config file, and M
 
 ## Limitations
 * This CMS is not intended to be public faced. It's just for trusted Content Managers, at least by now and for security reasons.
-* Mongorilla per its philosophy, doesn't store revisions information or any other metadata in the database.
 * Mongorilla is good for managing static content only.  For collections that are managed by your own application and they have a specific business logic, then Mongorilla isn't your solution.
 
 # Architecture
