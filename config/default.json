@@ -99,7 +99,8 @@
             "mongoose": {
                 "schema": null
             },
-            "readonly": false
+            "readonly": false,
+            "revisionable": true
         },
         {
             "name": "composerCategory",
@@ -137,7 +138,9 @@
             },
             "mongoose": {
                 "schema": null
-            }
+            },
+            "readonly": false,
+            "revisionable": true
         },
         {
             "name": "instrument",
@@ -193,7 +196,9 @@
             },
             "mongoose": {
                 "schema": null
-            }
+            },
+            "readonly": false,
+            "revisionable": true
         },
         {
             "name": "opus",
@@ -234,8 +239,9 @@
             },
             "mongoose": {
                 "schema": null
-            }
-
+            },
+            "readonly": false,
+            "revisionable": true
         },
         {
             "name": "period",
@@ -297,7 +303,9 @@
             },
             "mongoose": {
                 "schema": null
-            }
+            },
+            "readonly": false,
+            "revisionable": true
         },
         {
             "name": "score",
@@ -349,7 +357,9 @@
             },
             "mongoose": {
                 "schema": null
-            }
+            },
+            "readonly": false,
+            "revisionable": true
         }
     ]
 }
