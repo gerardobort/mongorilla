@@ -11,7 +11,7 @@ You only need to define a document structure/schema in a JSON config file, and M
 * The core functionality is quite simple, all the hard work rely on proved libraries such as Backbone-Forms, Mongoose and many others.
 * Mongorilla supports multidimentional documents and ObjectId references.
 * Mongorilla supports File/Image uploads against the same MongoDB using GridFS.
-* Mongorilla supports rich text editors, Aloha comes out of the box.
+* Mongorilla supports rich text editors, CKEditor and Aloha comes out of the box.
 * Mongorilla supports revisioning - rolling back document revisions is very easy!
 * Setup is just to complete a JSON file under the config folder.
 * Customize Mongorilla from the source code is not as terrible as other CMSs, even for tweaking forms, you can create your own editors.
@@ -35,6 +35,5 @@ credentials: test / 123
 * Improve documentation, create "How to start", etc.
 * Add support for user or role based permissions.
 * Enhance the UI, visually and informationally,such as showing the dates better, etc.
-* To tune Aloha or replace it by another lightweight Rich Text editor - it's really heavy and slows down the experience.
 
 ![Logo](public/images/logo.jpg)
