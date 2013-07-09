@@ -67,23 +67,8 @@ exports.addContent = function(req, res){
     res.render('app/add-content.html', {
         title: 'edit',
         collection: collection,
-        includeFormsAssets: true
-    });
-};
-
-exports.searchContent = function(req, res){
-    var url = require('url'),
-        collectionName = req.route.params.collectionName,
-        url_parts = url.parse(req.url, true),
-        _ = require('underscore');
-
-    var collection = _(global.config.collections).find(function (col) {
-        return col.name === collectionName;
-    });
-
-    res.render('app/search-content.html', {
-        title: 'edit',
-        collection: collection
+        includeFormsAssets: true,
+        includeAloha: collection.requiresAloha
     });
 };
 
@@ -102,7 +87,24 @@ exports.editContent = function(req, res){
         title: 'edit',
         collection: collection,
         objectId: objectId,
-        includeFormsAssets: true
+        includeFormsAssets: true,
+        includeAloha: collection.requiresAloha
+    });
+};
+
+exports.searchContent = function(req, res){
+    var url = require('url'),
+        collectionName = req.route.params.collectionName,
+        url_parts = url.parse(req.url, true),
+        _ = require('underscore');
+
+    var collection = _(global.config.collections).find(function (col) {
+        return col.name === collectionName;
+    });
+
+    res.render('app/search-content.html', {
+        title: 'edit',
+        collection: collection
     });
 };
 

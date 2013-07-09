@@ -19,7 +19,7 @@
                     "github.username": { "type": "Text", "title": "GitHub Usename", "help": "e.g. pepe" },
                     "dob": { "type": "Date", "title": "Day of Birth" },
                     "death_year": { "type": "Number", "title": "Death Year" },
-                    "bio": { "type": "Aloha", "title": "Bio" },
+                    "bio": { "type": "CKEditor", "title": "Bio" },
                     "website_url": { "type": "Text", "validators": ["required", "url"], "title": "Website URL", "help": "please, include http:// prefix" },
                     "photo": { "type": "Image", "title": "Photo" },
                     "other_photos": { "type": "List", "itemType": "Image", "title": "Other Photos" },
@@ -100,7 +100,7 @@
             "backboneForms": {
                 "schema": {
                     "name": { "type": "Text", "title": "Name", "validators": ["required"] },
-                    "description": { "type": "Aloha", "title": "Description" },
+                    "description": { "type": "CKEditor", "title": "Description" },
                     "uri": {
                         "validators": [
                             "required",

@@ -82,11 +82,15 @@
         <script src="/lib/editors/file.js"></script>
         <script src="/lib/editors/image.js"></script>
         <script src="/lib/editors/object-id.js"></script>
+        <script src="/lib/editors/ckeditor.js"></script>
         <script src="/lib/templates/default.js"></script>
         <script src="/lib/templates/bootstrap.js"></script>
         <script src="/lib/fancyfile/bootstrap-fancyfile.js"></script>
+        <script src="/lib/ckeditor/ckeditor.js"></script>
         <script src="/lib/require/require-js.js" data-main="/init.js" ></script>
-        <script type="text/javascript" src="/lib/aloha/lib/aloha.js"
+            <% if ('boolean' === typeof includeAloha && true === includeAloha) { %>
+            <!-- Aloha is a heavy library, so this is why it loads only when necessary -->
+            <script type="text/javascript" src="/lib/aloha/lib/aloha.js"
                     data-aloha-plugins="common/ui,
                                         common/format,
                                         common/table,
@@ -99,7 +103,8 @@
                                         common/paste,
                                         common/commands,
                                         common/abbr"></script>
-        <script src="/lib/editors/aloha.js"></script>
+            <script src="/lib/editors/aloha.js"></script>
+            <% } %>
         <% } else { %>
         <script src="/lib/require/require-js.js" data-main="/init.js" ></script>
         <% } %>
