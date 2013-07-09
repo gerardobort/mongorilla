@@ -81,6 +81,7 @@ define('init/edit-create-form', [], function () {
                                     document.location.href = '/edit/' + collectionName + '/' + model.id;
                                 } else {
                                     refreshRevisionsList();
+                                    $('[data-updated]').html(model.get(config.updatedField.key));
                                 }
                             },
                             error: function () {
