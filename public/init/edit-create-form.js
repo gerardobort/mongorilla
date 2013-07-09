@@ -57,9 +57,9 @@ define('init/edit-create-form', [], function () {
                             $icons.each(function (j, el) {
                                 if (j === 0) { $(el).attr('class', 'icon-fast-forward'); }
                                 else if (j < selectedIndex) { $(el).attr('class', 'icon-step-forward'); }
-                                if (j === selectedIndex) { $(el).attr('class', 'icon-ok'); }
                                 if (j === $icons.size()-1) { $(el).attr('class', 'icon-fast-backward'); }
                                 else if (j > selectedIndex) { $(el).attr('class', 'icon-step-backward'); }
+                                if (j === selectedIndex) { $(el).attr('class', 'icon-ok'); }
                             });
                         }
                         $('[data-revisions-list]').html(_(modelRevisions).map(function (rev, i) {
