@@ -19,7 +19,7 @@
             <% _(stat.colLastCreated).each(function (obj) { %>
                 <li>
                     <a class="badge" href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a>
-                    <span>Updated <date><%= obj[stat.collection.updatedField.key].toString() %></date></span>
+                    <span>Updated <date><%= moment(obj[stat.collection.updatedField.key]).fromNow() %></date></span>
                 </li>
             <% }) %>
             </ul>

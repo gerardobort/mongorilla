@@ -18,8 +18,8 @@ define('init/edit-create-form', [], function () {
                 form = new Form({ model: model, fieldsets: config.fieldsets, schema: Form.prototype.schema }); // force the schema against the model one
 
             $('[data-collection-name]').html(model.toString());
-            $('[data-created]').html(model.get(config.createdField.key));
-            $('[data-updated]').html(model.get(config.updatedField.key));
+            $('[data-created]').html(humaneDate(model.get(config.createdField.key)));
+            $('[data-updated]').html(humaneDate(model.get(config.updatedField.key)));
 
 
             $collectionForm.html(form.render().$el);
@@ -52,17 +52,30 @@ define('init/edit-create-form', [], function () {
             var refreshRevisionsList = function () {
                 if (objectId !== 'default') {
                     require(['json!/api/' + collectionName + '/' + objectId + '/revisions?t=' + Math.random()], function (modelRevisions) {
+                        function repaintRevisionsList (selectedIndex) {
+                            $icons = $('[data-revisions-list] li a.restore i');
+                            $icons.each(function (j, el) {
+                                if (j === 0) { $(el).attr('class', 'icon-fast-forward'); }
+                                else if (j < selectedIndex) { $(el).attr('class', 'icon-step-forward'); }
+                                if (j === selectedIndex) { $(el).attr('class', 'icon-ok'); }
+                                if (j === $icons.size()-1) { $(el).attr('class', 'icon-fast-backward'); }
+                                else if (j > selectedIndex) { $(el).attr('class', 'icon-step-backward'); }
+                            });
+                        }
                         $('[data-revisions-list]').html(_(modelRevisions).map(function (rev, i) {
-                            return '<li><a class="restore" data-revision-i="' + i + '">'
+                            return '<li><a class="restore" data-revision-i="' + i + '" href="#">'
                                 + '<i class="icon-fast-backward"></i> '
                                 + rev.user + ' - '  + rev.created + '</a></li>';
                         }).join(''));
                         $('[data-revisions-list] li a.restore').on('click', function (event) {
                             var $button = $(this),
-                                revisionModel = modelRevisions[$button.data('revision-i')];
+                                i = $button.data('revision-i'),
+                                revisionModel = modelRevisions[i];
                             model.set(revisionModel.modelSnapshot);
                             event.preventDefault();
+                            repaintRevisionsList(i);
                         });
+                        repaintRevisionsList(0);
                     });
                 }
             };
@@ -81,7 +94,7 @@ define('init/edit-create-form', [], function () {
                                     document.location.href = '/edit/' + collectionName + '/' + model.id;
                                 } else {
                                     refreshRevisionsList();
-                                    $('[data-updated]').html(model.get(config.updatedField.key));
+                                    $('[data-updated]').html(humaneDate(model.get(config.updatedField.key)));
                                 }
                             },
                             error: function () {

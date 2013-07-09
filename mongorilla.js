@@ -10,6 +10,7 @@ var express = require('express'),
     mongooseWhen = require('mongoose-when'),
     gridfs = require('gridfs-stream'),
     _ = require('underscore'),
+    moment = require('moment'),
     authRoute = require('./routes/auth'),
     appRoute = require('./routes/app'),
     jsRoute = require('./routes/js'),
@@ -62,6 +63,7 @@ require('./lib/config').loadConfig(configFile, function (config) {
 
     // inlcude helpers module
     global.helpers = require('./lib/helpers');
+    global.moment = moment;
     global.getModel = require('./models/handler').getModel;
     global.getRevisionModel = require('./models/revision').getRevisionModel;
 
