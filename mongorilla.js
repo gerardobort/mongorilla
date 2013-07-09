@@ -18,10 +18,6 @@ var express = require('express'),
 
 var app = express();
 
-// config
-global.config = require('config');
-global.config.watchForConfigFileChanges(0);
-
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
@@ -43,62 +39,68 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-// mongo and models
-var dbConnString = global.config.MONGO_URL || process.env.MONGORILLA_MONGO_URL;
-console.log('Connecting to ' + dbConnString.replace(/^.*@/, '') + ' ...');
-app.set('db', mongoose.connect(dbConnString, { db: { safe: true }}));
-// this sucks
-app.set('gfs', gridfs(app.get('db').connections[0].db, mongoose.mongo));
+var configFile = process.env.NODE_ENV ? 
+    './config/' + process.env.NODE_ENV + '.json'
+    : './config/default.json';
 
-var models_path = __dirname + '/models'
-fs.readdirSync(models_path).forEach(function (file) {
-    if (file.match(/\.js$/)) {
-        require(models_path+'/'+file);
-    }
-});
+require('./lib/config').loadConfig(configFile, function (config) {
+    global.config = config;
 
+    // mongo and models
+    var dbConnString = global.config.MONGO_URL || process.env.MONGORILLA_MONGO_URL;
+    console.log('Connecting to ' + dbConnString.replace(/^.*@/, '') + ' ...');
+    app.set('db', mongoose.connect(dbConnString, { db: { safe: true }}));
+    // this sucks
+    app.set('gfs', gridfs(app.get('db').connections[0].db, mongoose.mongo));
 
+    var models_path = __dirname + '/models'
+    fs.readdirSync(models_path).forEach(function (file) {
+        if (file.match(/\.js$/)) {
+            require(models_path+'/'+file);
+        }
+    });
 
-// inlcude helpers module
-global.helpers = require('./lib/helpers');
-global.getModel = require('./models/handler').getModel;
-global.getRevisionModel = require('./models/revision').getRevisionModel;
+    // inlcude helpers module
+    global.helpers = require('./lib/helpers');
+    global.getModel = require('./models/handler').getModel;
+    global.getRevisionModel = require('./models/revision').getRevisionModel;
 
-// preload all the models set in the config file
-global.config.collections.forEach(function (collection) {
-    var model = global.getModel(collection.name);
-});
-
-
-// routes
-app.get('/', authRoute.bootstrap, appRoute.index);
-
-app.post('/user/login', authRoute.login);
-app.get('/user/logout', authRoute.logout);
-
-app.get('/dashboard', authRoute.bootstrap, appRoute.dashboard);
-app.get('/add/:collectionName', authRoute.bootstrap, appRoute.addContent);
-app.get('/search/:collectionName', authRoute.bootstrap, appRoute.searchContent);
-app.get('/edit/:collectionName/:objectId', authRoute.bootstrap, appRoute.editContent);
-app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appRoute.previewContent);
-
-app.get('/model/:collectionName.js', authRoute.bootstrap, jsRoute.model);
-app.get('/form/:collectionName.js', authRoute.bootstrap, jsRoute.form);
-app.get('/config/:collectionName.json', authRoute.bootstrap, jsRoute.config);
-
-app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionSearch);
-app.post('/api/fs.files', authRoute.bootstrap, apiRoute.fileObject);
-app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
-app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
-app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRoute.revisions);
-app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);
-app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
-app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
-app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
-
-app.locals(global.config);
+    // preload all the models set in the config file
+    global.config.collections.forEach(function (collection) {
+        var model = global.getModel(collection.name);
+    });
 
 
-http.createServer(app).listen(app.get('port'), function(){
-    console.log('Mongorila server listening on port ' + app.get('port') + ' on ' + app.get('env') + ' env.');
+    // routes
+    app.get('/', authRoute.bootstrap, appRoute.index);
+
+    app.post('/user/login', authRoute.login);
+    app.get('/user/logout', authRoute.logout);
+
+    app.get('/dashboard', authRoute.bootstrap, appRoute.dashboard);
+    app.get('/add/:collectionName', authRoute.bootstrap, appRoute.addContent);
+    app.get('/search/:collectionName', authRoute.bootstrap, appRoute.searchContent);
+    app.get('/edit/:collectionName/:objectId', authRoute.bootstrap, appRoute.editContent);
+    app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appRoute.previewContent);
+
+    app.get('/model/:collectionName.js', authRoute.bootstrap, jsRoute.model);
+    app.get('/form/:collectionName.js', authRoute.bootstrap, jsRoute.form);
+    app.get('/config/:collectionName.json', authRoute.bootstrap, jsRoute.config);
+
+    app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionSearch);
+    app.post('/api/fs.files', authRoute.bootstrap, apiRoute.fileObject);
+    app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
+    app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
+    app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRoute.revisions);
+    app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);
+    app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
+    app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
+    app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
+
+    app.locals(global.config);
+
+    http.createServer(app).listen(app.get('port'), function(){
+        console.log('Mongorila server listening on port ' + app.get('port') + ' on ' + app.get('env') + ' env.');
+    });
+
 });
