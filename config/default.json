@@ -1,9 +1,25 @@
 {
     "MONGO_URL": "",
     "project_name": "Mongorilla CMS Example",
+    "roles": [
+        {
+            "name": "root",
+            "permissions": {
+                "user": "crud",
+                "company": "crud"
+            }
+        },
+        {
+            "name": "editor",
+            "permissions": {
+                "user": "",
+                "company": "cru"
+            }
+        }
+    ],
     "users": [
-        { "username": "test", "password": "123", "fullname": "Test User" },
-        { "username": "admin", "password": "123", "fullname": "Administrator" }
+        { "username": "test", "password": "123", "fullname": "Test User", "roles": ["editor"] },
+        { "username": "admin", "password": "123", "fullname": "Administrator", "roles": ["root", "editor"] }
     ],
     "collections": [
         {

@@ -28,8 +28,10 @@ define('init/edit-create-form', [], function () {
             // save, cancel
             $formControls.html(
                 '<div class="row">'
-                + '<div class="offset6 span2">' + (model.id ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '') + '</div>'
-                + '<div class="span2"><button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button></div>'
+                + '<div class="offset6 span2">' + (model.id && $('[data-permission-d]').size() ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '') + '</div>'
+                + '<div class="span2">'
+                + ($('[data-permission-u], [data-permission-c]').size() ? '<button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button>' : '')
+                + '</div>'
                 + (!model.isNew() ?
 '<div class="span2"><a class="btn btn-info btn-large preview" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a></div>'
                     : '')

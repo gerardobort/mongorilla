@@ -26,7 +26,9 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                 <% collections.forEach(function (collection) { %>
+                                    <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
                                     <li><a href="/search/<%= collection.name %>"><%= collection.humanName %></a></li>
+                                    <% } %>
                                 <% }) %>
                                 </ul>
                             </div>
@@ -39,7 +41,9 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                 <% collections.forEach(function (collection) { %>
+                                    <% if (global.helpers.hasPermission(sessionUser, collection.name, 'cr')) { %>
                                     <li><a href="/add/<%= collection.name %>"><%= collection.humanName %></a></li>
+                                    <% } %>
                                 <% }) %>
                                 </ul>
                             </div>

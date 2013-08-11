@@ -1,5 +1,9 @@
 <h1><%= collection.humanName %></h1>
-<h2>Edit: <span data-collection-name></span></h2>
+<% if (global.helpers.hasPermission(sessionUser, collection.name, 'ru')) { %>
+    <h2>Edit: <span data-collection-name></span></h2>
+<% } else { %>
+    <h2>View: <span data-collection-name></span></h2>
+<% } %>
 <p>
     Created: <span data-created></span>
     Last Update: <span data-updated></span>
@@ -13,5 +17,10 @@
 </div>
 <% } %>
 
-<div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"></div>
+<div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"
+    <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
+    <%= global.helpers.hasPermission(sessionUser, collection.name, 'r') ? 'data-permission-r' : '' %>
+    <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
+    <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
+    ></div>
 <div id="form-controls"></div>

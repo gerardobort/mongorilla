@@ -18,6 +18,12 @@ exports.collectionObject = function(req, res){
         return col.name === collectionName;
     });
 
+    var ops = { GET: 'r', POST: 'c', PUT: 'u', DELETE: 'd' };
+    if (!global.helpers.hasPermission(req.session.user, collectionName, ops[req.method])) {
+        res.status(403);
+        res.render({ error: req.session.user.name + ' has no enough permissions for perform this operation' });
+    }
+
     switch (req.method) {
         case 'GET': 
             if ('default' === objectId) {
