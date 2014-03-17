@@ -1,3 +1,3 @@
-config/runtime.json
 config/private--*
+node_modules
 .*.swp

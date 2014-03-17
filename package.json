@@ -1,12 +1,18 @@
 {
-  "name": "mongorilla",
-  "description": "Mongorilla is an advanced, clean, and powerful NodeJS based content moderator for MongoDB.",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "start": "node mongorilla.js"
-  },
-  "dependencies": {
-    "express": "3.2.5"
-  }
+    "name": "mongorilla",
+    "description": "Mongorilla is an advanced, clean, and powerful NodeJS based content moderator for MongoDB.",
+    "version": "0.0.2",
+    "private": true,
+    "scripts": {
+          "start": "node server.js"
+    },
+    "dependencies": {
+          "express": "3.x",
+          "gridfs-stream": "*",
+          "moment": "*",
+          "mongoose": "*",
+          "mongoose-when": "*",
+          "uinexpress": "*",
+          "underscore": "*"
+    }
 }

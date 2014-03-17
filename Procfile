@@ -1,1 +1,1 @@
-web: node mongorilla.js
+web: node server.js
