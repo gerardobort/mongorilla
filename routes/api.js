@@ -37,7 +37,7 @@ exports.collectionObject = function(req, res){
                 res.send(collection.backboneForms.defaults||{});
             } else {
                 var populateFields = _(collection.relations)
-                    .map(function (relation, key) { return 'fs.files' !== relation.relatedCollection ? key : ''; })
+                    .map(function (relation, key) { return key; })
                     .join(' ');
                 global.getModel(collectionName)
                     .findOne({ _id: objectId })
@@ -278,7 +278,7 @@ exports.fileObject = function(req, res){
                             modelPath + '-' + file.name,
                             {
                                 'Content-Length': require('fs').statSync(file.path).size,
-                                //'Content-Type': file.type,
+                                'Content-Type': file.type,
                                 'x-amz-acl': 'public-read',
                             },
                             function (err, s3res) {

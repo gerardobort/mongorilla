@@ -65,7 +65,11 @@
                 $('.image-preview', editor.$el).toggle(!!editor.value);
             }, 200)
             if (editor.value) {
-                $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value + '/raw');
+                if ('object' === typeof editor.value) {
+                    $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value._id + '/raw');
+                } else {
+                    $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value + '/raw');
+                }
             }
             this._delegateEvents();
 
@@ -101,7 +105,7 @@
 
                 xhr.onload = function (xhr) {
                     var response = JSON.parse(arguments[0].currentTarget.response);
-                    editor.setValue(response.data[0]._id);
+                    editor.setValue(response.data[0]);
                     $('.remove-file', editor.$el).toggle(!!editor.value);
                     $('.fancy-file', editor.$el).toggle(!editor.value);
                     $('.image-preview', editor.$el).toggle(!!editor.value);
@@ -149,6 +153,9 @@
          */
         getValue: function() {
             // set the file object w/ObjectId
+            if ('object' === typeof this.value) {
+                return this.value._id;
+            }
             return this.value;
         },
         

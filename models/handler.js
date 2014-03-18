@@ -8,6 +8,18 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId,
     _ = require('underscore');
 
+
+var ModelSchema = new Schema({ metadata: Object }, {
+    toJSON: {
+        transform: function (doc, ret) { 
+            delete ret.length; // this causes problems on backbone forms
+            return ret;
+        }
+    }
+});
+mongoose.model('fs.files', ModelSchema, 'fs.files');
+
+
 exports.getModel = function (collectionName) {
     var model = mongoose.models[collectionName];
 
@@ -53,6 +65,8 @@ exports.getModel = function (collectionName) {
                 case 'List':     schema[key] = Array; break;
                 case 'Date':     schema[key] = Date; break;
                 case 'DateTime': schema[key] = Date; break;
+                case 'File':     schema[key] = 'File'; break;
+                case 'Image':    schema[key] = 'File'; break;
                 // TODO review this
             }
         });
