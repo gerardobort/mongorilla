@@ -23,7 +23,6 @@ exports.getRevisionModel = function (collectionName) {
 
         // _id should not be specified in schema ... http://stackoverflow.com/a/10835032
         var schema = {
-            _id: ObjectId,
             objectId: { type: ObjectId, ref: collectionName },
             collectionName: String,
             user: String,
