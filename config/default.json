@@ -1,5 +1,10 @@
 {
-    "MONGO_URL": "",
+    "mongo": {
+        "url": ""
+    },
+    "s3": {
+        "bucket": "mongorilla"
+    },
     "project_name": "Mongorilla CMS Example",
     "roles": [
         {
@@ -37,9 +42,9 @@
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "bio": { "type": "CKEditor", "title": "Bio" },
                     "website_url": { "type": "Text", "validators": ["required", "url"], "title": "Website URL", "help": "please, include http:// prefix" },
-                    "photo": { "type": "Image", "title": "Photo" },
-                    "other_photos": { "type": "List", "itemType": "Image", "title": "Other Photos" },
-                    "cv": { "type": "File", "title": "Curriculum Vitae" },
+                    "photo": { "type": "Image", "title": "Photo", "pushToS3": true },
+                    "other_photos": { "type": "List", "itemType": "Image", "title": "Other Photos", "pushToS3": true },
+                    "cv": { "type": "File", "title": "Curriculum Vitae", "pushToS3": true },
                     "company": { "type": "ObjectId", "title": "Actual Company", "validators": ["required"] },
                     "previous_companies": { "type": "List", "itemType": "ObjectId", "title": "Previous Companies" },
                     "uri": {

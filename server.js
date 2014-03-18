@@ -48,7 +48,7 @@ require('./lib/config').loadConfig(configFile, function (config) {
     global.config = config;
 
     // mongo and models
-    var dbConnString = global.config.MONGO_URL || process.env.MONGORILLA_MONGO_URL;
+    var dbConnString = config.mongo.url || process.env.MONGORILLA_MONGO_URL;
     try {
         console.log('Connecting to ' + dbConnString.replace(/^.*@/, '') + ' ...');
         app.set('db', mongoose.connect(dbConnString, { db: { safe: true }}));

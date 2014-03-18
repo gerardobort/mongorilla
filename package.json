@@ -13,6 +13,7 @@
           "mongoose": "*",
           "mongoose-when": "*",
           "uinexpress": "*",
-          "underscore": "*"
+          "underscore": "*",
+          "knox": "*"
     }
 }
