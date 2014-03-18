@@ -260,24 +260,54 @@ exports.fileObject = function(req, res){
                         collection = _(global.config.collections).find(function (col) {
                             return col.name === collectionName;
                         });
+
+                    var readStream = require('fs').createReadStream(file.path);
+                    var s3Promise = new mongoose.Promise();
                     if (collection
                         && collection.backboneForms.schema[path]
                         && collection.backboneForms.schema[path].pushToS3) {
-                            console.log('pushToS3'); // TODO
+                        res.setTimeout(30*60*1000); // extend server response tiemout
+                        var s3Client = require('knox').createClient({
+                            key: process.env.MONGORILLA_S3_KEY,
+                            secret: process.env.MONGORILLA_S3_SECRET,
+                            bucket: config.s3.bucket,
+                        });
+                        console.log('Starting S3 upload...');
+                        var s3req = s3Client.putStream(
+                            readStream,
+                            modelPath + '-' + file.name,
+                            {
+                                'Content-Length': require('fs').statSync(file.path).size,
+                                //'Content-Type': file.type,
+                                'x-amz-acl': 'public-read',
+                            },
+                            function (err, s3res) {
+                                console.log('S3 upload completed (' + s3req.url + ').');
+                                s3Promise.resolve(null, { url: s3req.url });
+                        });
+                    } else {
+                        console.log('No S3 upload required.');
+                        s3Promise.resolve(null, { url: null });
                     }
-                    var writestream = gfs.createWriteStream({
-                        metadata: {
-                            collection: collectionName,
-                            path: path,
-                            s3_url: null
-                        },
-                        filename: file.name
-                    });
-                    require('fs').createReadStream(file.path).pipe(writestream);
-                    writestream.on('close', function (file) {
-                        res.send(file);
-                        filePromise.resolve(null, file);
-                    });
+                    mongoose.Promise
+                        .when(s3Promise)
+                        .addBack(function (err, s3File) {
+                            console.log('Writting file on GridFS...');
+                            var writestream = gfs.createWriteStream({
+                                metadata: {
+                                    collection: collectionName,
+                                    path: path,
+                                    s3_url: s3File.url
+                                },
+                                filename: file.name
+                            });
+                            var readStream = require('fs').createReadStream(file.path); // create again
+                            readStream.pipe(writestream);
+                            writestream.on('close', function (file) {
+                                console.log('GridFS write complete.');
+                                filePromise.resolve(null, file);
+                            });
+                        });
                 });
                 filePromises.push(filePromise);
             });
