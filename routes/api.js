@@ -247,11 +247,12 @@ exports.fileObject = function(req, res){
             }
             break;
         case 'POST':
+            var filePromises = [];
             _(req.files).each(function (file, modelPath) {
-                // TODO store multiple files
+                var filePromise = new mongoose.Promise();
                 require('fs').exists(file.path, function (exists) {
                     if(!exists) {
-                        res.send({ error: 'Ah crap! Something bad happened' });
+                        filePromise.resolve('tmp file do not exists', null);
                         return;
                     }
                     var collectionName = modelPath.replace(/^([^\.]+)\..*$/, '$1'),
@@ -275,9 +276,22 @@ exports.fileObject = function(req, res){
                     require('fs').createReadStream(file.path).pipe(writestream);
                     writestream.on('close', function (file) {
                         res.send(file);
+                        filePromise.resolve(null, file);
                     });
                 });
+                filePromises.push(filePromise);
             });
+            mongoose.Promise
+                .when.apply(null, filePromises)
+                .addBack(function (err) {
+                    if (err) {
+                        res.status(409);
+                        res.send({ error: err });
+                    } else {
+                        var files = _(arguments).toArray().slice(1);
+                        res.send({ data: files });
+                    }
+                });
             break;
         case 'PUT':
             break;
