@@ -1,6 +1,5 @@
-
 /*
- * generic model
+ * revision model
  */
 
 var mongoose = require('mongoose'),
@@ -8,7 +7,8 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId,
     _ = require('underscore');
 
-exports.getRevisionModel = function (collectionName) {
+
+exports.getModel = function (collectionName) {
     var model = mongoose.models[collectionName + 'Revision'];
 
     if (model) {
@@ -45,7 +45,7 @@ exports.getRevisionModel = function (collectionName) {
         // this is only for loading purposes: whitout this the refs may not work
         _(collection.relations).each(function (relation, key) {
             if (!mongoose.models[relation.relatedCollection] && 'fs.files' !== relation.relatedCollection) {
-                var relatedModel = global.getModel(relation.relatedCollection);
+                var relatedModel = getModel(relation.relatedCollection);
             }
         });
 

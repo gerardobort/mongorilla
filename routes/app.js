@@ -32,8 +32,8 @@ exports.dashboard = function(req, res){
         sort[col.updatedField.key] = -1;
         sort[col.createdField.key] = -1;
         mongoose.Promise.when(
-            global.getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({}).count().exec(),
-            global.getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({ }).sort(sort).limit(5).exec()
+            getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({}).count().exec(),
+            getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({ }).sort(sort).limit(5).exec()
         ).addBack(function (err, colTotalCount, colLastCreated) {
             colStatPromise.resolve(null, {
                 collection: col,
@@ -122,7 +122,7 @@ exports.previewContent = function(req, res){
     var populateFields = _(collection.relations)
         .map(function (relation, key) { return 'fs.files' !== relation.relatedCollection ? key : ''; })
         .join(' ');
-    global.getModel(collectionName)
+    getModel(collectionName)
         .findOne({ _id: objectId })
         .populate(populateFields)
         .exec()

@@ -70,13 +70,13 @@ require('./lib/config').loadConfig(configFile, function (config) {
 
     // inlcude helpers module
     global.helpers = require('./lib/helpers');
-    global.moment = moment;
-    global.getModel = require('./models/handler').getModel;
-    global.getRevisionModel = require('./models/revision').getRevisionModel;
+    global.moment = moment; // date formatting library
+    global.getModel = require('./models/generic').getModel;
+    global.getRevisionModel = require('./models/revision').getModel;
 
     // preload all the models set in the config file
     global.config.collections.forEach(function (collection) {
-        var model = global.getModel(collection.name);
+        var model = getModel(collection.name);
     });
 
 

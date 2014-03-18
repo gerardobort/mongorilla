@@ -16,7 +16,7 @@
             editor.id = 'ck-' + Math.random().toString().slice(2);
             editor.$el = $(editor.el);
             editor.$el.attr('id', editor.id);
-            editor.$el.css({ width: '70%', height: 300 });
+            editor.$el.css({ width: '70%', height: 'auto' });
             setTimeout(function () {
                 editor.ck = CKEDITOR.appendTo(editor.id, {}, editor.value);
             }, 200);

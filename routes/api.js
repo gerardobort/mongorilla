@@ -39,7 +39,7 @@ exports.collectionObject = function(req, res){
                 var populateFields = _(collection.relations)
                     .map(function (relation, key) { return key; })
                     .join(' ');
-                global.getModel(collectionName)
+                getModel(collectionName)
                     .findOne({ _id: objectId })
                     .populate(populateFields)
                     .exec()
@@ -74,7 +74,7 @@ exports.collectionObject = function(req, res){
             // TODO skip all attributes not specified in schema
             var attributesToSet = global.helpers.toFlat(attributes);
 
-            var model = new global.getModel(collectionName)();
+            var model = new getModel(collectionName)();
             model.set(attributesToSet);
             model.set(collection.createdField.key, new global[collection.createdField.type||'Date']());
             model.set(collection.updatedField.key, new global[collection.createdField.type||'Date']());
@@ -128,7 +128,7 @@ exports.collectionObject = function(req, res){
             var attributesToSet = global.helpers.toFlat(attributes);
             attributesToSet[collection.updatedField.key] = new global[collection.createdField.type||'Date']().toISOString();
 
-            global.getModel(collectionName)
+            getModel(collectionName)
                 .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
                     if (err) {
                         res.send(err);
@@ -155,7 +155,7 @@ exports.collectionObject = function(req, res){
             break;
         case 'DELETE':
 
-            global.getModel(collectionName)
+            getModel(collectionName)
                 .findByIdAndRemove(objectId, function (err, model) {
                     if (err) {
                         res.send(err);
@@ -191,7 +191,7 @@ exports.collectionSearch = function(req, res){
         return arg.replace(/\$\{q\}/g, q);
     });
 
-    global.getModel(collectionName)
+    getModel(collectionName)
         .find(findParams, collection.fastSearch.columns.join(' ') + ' ' + collection.toStringField)
         .sort(collection.fastSearch.sort)
         .limit(collection.fastSearch.limit)
