@@ -14,7 +14,8 @@ var express = require('express'),
     authRoute = require('./routes/auth'),
     appRoute = require('./routes/app'),
     jsRoute = require('./routes/js'),
-    apiRoute = require('./routes/api');
+    apiRoute = require('./routes/api'),
+    apiGenericRoute = require('./routes/api/generic');
 
 
 var app = express();
@@ -96,16 +97,20 @@ require('./lib/config').loadConfig(configFile, function (config) {
     app.get('/form/:collectionName.js', authRoute.bootstrap, jsRoute.form);
     app.get('/config/:collectionName.json', authRoute.bootstrap, jsRoute.config);
 
-    app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionSearch);
     app.post('/api/fs.files', authRoute.bootstrap, apiRoute.fileObject);
     app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
     app.get('/api/fs.files/:objectId/:view', authRoute.bootstrap, apiRoute.fileObject);
     app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
+
+    // api generic
+    app.get('/api/search/:collectionName', authRoute.bootstrap, apiGenericRoute.getSearch);
+    app.post('/api/:collectionName', authRoute.bootstrap, apiGenericRoute.post);
+    app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.get);
+    app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.put);
+    app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.del);
+
+    // api revision
     app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRoute.revisions);
-    app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);
-    app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
-    app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
-    app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiRoute.collectionObject);
 
     app.locals(global.config);
 
