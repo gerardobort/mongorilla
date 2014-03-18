@@ -101,7 +101,7 @@
 
                 xhr.onload = function (xhr) {
                     var response = JSON.parse(arguments[0].currentTarget.response);
-                    editor.setValue(response);
+                    editor.setValue(response.data[0]._id);
                     $('.remove-file', editor.$el).toggle(!!editor.value);
                     $('.fancy-file', editor.$el).toggle(!editor.value);
                     $('.image-preview', editor.$el).toggle(!!editor.value);
