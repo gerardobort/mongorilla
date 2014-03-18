@@ -18,10 +18,17 @@ exports.collectionObject = function(req, res){
         return col.name === collectionName;
     });
 
+    if (!collection) {
+        res.status(400);
+        res.send({ error: 'bad request' });
+        return;
+    }
+
     var ops = { GET: 'r', POST: 'c', PUT: 'u', DELETE: 'd' };
     if (!global.helpers.hasPermission(req.session.user, collectionName, ops[req.method])) {
         res.status(403);
-        res.render({ error: req.session.user.name + ' has no enough permissions for perform this operation' });
+        res.send({ error: req.session.user.name + ' has no enough permissions for perform this operation' });
+        return;
     }
 
     switch (req.method) {
@@ -212,35 +219,63 @@ exports.fileObject = function(req, res){
 
     switch (req.method) {
         case 'GET': 
-            var readStream = gfs.createReadStream({ _id: objectId });
-            if (readStream) {
-                try {
-                    readStream.on('end', function() {
-                        res.send();
-                    })
-                    .on('error', function() {
-                        res.send();
-                    })
-                    .pipe(res);
-                } catch (error) {
+            var view = req.route.params.view;
+            if ('raw' === view) {
+                var readStream = gfs.createReadStream({ _id: objectId });
+                if (readStream) {
+                    try {
+                        readStream.on('end', function() {
+                            res.send();
+                        })
+                        .on('error', function() {
+                            res.send();
+                        })
+                        .pipe(res);
+                    } catch (error) {
+                        res.status(404);
+                        res.send('file not found');
+                    }
+                } else {
+                    res.status(404);
                     res.send('file not found');
                 }
             } else {
-                    res.send('file not found');
+                gfs.collection('fs')
+                    .findOne({ _id: new mongoose.mongo.ObjectID(objectId) }, function (err, data) {
+                        res.send(data);
+                    });
             }
             break;
         case 'POST':
-            _(req.files).each(function (file) {
+            _(req.files).each(function (file, modelPath) {
+                // TODO store multiple files
                 require('fs').exists(file.path, function (exists) {
                     if(!exists) {
                         res.send({ error: 'Ah crap! Something bad happened' });
                         return;
                     }
+                    var collectionName = modelPath.replace(/^([^\.]+)\..*$/, '$1'),
+                        path = modelPath.replace(/^[^\.]+\.(.*)$/, '$1'),
+                        collection = _(global.config.collections).find(function (col) {
+                            return col.name === collectionName;
+                        });
+                    if (collection
+                        && collection.backboneForms.schema[path]
+                        && collection.backboneForms.schema[path].pushToS3) {
+                            console.log('pushToS3'); // TODO
+                    }
                     var writestream = gfs.createWriteStream({
+                        metadata: {
+                            collection: collectionName,
+                            path: path,
+                            s3_url: null
+                        },
                         filename: file.name
                     });
                     require('fs').createReadStream(file.path).pipe(writestream);
-                    res.send({ _id: writestream.id, url: '/api/file/' + writestream.id });
+                    writestream.on('close', function (file) {
+                        res.send(file);
+                    });
                 });
             });
             break;

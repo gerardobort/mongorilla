@@ -98,7 +98,8 @@ require('./lib/config').loadConfig(configFile, function (config) {
 
     app.get('/api/search/:collectionName', authRoute.bootstrap, apiRoute.collectionSearch);
     app.post('/api/fs.files', authRoute.bootstrap, apiRoute.fileObject);
-    app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
+    app.get('/api/fs.files/:objectId', apiRoute.fileObject);
+    app.get('/api/fs.files/:objectId/:view', apiRoute.fileObject);
     app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiRoute.fileObject);
     app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRoute.revisions);
     app.post('/api/:collectionName', authRoute.bootstrap, apiRoute.collectionObject);

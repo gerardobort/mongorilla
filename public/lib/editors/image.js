@@ -65,7 +65,7 @@
                 $('.image-preview', editor.$el).toggle(!!editor.value);
             }, 200)
             if (editor.value) {
-                $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value);
+                $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value + '/raw');
             }
             this._delegateEvents();
 
@@ -109,8 +109,8 @@
                 };
 
                 var form = new FormData();
-                form.append('title', this.files[0].name);
-                form.append('picture', this.files[0]);
+                var collectionName = $('#collection-form').data('collection-name'); // TODO get this var in a better manner
+                form.append(collectionName + '.' + editor.options.key, this.files[0]);
                 xhr.send(form);
                 $('.progress-container', editor.$el).html(
                     '<div class="progress progress-striped active">' +

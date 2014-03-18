@@ -74,7 +74,7 @@
                 $('.preview', editor.$el).html(
                     '<a target="_blank" href="/api/fs.files/'
                     + ('string' === typeof editor.value ? editor.value : editor.value._id)
-                    + '"'
+                    + '/raw"'
                     + ' class="btn"'
                     + '><i class="icon-download-alt"></i></a> '
                 );
