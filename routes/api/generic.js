@@ -1,4 +1,3 @@
-
 /*
  * handle api endpoints.
  */
@@ -7,6 +6,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId,
     _ = require('underscore');
+
 
 function getCollection(req, res) {
     var collectionName = req.route.params.collectionName;
