@@ -2,9 +2,8 @@
  * config loader.
  */
 
-var fs = require('fs'),
-    _ = require('underscore'),
-    config = null;
+var config = null,
+    _ = require('underscore');
 
 exports.loadConfig = function (configFile) {
     console.log('Loading config file...  ' + configFile);

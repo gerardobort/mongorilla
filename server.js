@@ -42,7 +42,7 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-global.config = require('./lib/config').loadConfig();
+global.config = require('./helpers/config').loadConfig();
 
 // mongo
 var dbConnString = config.mongo.url || process.env.MONGORILLA_MONGO_URL;
@@ -66,7 +66,8 @@ fs.readdirSync(models_path).forEach(function (file) {
 });
 
 // inlcude helpers module
-global.helpers = require('./lib/helpers');
+require('./helpers/string');
+global.helpers = require('./helpers/crappy');
 global.moment = moment; // date formatting library
 global.getModel = require('./models/generic').getModel;
 global.getRevisionModel = require('./models/revision').getModel;
