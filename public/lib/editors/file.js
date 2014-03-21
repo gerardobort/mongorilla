@@ -95,7 +95,10 @@
 
                 xhr.upload.onprogress = function (e) {
                     console.log(e.loaded + ' of ' + e.total);
-                    $('.progress-container .bar', editor.$el).css('width', (e.loaded/(e.total||1))*100 + '%');
+                    var percent = (e.loaded/(e.total||1))*100 + '%';
+                    $('.progress-container .progress-bar', editor.$el)
+                        .css('width', percent)
+                        .text('Uploading... ' + percent);
                 };
 
                 xhr.onload = function (xhr) {
@@ -114,7 +117,7 @@
                 xhr.send(form);
                 $('.progress-container', editor.$el).html(
                     '<div class="progress progress-striped active">' +
-                    '   <div class="bar" style="width:0%;"></div>' +
+                    '   <div class="progress-bar" style="width:0%;"></div>' +
                     '</div>'
                 );
                 //---

@@ -45,9 +45,10 @@
          */
         render: function() {
             var editor = this;
+            editor.$el.css({ width: 290, display: 'block' });
             editor.$el.toggle(false);
             editor.$el.html(
-                '<img src="" class="image-preview img-thumbnail" style="display:block;width:200px;max-height:200px;" />' + 
+                '<img src="" class="image-preview img-thumbnail" style="display:block;max-height:300px;" />' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
                 '<button class="btn btn-danger remove-file"><i class="glyphicon glyphicon-remove"></i></button>' +
                 '<div class="progress-container"></div>'
@@ -100,7 +101,10 @@
 
                 xhr.upload.onprogress = function (e) {
                     console.log(e.loaded + ' of ' + e.total);
-                    $('.progress-container .bar', editor.$el).css('width', (e.loaded/(e.total||1))*100 + '%');
+                    var percent = (e.loaded/(e.total||1))*100 + '%';
+                    $('.progress-container .progress-bar', editor.$el)
+                        .css('width', percent)
+                        .text('Uploading... ' + percent);
                 };
 
                 xhr.onload = function (xhr) {
@@ -117,8 +121,8 @@
                 form.append(collectionName + '.' + editor.options.key, this.files[0]);
                 xhr.send(form);
                 $('.progress-container', editor.$el).html(
-                    '<div class="progress progress-striped active">' +
-                    '   <div class="bar" style="width:0%;"></div>' +
+                    '<div class="progress progress-striped">' +
+                    '   <div class="progress-bar" style="width:0%;"></div>' +
                     '</div>'
                 );
                 //---
