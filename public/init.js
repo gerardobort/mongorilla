@@ -2,9 +2,9 @@ require.config({
     baseUrl: "/",
     map: {
         '*': {
-            text: '/lib/require/require-text.js',
-            css: '/lib/require/require-css.js',
-            json: '/lib/require/require-json.js'
+            text: '/third-party/requirejs-text/text.js',
+            //css: '/lib/require/require-css.js',
+            json: '/third-party/requirejs-json/json.js'
         }
     }
 });
