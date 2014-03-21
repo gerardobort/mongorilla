@@ -1,20 +1,27 @@
-<h1><%= collection.humanName %></h1>
-<% if (global.helpers.hasPermission(sessionUser, collection.name, 'ru')) { %>
-    <h2>Edit: <span data-collection-name></span></h2>
-<% } else { %>
-    <h2>View: <span data-collection-name></span></h2>
-<% } %>
-<p>
-    Created: <span data-created></span>
-    Last Update: <span data-updated></span>
-</p>
-<% if (collection.revisionable) { %>
-<div class="btn-group">
-    <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
-        <i class="icon-time icon-white"></i> revisions <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" data-revisions-list></ul>
+<div class="page-header">
+    <h1>
+        <%= collection.humanName %>
+        <% if (global.helpers.hasPermission(sessionUser, collection.name, 'ru')) { %>
+            <small> <span data-collection-name></span>  <span class="glyphicon glyphicon-edit"></span></small>
+        <% } else { %>
+            <small> <span data-collection-name></span>  <span class="glyphicon glyphicon-eye-open"></span></small>
+        <% } %>
+    </h1>
 </div>
+
+<% if (collection.revisionable) { %>
+<ul class="nav nav-pills">
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="glyphicon glyphicon-time"></i> revisions <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" data-revisions-list></ul>
+    </li>
+    <li class="disabled"><a>Created: <span data-created></span></a>
+    <li class="disabled"><a>Last Update: <span data-updated></span></a>
+    </li>
+</ul>
+<p></p>
 <% } %>
 
 <div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"
@@ -23,4 +30,8 @@
     <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
     <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
     ></div>
-<div id="form-controls"></div>
+
+<div class="btn-group" id="form-controls">
+</div>
+<p></p>
+<p></p>

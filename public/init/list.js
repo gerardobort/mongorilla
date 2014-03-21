@@ -31,8 +31,8 @@ define('init/list', [], function () {
                                 return '<td>' + result[col] + '</td>';
                             })
                             + '<td>'
-                            + '<a class="btn" href="/edit/' + collectionName+ '/' + result['_id'] + '"><i class="icon-edit"></i></a>'
-                            + '<a class="btn" href="/preview/' + collectionName+ '/' + result['_id'] + '" target="_blank" ><i class="icon-eye-open"></i></a>'
+                            + '<a class="btn" href="/edit/' + collectionName+ '/' + result['_id'] + '"><i class="glyphicon glyphicon-edit"></i></a>'
+                            + '<a class="btn" href="/preview/' + collectionName+ '/' + result['_id'] + '" target="_blank" ><i class="glyphicon glyphicon-eye-open"></i></a>'
                             + '</td></tr>'
                     }).join('')
                 );

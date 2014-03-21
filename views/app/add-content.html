@@ -1,5 +1,6 @@
-<h1><%= collection.humanName %></h1>
-<h2>Create Content</h2>
+<div class="page-header">
+    <h1><%= collection.humanName %> <small>Create Content</small></h1>
+</div>
 
 <div id="collection-form" data-collection-name="<%= collection.name %>"
     <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
@@ -7,4 +8,8 @@
     <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
     <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
 ></div>
-<div id="form-controls"></div>
+
+<div class="btn-group" id="form-controls">
+</div>
+<p></p>
+<p></p>

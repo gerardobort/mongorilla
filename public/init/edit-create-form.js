@@ -27,15 +27,11 @@ define('init/edit-create-form', [], function () {
 
             // save, cancel
             $formControls.html(
-                '<div class="row">'
-                + '<div class="offset6 span2">' + (model.id && $('[data-permission-d]').size() ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '') + '</div>'
-                + '<div class="span2">'
+                '' + (model.id && $('[data-permission-d]').size() ? '<button class="btn btn-danger btn-large remove">Delete</button>' : '') + '</div>'
                 + ($('[data-permission-u], [data-permission-c]').size() ? '<button class="btn btn-primary btn-large submit">' + (model.id ? 'Save' : 'Create') + '</button>' : '')
-                + '</div>'
                 + (!model.isNew() ?
-'<div class="span2"><a class="btn btn-info btn-large preview" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a></div>'
+'<a class="btn btn-info btn-large preview" href="/preview/' + collectionName + '/' + model.id + '" target="_blank" >Preview</a>'
                     : '')
-                + '</div><div class="row">...</div>'
             );
 
 
@@ -57,16 +53,16 @@ define('init/edit-create-form', [], function () {
                         function repaintRevisionsList (selectedIndex) {
                             $icons = $('[data-revisions-list] li a.restore i');
                             $icons.each(function (j, el) {
-                                if (j === 0) { $(el).attr('class', 'icon-fast-forward'); }
-                                else if (j < selectedIndex) { $(el).attr('class', 'icon-step-forward'); }
-                                if (j === $icons.size()-1) { $(el).attr('class', 'icon-fast-backward'); }
-                                else if (j > selectedIndex) { $(el).attr('class', 'icon-step-backward'); }
-                                if (j === selectedIndex) { $(el).attr('class', 'icon-ok'); }
+                                if (j === 0) { $(el).attr('class', 'glyphicon glyphicon-fast-forward'); }
+                                else if (j < selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-step-forward'); }
+                                if (j === $icons.size()-1) { $(el).attr('class', 'glyphicon glyphicon-fast-backward'); }
+                                else if (j > selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-step-backward'); }
+                                if (j === selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-ok'); }
                             });
                         }
                         $('[data-revisions-list]').html(_(modelRevisions).map(function (rev, i) {
                             return '<li><a class="restore" data-revision-i="' + i + '" href="#">'
-                                + '<i class="icon-fast-backward"></i> '
+                                + '<i class="glyphicon glyphicon-fast-backward"></i> '
                                 + rev.user + ' - '  + rev.created + '</a></li>';
                         }).join(''));
                         $('[data-revisions-list] li a.restore').on('click', function (event) {

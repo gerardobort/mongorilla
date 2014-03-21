@@ -1,12 +1,22 @@
-
-<div class="offset1">
+<div class="jumbotron">
     <h1>Access</h1>
-    <form 
-        class="form-inline"
-        method="post" 
-        action="/user/login" >
-        <input class="input-small" type="text" name="user" placeholder="username" />
-        <input class="input-small" type="password" name="pass" placeholder="password" />
-        <input class="btn" type="submit" value="login" />
+    <p>Mongorilla is an Open Source Content Management System.</p>
+    <form class="form-inline" role="form" method="post" action="/user/login">
+        <div class="form-group">
+            <label class="sr-only" for="user">Email address</label>
+            <input type="text" class="form-control" id="user" placeholder="Username" name="user">
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="pass">Password</label>
+            <input type="password" class="form-control" id="pass" placeholder="Password" name="pass">
+        </div>
+        <!--div class="checkbox">
+            <label>
+                <input type="checkbox"> Remember me
+            </label>
+        </div-->
+        <button type="submit" class="btn btn-default" value="login">Sign in</button>
     </form>
+
+    <!--p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p-->
 </div>
