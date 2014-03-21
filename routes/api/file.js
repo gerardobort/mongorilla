@@ -28,7 +28,7 @@ function getCollection(req, res) {
 exports.get = function (req, res) {
     var objectId = req.route.params.objectId,
         view = req.route.params.view,
-        gfs = global.app.get('gfs');
+        gfs = req.app.get('gfs');
 
     if ('raw' === view) {
         var readStream = gfs.createReadStream({ _id: objectId });
@@ -61,7 +61,7 @@ exports.post = function (req, res) {
     var objectId = req.route.params.objectId,
         collection = getCollection(req, res),
         fs = require('fs'),
-        gfs = global.app.get('gfs');
+        gfs = req.app.get('gfs');
 
     if (!collection) {
         return;
@@ -145,7 +145,7 @@ exports.post = function (req, res) {
 
 exports.del = function (req, res) {
     var objectId = req.route.params.objectId,
-        gfs = global.app.get('gfs');
+        gfs = req.app.get('gfs');
 
     gfs.remove({ _id: ObjectId }, function (err) {
         if (err) {

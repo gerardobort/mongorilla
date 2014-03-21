@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId,
     _ = require('underscore');
 
+require('./file').getModel();
 
 exports.getModel = function (collectionName) {
     var model = mongoose.models[collectionName];
@@ -17,15 +18,10 @@ exports.getModel = function (collectionName) {
 
     } else {
 
-        if ('fs.files' === collectionName) {
-            return require('./file').getModel();
-        }
-
         var collection = _(global.config.collections).find(function (col) {
             return col.name === collectionName;
         });
 
-console.log(collectionName)
         // _id should not be specified in schema ... http://stackoverflow.com/a/10835032
         var schema = collection.mongoose.schema || { };
 
