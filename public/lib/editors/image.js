@@ -29,7 +29,7 @@
                 this.value = options.value;
             }
 
-            this.$el.addClass('control-group');
+            this.$el.removeClass('form-control');
             editor.options = options;
             _.extend(editor, _.pick(options, 'key', 'form'));
             var schema = editor.schema = options.schema || {};
@@ -47,7 +47,7 @@
             var editor = this;
             editor.$el.toggle(false);
             editor.$el.html(
-                '<img src="" class="image-preview img-polaroid" style="display:block;width:200px;max-height:200px;" />' + 
+                '<img src="" class="image-preview img-thumbnail" style="display:block;width:200px;max-height:200px;" />' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
                 '<button class="btn btn-danger remove-file"><i class="glyphicon glyphicon-remove"></i></button>' +
                 '<div class="progress-container"></div>'
