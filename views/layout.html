@@ -31,7 +31,7 @@
                     <ul class="nav navbar-nav">
                     <% if (sessionUser) { %>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span> Search <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                             <% collections.forEach(function (collection) { %>
                                 <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
@@ -41,7 +41,7 @@
                             </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Add Content <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-plus"></span> Create <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                             <% collections.forEach(function (collection) { %>
                                 <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
@@ -61,7 +61,7 @@
                     <ul class="nav navbar-nav navbar-right">
                     <% if (sessionUser) { %>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= sessionUser.fullname %> <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= sessionUser.fullname %> <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/user/logout">Logout</a></li>
                             </ul>
