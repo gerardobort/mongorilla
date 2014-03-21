@@ -30,6 +30,7 @@
     "requirejs": "~2.1.11",
     "backbone": "~1.1.2",
     "requirejs-json": "*",
-    "bootstrap-modal": "~2.1.0"
+    "bootstrap-modal": "~2.1.0",
+    "bs-fancyfile": "~0.0.2"
   }
 }
