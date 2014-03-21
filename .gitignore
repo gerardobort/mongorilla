@@ -1,3 +1,4 @@
 config/private--*
+public/third-party
 node_modules
 .*.swp

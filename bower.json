@@ -1,0 +1,32 @@
+{
+  "name": "mongorilla",
+  "version": "0.0.2",
+  "homepage": "https://github.com/gerardobort/mongorilla",
+  "authors": [
+    "Gerardo Bort <gerardobort@gmail.com>"
+  ],
+  "description": "Mongorilla CMS",
+  "keywords": [
+    "mongo",
+    "nodejs",
+    "cms"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/third-party",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1",
+    "underscore": "~1.6.0",
+    "backbone-forms": "~0.14.0",
+    "backbone-deep-model": "~0.10.4",
+    "ckeditor": "~4.3.3",
+    "requirejs": "~2.1.11"
+  }
+}
