@@ -9,3 +9,20 @@
 .bbf-object-id .info a {
     color: #000;
 }
+
+
+/* bootstrap 3 patches */
+.form-group .form-control[id^="ck-"] {
+    padding: 0;
+    overflow: hidden;
+}
+
+.form-group .form-control[id^="ck-"] .cke_chrome {
+    border: 0;
+}
+
+.control-group.fancyfile {
+    padding: 6px 0 0 0;
+    border: 0;
+    box-shadow: none;
+}

@@ -8,23 +8,6 @@ var mongoose = require('mongoose'),
     _ = require('underscore');
 
 
-function getCollection(req, res) {
-    var collectionName = req.route.params.collectionName;
-
-    var collection = _(global.config.collections).find(function (col) {
-        return col.name === collectionName;
-    });
-
-    if (!collection) {
-        res.status(400);
-        res.send({ error: 'bad request' });
-        return;
-    }
-
-    return collection;
-};
-
-
 exports.get = function (req, res) {
     var objectId = req.route.params.objectId,
         view = req.route.params.view,
@@ -59,13 +42,8 @@ exports.get = function (req, res) {
 
 exports.post = function (req, res) {
     var objectId = req.route.params.objectId,
-        collection = getCollection(req, res),
         fs = require('fs'),
         gfs = req.app.get('gfs');
-
-    if (!collection) {
-        return;
-    }
 
     var filePromises = [];
     _(req.files).each(function (file, modelPath) {
@@ -78,6 +56,20 @@ exports.post = function (req, res) {
 
             var readStream = fs.createReadStream(file.path);
             var s3Promise = new mongoose.Promise();
+
+            var collectionName = modelPath.replace(/^([^\.]+)\..*$/, '$1'),
+                path = modelPath.replace(/^[^\.]+\.(.*)$/, '$1'),
+                collection = _(global.config.collections).find(function (col) {
+                    return col.name === collectionName;
+                });
+
+            if (!collection) {
+                res.status(400);
+                res.send({ error: 'bad request' });
+                return;
+            }
+
+
             if (collection.backboneForms.schema[path]
                 && collection.backboneForms.schema[path].pushToS3) {
                 if (process.env.MONGORILLA_S3_KEY && process.env.MONGORILLA_S3_SECRET) {

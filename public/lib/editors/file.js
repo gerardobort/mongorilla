@@ -29,7 +29,7 @@
                 this.value = options.value;
             }
 
-            this.$el.addClass('control-group');
+            this.$el.addClass('control-group fancyfile');
             editor.options = options;
             _.extend(editor, _.pick(options, 'key', 'form'));
             var schema = editor.schema = options.schema || {};
@@ -45,7 +45,7 @@
             editor.$el.html(
                 '<span src="" class="preview"></span>' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
-                '<button class="btn btn-danger remove-file"><i class="icon-remove"></i></button>' +
+                '<button class="btn btn-danger remove-file"><i class="glyphicon glyphicon-remove"></i></button>' +
                 '<div class="progress-container"></div>'
             );
             setTimeout(function () { // once appended to the DOM
@@ -76,7 +76,7 @@
                     + ('string' === typeof editor.value ? editor.value : editor.value._id)
                     + '/raw"'
                     + ' class="btn"'
-                    + '><i class="icon-download-alt"></i></a> '
+                    + '><i class="glyphicon glyphicon-download-alt"></i></a> '
                 );
             } else {
                 $('.preview', editor.$el).html('');
@@ -109,8 +109,8 @@
                 };
 
                 var form = new FormData();
-                form.append('title', this.files[0].name);
-                form.append('picture', this.files[0]);
+                var collectionName = $('#collection-form').data('collection-name'); // TODO get this var in a better manner
+                form.append(collectionName + '.' + editor.options.key, this.files[0]);
                 xhr.send(form);
                 $('.progress-container', editor.$el).html(
                     '<div class="progress progress-striped active">' +
