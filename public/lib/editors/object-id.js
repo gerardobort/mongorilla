@@ -41,9 +41,10 @@
          */
         render: function() {
             var editor = this;
+            editor.$el.removeClass('form-control');
             editor.$el.html(
                 '<input type="hidden" name="_id" placeholder="Search..." autocomplete="off">'
-                + '<input type="text" name="' + editor.schema.autocompleteField + '" placeholder="Search..." autocomplete="off">'
+                + '<input class="form-control" type="text" name="' + editor.schema.autocompleteField + '" placeholder="Search..." autocomplete="off">'
                 + '<span class="info"></span>'
             );
             if (editor.value) {
@@ -134,10 +135,10 @@
                 $('.info', editor.$el).html(
                     '<a target="_blank" class="btn" href="/edit/'
                         + editor.schema.autocompleteCollectionName + '/' + editor.value._id + '">'
-                        + '<i class="icon-edit"></i></a>'
+                        + '<i class="glyphicon glyphicon-edit"></i></a>'
                     + ' <a target="_blank" class="btn" href="/preview/'
                         + editor.schema.autocompleteCollectionName + '/' + editor.value._id + '">'
-                        + '<i class="icon-eye-open"></i></a>'
+                        + '<i class="glyphicon glyphicon-eye-open"></i></a>'
                 );
             } else {
                 $('.info', editor.$el).html(
