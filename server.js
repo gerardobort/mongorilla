@@ -81,8 +81,9 @@ config.collections.forEach(function (collection) {
 // routes
 app.get('/', authRoute.bootstrap, appMainRoute.getIndex);
 
-app.post('/user/login', authRoute.getLogin);
-app.get('/user/logout', authRoute.getLogout);
+app.get('/auth/login', authRoute.bootstrap, authRoute.getLogin);
+app.post('/auth/login', authRoute.postLogin);
+app.get('/auth/logout', authRoute.postLogout); // @TODO make it POST method
 
 app.get('/dashboard', authRoute.bootstrap, appMainRoute.getDashboard);
 

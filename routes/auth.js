@@ -11,7 +11,7 @@ exports.bootstrap = function(req, res, next){
     var url = require('url'),
         url_parts = url.parse(req.url, true);
 
-    if (!req.session.user && url_parts.path !== '/') {
+    if (!req.session.user && url_parts.path !== '/' && url_parts.path !== '/auth/login') {
         res.redirect('/');
     } else if (req.session.user && url_parts.path === '/') {
         res.redirect('/dashboard');
@@ -23,6 +23,12 @@ exports.bootstrap = function(req, res, next){
 };
 
 exports.getLogin = function(req, res){
+    res.render('auth/login.html', {
+        title: 'login'
+    });
+};
+
+exports.postLogin = function(req, res){
     var url = require('url'),
         url_parts = url.parse(req.url, true);
 
@@ -36,7 +42,7 @@ exports.getLogin = function(req, res){
     }
 };
 
-exports.getLogout = function(req, res){
+exports.postLogout = function(req, res){
     var url = require('url'),
         url_parts = url.parse(req.url, true);
 

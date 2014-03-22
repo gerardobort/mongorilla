@@ -4,12 +4,12 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+    ObjectId = Schema.ObjectId,
+    _ = require('underscore');
 
 exports.getIndex = function(req, res){
     var url = require('url'),
-        url_parts = url.parse(req.url, true),
-        _ = require('underscore');
+        url_parts = url.parse(req.url, true);
 
     if (req.session.user) {
         res.redirect('/dashboard');
@@ -22,8 +22,7 @@ exports.getIndex = function(req, res){
 
 exports.getDashboard = function (req, res) {
     var url = require('url'),
-        url_parts = url.parse(req.url, true),
-        _ = require('underscore');
+        url_parts = url.parse(req.url, true);
 
     var collectionsStatsPromises = _(global.config.collections).map(function (col) {
         var colStatPromise = new mongoose.Promise();
