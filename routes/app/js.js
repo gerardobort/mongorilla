@@ -1,4 +1,3 @@
-
 /*
  * handle js dynamic assets.
  */
@@ -7,12 +6,8 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
-exports.bootstrap = function(req, res, next){
-    res.lang = req.lang = 'en' || 'en';
-    next();
-};
 
-exports.model = function(req, res){
+exports.getModel = function (req, res) {
     var url = require('url'),
         collectionName = req.route.params.collectionName,
         url_parts = url.parse(req.url, true),
@@ -29,7 +24,7 @@ exports.model = function(req, res){
     });
 };
 
-exports.form = function(req, res){
+exports.getForm = function (req, res) {
     var url = require('url'),
         collectionName = req.route.params.collectionName,
         url_parts = url.parse(req.url, true),
@@ -46,7 +41,7 @@ exports.form = function(req, res){
     });
 };
 
-exports.config = function(req, res){
+exports.getConfig = function (req, res) {
     var url = require('url'),
         collectionName = req.route.params.collectionName,
         url_parts = url.parse(req.url, true),

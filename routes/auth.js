@@ -1,16 +1,15 @@
-
 /*
  * handle session statuses - middleware.
  */
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+    ObjectId = Schema.ObjectId,
+    _ = require('underscore');
 
 exports.bootstrap = function(req, res, next){
     var url = require('url'),
-        url_parts = url.parse(req.url, true),
-        _ = require('underscore');
+        url_parts = url.parse(req.url, true);
 
     if (!req.session.user && url_parts.path !== '/') {
         res.redirect('/');
@@ -23,10 +22,9 @@ exports.bootstrap = function(req, res, next){
     next();
 };
 
-exports.login = function(req, res){
+exports.getLogin = function(req, res){
     var url = require('url'),
-        url_parts = url.parse(req.url, true),
-        _ = require('underscore');
+        url_parts = url.parse(req.url, true);
 
     req.session.user = _(global.config.users).find(function (u) {
         return u.username === req.body.user && u.password === req.body.pass;
@@ -38,12 +36,10 @@ exports.login = function(req, res){
     }
 };
 
-exports.logout = function(req, res){
+exports.getLogout = function(req, res){
     var url = require('url'),
-        url_parts = url.parse(req.url, true),
-        _ = require('underscore');
+        url_parts = url.parse(req.url, true);
 
     delete req.session.user;
     res.redirect('/');
 };
-

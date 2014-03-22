@@ -1,5 +1,5 @@
 /**
- * Module dependencies.
+ * Mongorilla Server.
  */
 
 var express = require('express'),
@@ -12,8 +12,9 @@ var express = require('express'),
     _ = require('underscore'),
     moment = require('moment'),
     authRoute = require('./routes/auth'),
-    appRoute = require('./routes/app'),
-    jsRoute = require('./routes/js'),
+    appMainRoute = require('./routes/app/main'),
+    appGenericRoute = require('./routes/app/generic'),
+    appJsRoute = require('./routes/app/js'),
     apiGenericRoute = require('./routes/api/generic'),
     apiRevisionRoute = require('./routes/api/revision'),
     apiFileRoute = require('./routes/api/file');
@@ -74,24 +75,25 @@ global.getRevisionModel = require('./models/revision').getModel;
 
 // preload all the models set in the config file
 config.collections.forEach(function (collection) {
-    var model = getModel(collection.name);
+    getModel(collection.name);
 });
 
 // routes
-app.get('/', authRoute.bootstrap, appRoute.index);
+app.get('/', authRoute.bootstrap, appMainRoute.getIndex);
 
-app.post('/user/login', authRoute.login);
-app.get('/user/logout', authRoute.logout);
+app.post('/user/login', authRoute.getLogin);
+app.get('/user/logout', authRoute.getLogout);
 
-app.get('/dashboard', authRoute.bootstrap, appRoute.dashboard);
-app.get('/add/:collectionName', authRoute.bootstrap, appRoute.addContent);
-app.get('/search/:collectionName', authRoute.bootstrap, appRoute.searchContent);
-app.get('/edit/:collectionName/:objectId', authRoute.bootstrap, appRoute.editContent);
-app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appRoute.previewContent);
+app.get('/dashboard', authRoute.bootstrap, appMainRoute.getDashboard);
 
-app.get('/model/:collectionName.js', authRoute.bootstrap, jsRoute.model);
-app.get('/form/:collectionName.js', authRoute.bootstrap, jsRoute.form);
-app.get('/config/:collectionName.json', authRoute.bootstrap, jsRoute.config);
+app.get('/add/:collectionName', authRoute.bootstrap, appGenericRoute.getAdd);
+app.get('/search/:collectionName', authRoute.bootstrap, appGenericRoute.getSearch);
+app.get('/edit/:collectionName/:objectId', authRoute.bootstrap, appGenericRoute.getEdit);
+app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appGenericRoute.getPreview);
+
+app.get('/model/:collectionName.js', authRoute.bootstrap, appJsRoute.getModel);
+app.get('/form/:collectionName.js', authRoute.bootstrap, appJsRoute.getForm);
+app.get('/config/:collectionName.json', authRoute.bootstrap, appJsRoute.getConfig);
 
 app.post('/api/fs.files', authRoute.bootstrap, apiFileRoute.post);
 app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiFileRoute.get);
