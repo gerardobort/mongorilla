@@ -33,14 +33,13 @@ credentials: test / 123
 
 #Installation
 1. Clone this repository: ``$ git clone https://github.com/gerardobort/mongorilla.git``
-2. Install the dependencies: (once in the repository folder) ``$ npm install``
+2. Install the dependencies: (once in the repository folder) ``$ npm install && bower install``
 3. Setup your MongoDB connection: ``$ export MONGORILLA_MONGO_URL="mongodb://localhost/my_mongorilla"``
 4. Run the server instance: ``$ nodejs server.js``
 5. Enjoy!
 
 # Roadmap
 * Improve documentation, create "How to start", etc.
-* Add support for user or role based permissions.
 * Enhance the UI, visually and informationally,such as showing the dates better, etc.
 
 ![Logo](public/images/logo.jpg)
