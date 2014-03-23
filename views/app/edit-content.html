@@ -11,27 +11,29 @@
 
 <% if (collection.revisionable) { %>
 <ul class="nav nav-pills">
+    <li class="disabled"><a>Created: <span data-created></span></a></li>
+    <li class="disabled"><a>Last Update: <span data-updated></span></a></li>
     <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <i class="glyphicon glyphicon-time"></i> revisions <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" data-revisions-list></ul>
     </li>
-    <li class="disabled"><a>Created: <span data-created></span></a>
-    <li class="disabled"><a>Last Update: <span data-updated></span></a>
-    </li>
 </ul>
 <p></p>
 <% } %>
 
-<div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"
-    <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
-    <%= global.helpers.hasPermission(sessionUser, collection.name, 'r') ? 'data-permission-r' : '' %>
-    <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
-    <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
-    ></div>
-
-<div class="btn-group" id="form-controls">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-2 col-md-2"></div>
+        <div class="col-xs-10 col-md-10">
+            <div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'r') ? 'data-permission-r' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
+                ></div>
+            <div class="btn-group pull-right" id="form-controls"></div>
+        </div>
+    </div>
 </div>
-<p></p>
-<p></p>

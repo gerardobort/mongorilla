@@ -9,7 +9,6 @@
         <link href="/third-party/backbone-forms/distribution/templates/bootstrap3.css" media="all" rel="stylesheet" type="text/css" />
         <link href="/layout.css" media="all" rel="stylesheet" type="text/css" />
         <link href="/third-party/bs-fancyfile/css/bootstrap-fancyfile.min.css" media="all" rel="stylesheet" type="text/css" />
-        <link href="/lib/aloha/css/aloha.css" type="text/css" rel="stylesheet" />
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
@@ -121,23 +120,6 @@
         <script src="/third-party/bs-fancyfile/js/bootstrap-fancyfile.min.js"></script>
         <script src="/third-party/ckeditor/ckeditor.js"></script>
         <script src="/third-party/requirejs/require.js" data-main="/init.js" ></script>
-            <% if ('boolean' === typeof includeAloha && true === includeAloha) { %>
-            <!-- Aloha is a heavy library, so this is why it loads only when necessary -->
-            <script type="text/javascript" src="/lib/aloha/lib/aloha.js"
-                    data-aloha-plugins="common/ui,
-                                        common/format,
-                                        common/table,
-                                        common/list,
-                                        common/link,
-                                        common/highlighteditables,
-                                        common/block,
-                                        common/undo,
-                                        common/contenthandler,
-                                        common/paste,
-                                        common/commands,
-                                        common/abbr"></script>
-            <script src="/lib/editors/aloha.js"></script>
-            <% } %>
         <% } else { %>
         <script src="/third-party/requirejs/require.js" data-main="/init.js" ></script>
         <% } %>
