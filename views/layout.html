@@ -77,6 +77,29 @@
         <%= body %>
         </div>
 
+
+        <footer class="m-footer" role="contentinfo">
+            <div class="container">
+                <% if (!sessionUser) { %>
+                <div class="m-social">
+                    <ul class="m-social-buttons">
+                        <li>
+                            <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=gerardobort&amp;repo=mongorilla&amp;type=watch&amp;count=true" width="100" height="20" title="Star on GitHub"></iframe>
+                        </li>
+                        <li>
+                            <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=gerardobort&amp;repo=mongorilla&amp;type=fork&amp;count=true" width="102" height="20" title="Fork on GitHub"></iframe>
+                        </li>
+                    </ul>
+                </div>
+                <% } %>
+
+                <p>
+                    Created by <a href="http://twitter.com/gerardobort" target="_blank">@gerardobort</a>.
+                    Code licensed under <a href="https://github.com/gerardobort/mongorilla/blob/master/LICENSE" target="_blank">MIT</a>.
+                </p>
+            </div>
+        </footer>
+
         <script src="/third-party/jquery/dist/jquery.min.js"></script>
         <script src="/third-party/underscore/underscore.js"></script>
         <script src="/third-party/backbone/backbone.js"></script>

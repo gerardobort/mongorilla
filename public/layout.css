@@ -31,3 +31,29 @@
     list-style: none;
     padding-left: 0;
 }
+
+
+
+/* brand footer */
+.m-footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 100px;
+    color: #777;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+    display: block;
+}
+.m-social {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.m-social-buttons li {
+    display: inline-block;
+    line-height: 1;
+    padding: 5px 8px;
+}
+.m-social-buttons li iframe {
+    border: 0;
+    margin-top:
+}
