@@ -1,33 +1,39 @@
 <div class="page-header">
-    <h1>Dashboard <small>Latest updates</small></h1>
+    <h1>Dashboard</h1>
 </div>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Content Type</th>
-        <th>Last 5 edited</th>
-        <th>Total</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% _(colsStats).each(function (stat) { %>
-        <% if (global.helpers.hasPermission(sessionUser, stat.collection.name, 'r')) { %>
-        <tr>
-            <td><%= stat.collection.humanName %></td>
-            <td>
-                <ul>
-                <% _(stat.colLastCreated).each(function (obj) { %>
-                    <li>
-                        <a class="badge" href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a>
-                        <span>Updated <date><%= moment(obj[stat.collection.updatedField.key]).fromNow() %></date></span>
-                    </li>
-                <% }) %>
-                </ul>
-            </td>
-            <td><%= stat.colTotalCount %></td>
-        </tr>
-        <% } %>
-    <% }) %>
-    </tbody>
-</table>
+<div class="panel panel-default">
+    <div class="panel-heading">Latest Updates</div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Content Type</th>
+                <th>Last 5 edited</th>
+                <th>Total</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% _(colsStats).each(function (stat) { %>
+                <% if (global.helpers.hasPermission(sessionUser, stat.collection.name, 'r')) { %>
+                <tr>
+                    <td><%= stat.collection.humanName %></td>
+                    <td>
+                        <ul>
+                        <% _(stat.colLastCreated).each(function (obj) { %>
+                            <li>
+                                <a class="badge" href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a>
+                                <span>Updated <date><%= moment(obj[stat.collection.updatedField.key]).fromNow() %></date></span>
+                            </li>
+                        <% }) %>
+                        </ul>
+                    </td>
+                    <td><%= stat.colTotalCount %></td>
+                </tr>
+                <% } %>
+            <% }) %>
+            </tbody>
+        </table>
+
+    </div>
+</div>

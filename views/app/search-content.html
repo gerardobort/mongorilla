@@ -3,8 +3,12 @@
 
 <div class="page-header">
     <h1><%= collection.humanName %> <small>search and edit</small></h1>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
     <form class="input-group col-xs-12 col-md-6" role="search">
-        <input type="search" class="form-control" placeholder="Search" id="fast-search-q">
+        <input type="search" class="form-control" placeholder="Search..." id="fast-search-q">
         <span class="input-group-btn">
             <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
         </span>
@@ -12,3 +16,6 @@
 </div>
 
 <div id="collection-list" data-collection-name="<%= collection.name %>"></div>
+
+    </div>
+</div>
