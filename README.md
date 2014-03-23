@@ -32,7 +32,7 @@ http://mongorilla.herokuapp.com/
 credentials: test / 123
 
 #Installation
-1. Clone this repository: ``$ git clone https://github.com/gerardobort/mongorilla.git``
+1. Clone this repository: ``$ git clone --recursive https://github.com/gerardobort/mongorilla.git``
 2. Install the dependencies: (once in the repository folder) ``$ npm install && bower install``
 3. Setup your MongoDB connection: ``$ export MONGORILLA_MONGO_URL="mongodb://localhost/my_mongorilla"``
 4. Run the server instance: ``$ nodejs server.js``
