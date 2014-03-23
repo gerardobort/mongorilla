@@ -18,7 +18,10 @@
             editor.$el.attr('id', editor.id);
             editor.$el.css({ width: '100%', height: 'auto' });
             setTimeout(function () {
-                editor.ck = CKEDITOR.appendTo(editor.id, {}, editor.value);
+                editor.ck = CKEDITOR.appendTo(editor.id, {
+                    toolbar: 'Basic',
+                    skin: '../../../lib/ckeditor/skins/bootstrap3/skins/bootstrapck'
+                }, editor.value);
             }, 200);
             return this;
         },
