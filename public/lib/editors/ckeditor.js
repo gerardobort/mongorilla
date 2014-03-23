@@ -1,6 +1,6 @@
 (function() {
 
-    window.CKEDITOR_BASEPATH = '/lib/ckeditor/';
+    window.CKEDITOR_BASEPATH = '/third-party/ckeditor/';
 
     /**
      * Backbone Forms CKEditor editor
