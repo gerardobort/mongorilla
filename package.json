@@ -7,7 +7,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "bower": "0.6.x",
+    "bower": "*",
     "express": "3.x",
     "gridfs-stream": "*",
     "moment": "*",
