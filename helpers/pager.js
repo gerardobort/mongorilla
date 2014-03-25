@@ -38,6 +38,9 @@ exports.Pager = function (currentUrl) {
             _this.filters[path] = { $in: value.slice(4, value.length-1).split(',') };
         } else if ('_id' === path && 'string' === typeof value) {
             _this.mongoFilters[path] = new ObjectID(value);
+        } else if ('string' === typeof value && 0 === value.indexOf('$in[')) {
+            _this.mongoFilters[path] = { $in: _(value.slice(4, value.length-1).split(',')).map(function (value) { return value; }) };
+            _this.filters[path] = { $in: value.slice(4, value.length-1).split(',') };
         }
     });
 
