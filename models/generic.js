@@ -53,6 +53,7 @@ exports.getModel = function (collectionName) {
                 case 'Object':   schema[key] = Object; break;
                 case 'List':     schema[key] = Array; break;
                 case 'Date':     schema[key] = Date; break;
+                case 'Datepicker': schema[key] = Date; break;
                 case 'DateTime': schema[key] = Date; break;
                 case 'File':     schema[key] = 'File'; break;
                 case 'Image':    schema[key] = 'File'; break;

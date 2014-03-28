@@ -38,7 +38,7 @@
                     "lastname": { "type": "Text", "title": "Last Name", "validators": ["required"] },
                     "twitter.username": { "type": "Text", "title": "Twitter Usename", "help": "e.g. @pepe" },
                     "github.username": { "type": "Text", "title": "GitHub Usename", "help": "e.g. pepe" },
-                    "dob": { "type": "Date", "title": "Day of Birth" },
+                    "dob": { "type": "Datepicker", "title": "Day of Birth", "editorAttrs": { "format": "dd/mm/yyyy" } },
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "bio": { "type": "CKEditor", "title": "Bio" },
                     "website_url": { "type": "Text", "validators": ["required", "url"], "title": "Website URL", "help": "please, include http:// prefix" },
