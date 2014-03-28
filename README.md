@@ -29,14 +29,15 @@ This example site contains exactly the same source as this repository has.  We o
 The database on this example is stored in MongoHQ and there's no restriction on what you can edit through Mongorilla, so please, be a good person :).
 
 http://mongorilla.herokuapp.com/
-credentials: test / 123
+credentials: admin / 123 and test / 123
 
 #Installation
 1. Clone this repository: ``$ git clone --recursive https://github.com/gerardobort/mongorilla.git``
 2. Install the dependencies: (once in the repository folder) ``$ npm install``
 3. Setup your MongoDB connection: ``$ export MONGORILLA_MONGO_URL="mongodb://localhost/my_mongorilla"``
 4. Run the server instance: ``$ nodejs server.js``
-5. Enjoy!
+5. First login: admin / 123
+6. Enjoy!
 
 # Roadmap
 * Improve documentation, create "How to start", etc.
