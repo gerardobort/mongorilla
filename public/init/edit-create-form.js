@@ -1,4 +1,17 @@
-define('init/edit-create-form', [], function () {
+define('init/edit-create-form', [
+        '/third-party/backbone-deep-model/distribution/deep-model.min.js',
+        '/third-party/backbone-forms/distribution/backbone-forms.min.js',
+        '/third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal.js',
+        '/lib/editors/list.js',
+        '/lib/editors/file.js',
+        '/lib/editors/image.js',
+        '/lib/editors/object-id.js',
+        '/lib/editors/ckeditor.js',
+        '/lib/editors/datepicker.js',
+        '/third-party/backbone-forms/distribution/templates/bootstrap3.js',
+        '/third-party/bs-fancyfile/js/bootstrap-fancyfile.min.js',
+        '/third-party/ckeditor/ckeditor.js'
+    ], function () {
 
     var $collectionForm = $('#collection-form');
     var $formControls = $('#form-controls');

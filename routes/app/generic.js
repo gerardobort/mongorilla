@@ -20,8 +20,6 @@ exports.getAdd = function (req, res) {
     res.render('app/add-content.html', {
         title: 'edit',
         collection: collection,
-        includeFormsAssets: true,
-        includeAloha: collection.requiresAloha
     });
 };
 
@@ -40,8 +38,6 @@ exports.getEdit = function (req, res) {
         title: 'edit',
         collection: collection,
         objectId: objectId,
-        includeFormsAssets: true,
-        includeAloha: collection.requiresAloha
     });
 };
 

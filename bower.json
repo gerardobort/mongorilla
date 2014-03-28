@@ -32,6 +32,7 @@
     "requirejs-json": "*",
     "bootstrap-modal": "~2.1.0",
     "bs-fancyfile": "~0.0.2",
-    "bootstrap-datepicker": "~1.3.0"
+    "bootstrap-datepicker": "~1.3.0",
+    "require-css": "~0.1.2"
   }
 }
