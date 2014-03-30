@@ -11,6 +11,7 @@ require.config({
         jquery: '/third-party/jquery/dist/jquery.min',
         underscore: '/third-party/underscore/underscore',
         backbone: '/third-party/backbone/backbone',
+        spin: '/third-party/ladda-bootstrap/dist/spin.min',
     },
     shim: {
         underscore: { exports: '_' },
@@ -20,6 +21,16 @@ require.config({
             exports: 'Backbone'
         }
     }
+});
+
+define('mongorilla-spinner', ['spin'], function(Spinner) {
+    return new Spinner({
+        color: '#999',
+        length: 6,
+        width: 2,
+        radius: 6,
+        top: 20
+    });
 });
 
 require(['backbone'], function () {

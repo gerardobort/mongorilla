@@ -38,6 +38,7 @@
     "alertify.js": "~0.3.11",
     "alertify-bootstrap-3": "~1.1.1",
     "twitter-bootstrap-typeahead": "https://github.com/tcrosen/twitter-bootstrap-typeahead.git",
-    "BootstrapCK4-Skin": "https://github.com/Kunstmaan/BootstrapCK4-Skin.git"
+    "BootstrapCK4-Skin": "https://github.com/Kunstmaan/BootstrapCK4-Skin.git",
+    "ladda-bootstrap": "~0.1.0"
   }
 }

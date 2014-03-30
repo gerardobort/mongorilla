@@ -1,4 +1,5 @@
 define('views/generic-form', [
+        '/third-party/ladda-bootstrap/dist/ladda.min.js',
         '/third-party/bootstrap-datepicker/js/bootstrap-datepicker.js',
         '/third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal.js',
         '/third-party/bs-fancyfile/js/bootstrap-fancyfile.min.js',
@@ -13,7 +14,7 @@ define('views/generic-form', [
         '/backbone-forms/editors/datepicker.js',
 
         '/third-party/backbone-forms/distribution/templates/bootstrap3.js',
-    ], function () {
+    ], function (Ladda) {
 
     return Backbone.View.extend({
 
@@ -68,10 +69,10 @@ define('views/generic-form', [
             var instance = this;
             var controlsHtml = '';
             if (instance.objectId && $('[data-permission-d]').size()) {
-                controlsHtml +='<button class="btn btn-danger btn-lg remove">Delete</button>';
+                controlsHtml +='<button class="btn btn-danger btn-lg remove ladda-button" data-style="expand-right">Delete</button>';
             }
             if ($('[data-permission-u], [data-permission-c]').size()) {
-                controlsHtml += '<button class="btn btn-primary btn-lg submit">'
+                controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right">'
                     + (instance.objectId ? 'Save' : 'Create') + '</button>';
             }
             if (!instance.model.isNew()) {
@@ -101,14 +102,17 @@ define('views/generic-form', [
             });
         },
 
-        submit: function () {
+        submit: function (event) {
             var instance = this;
             var err;
+            var l = Ladda.create(event.target);
+            l.start();
             if (!(err = instance.form.commit())) {
                 console.log('model submitted', instance.form.model.toJSON());
                 var isNew = instance.model.isNew();
                 instance.model.save({}, {
                     success: function () {
+                        l.stop();
                         alertify.success('success!');
                         if (isNew) {
                             document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
@@ -118,18 +122,23 @@ define('views/generic-form', [
                         }
                     },
                     error: function () {
+                        l.stop();
                         alertify.error('an error has ocurred! :S');
                     }
                 });
             } else {
+                l.stop();
                 console.log('model err', err);
                 alertify.error('validation failed, look at the console for details.');
             }
         },
 
-        remove: function () {
+        remove: function (event) {
             var instance = this;
+            var l = Ladda.create(event.target);
+            l.start();
             alertify.confirm('Are you sure you want to delete this '+ instance.collectionName, function (ok) {
+                l.stop();
                 if (ok) {
                     instance.model.destroy({
                         success: function () {
