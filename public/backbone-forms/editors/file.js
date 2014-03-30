@@ -153,6 +153,9 @@
          */
         getValue: function() {
             // set the file object w/ObjectId
+            if (this.vaue && 'object' === typeof this.value) {
+                return this.value._id;
+            }
             return this.value;
         },
         
