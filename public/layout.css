@@ -15,10 +15,15 @@
     width: 30%;
     float: right;
     font-size: 0.75em;
+    line-height: 30px;
 }
 
 .bbf-object-id .info a {
     color: #000;
+}
+
+.bbf-list li div.pull-left {
+    width: 70%;
 }
 
 .form-group .help-block {
