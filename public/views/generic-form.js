@@ -26,8 +26,7 @@ define('views/generic-form', [
             instance.collectionName = options.collectionName;
             instance.objectId = options.objectId;
 
-            instance.setElement($('#collection-form').get(0));
-
+            instance.setElement($('#form-controls').get(0));
 
             require([
                 'model/' + instance.collectionName, 
@@ -45,39 +44,13 @@ define('views/generic-form', [
                     schema: Form.prototype.schema // force the schema against the model one
                 });
 
-
-                instance.$el.html(instance.form.render().$el);
-
-                // save, cancel
-                var $formControls = $('#form-controls');
-                $formControls.html(
-                    '' + (instance.objectId && $('[data-permission-d]').size() ? '<button class="btn btn-danger btn-lg remove">Delete</button>' : '') + '</div>'
-                    + ($('[data-permission-u], [data-permission-c]').size() ? '<button class="btn btn-primary btn-lg submit">' + (instance.objectId ? 'Save' : 'Create') + '</button>' : '')
-                    + (!instance.model.isNew() ?
-    '<a class="btn btn-info btn-lg preview" href="/preview/' + instance.collectionName + '/' + instance.objectId + '" target="_blank" >Preview</a>'
-                        : '')
-                );
+                $('#collection-form').html(instance.form.render().$el);
+                instance.renderFormControls();
+                if (instance.objectId) {
+                    instance.renderRevisionsControls();
+                }
 
                 instance.applyRevisionsPatch();
-
-                if (instance.objectId) {
-                    $('[data-collection-tostringfield]').html(instance.model.toString());
-                    $('[data-created]').html(humaneDate(instance.model.get(instance.config.createdField.key)));
-                    $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
-
-                    // TODO convert revisionsModel into a collection and handle it with async events
-                    require([
-                        'views/generic-form-revisions',
-                        'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
-                        ], function (GenericFormRevisionsView, revisionsModel) {
-
-                        instance.revisionsView = new GenericFormRevisionsView({
-                            model: instance.model,
-                            revisionsModel: revisionsModel
-                        });
-                        instance.revisionsView.render();
-                    });
-                }
 
             });
 
@@ -87,6 +60,43 @@ define('views/generic-form', [
         },
 
         render: function () {
+        },
+
+        renderFormControls: function () {
+            var instance = this;
+            var controlsHtml = '';
+            if (instance.objectId && $('[data-permission-d]').size()) {
+                controlsHtml +='<button class="btn btn-danger btn-lg remove">Delete</button>';
+            }
+            if ($('[data-permission-u], [data-permission-c]').size()) {
+                controlsHtml += '<button class="btn btn-primary btn-lg submit">'
+                    + (instance.objectId ? 'Save' : 'Create') + '</button>';
+            }
+            if (!instance.model.isNew()) {
+                controlsHtml += '<a class="btn btn-info btn-lg preview" href="/preview/'
+                    + instance.collectionName + '/' + instance.objectId + '" target="_blank" >Preview</a>';
+            }
+            instance.$el.html(controlsHtml);
+        },
+
+        renderRevisionsControls: function () {
+            var instance = this;
+            $('[data-collection-tostringfield]').html(instance.model.toString());
+            $('[data-created]').html(humaneDate(instance.model.get(instance.config.createdField.key)));
+            $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
+
+            // TODO convert revisionsModel into a collection and handle it with async events
+            require([
+                'views/generic-form-revisions',
+                'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
+                ], function (GenericFormRevisionsView, revisionsModel) {
+
+                instance.revisionsView = new GenericFormRevisionsView({
+                    model: instance.model,
+                    revisionsModel: revisionsModel
+                });
+                instance.revisionsView.render();
+            });
         },
 
         submit: function () {
@@ -117,7 +127,7 @@ define('views/generic-form', [
 
         remove: function () {
             var instance = this;
-            if (confirm('Are you sure you want to delete this '+ collectionName)) {
+            if (confirm('Are you sure you want to delete this '+ instance.collectionName)) {
                 instance.model.destroy({
                     success: function () {
                         document.location.href = '/search/' + instance.collectionName;
