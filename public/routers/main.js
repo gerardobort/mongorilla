@@ -25,7 +25,7 @@ define('routers/main', [], function () {
         },
 
         searchForm: function (collectionName) {
-            require(['views/search-form'], function (SearchFormView) {
+            require(['views/generic-search'], function (SearchFormView) {
                 var form = new SearchFormView({ collectionName: collectionName });
             });
         },
