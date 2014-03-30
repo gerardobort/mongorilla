@@ -20,7 +20,7 @@
             setTimeout(function () {
                 editor.ck = CKEDITOR.appendTo(editor.id, {
                     toolbar: 'Basic',
-                    skin: '../../../lib/ckeditor/skins/bootstrap3/skins/bootstrapck'
+                    skin: '../../../third-party/BootstrapCK4-Skin/skins/bootstrapck'
                 }, editor.value);
             }, 200);
             return this;
