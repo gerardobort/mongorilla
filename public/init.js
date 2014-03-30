@@ -14,7 +14,11 @@ require.config({
     },
     shim: {
         underscore: { exports: '_' },
-        backbone: { deps: ['underscore', 'jquery'], exports: 'Backbone' }
+        backbone: { deps: ['underscore', 'jquery'], exports: 'Backbone' },
+        '/third-party/backbone-forms/distribution/templates/bootstrap3.js': {
+            deps: ['/backbone-forms/editors/list.js'],
+            exports: 'Backbone'
+        }
     }
 });
 
