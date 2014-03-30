@@ -3,13 +3,15 @@ define('views/generic-form', [
         '/third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal.js',
         '/third-party/bs-fancyfile/js/bootstrap-fancyfile.min.js',
         '/third-party/ckeditor/ckeditor.js',
-        '/lib/bootstrap-typeahead.js',
+        '/third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead.js',
+
         '/lib/editors/list.js',
         '/lib/editors/file.js',
         '/lib/editors/image.js',
         '/lib/editors/object-id.js',
         '/lib/editors/ckeditor.js',
         '/lib/editors/datepicker.js',
+
         '/third-party/backbone-forms/distribution/templates/bootstrap3.js',
     ], function () {
 
