@@ -5,12 +5,12 @@ define('views/generic-form', [
         '/third-party/ckeditor/ckeditor.js',
         '/third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead.js',
 
-        '/lib/editors/list.js',
-        '/lib/editors/file.js',
-        '/lib/editors/image.js',
-        '/lib/editors/object-id.js',
-        '/lib/editors/ckeditor.js',
-        '/lib/editors/datepicker.js',
+        '/backbone-forms/editors/list.js',
+        '/backbone-forms/editors/file.js',
+        '/backbone-forms/editors/image.js',
+        '/backbone-forms/editors/object-id.js',
+        '/backbone-forms/editors/ckeditor.js',
+        '/backbone-forms/editors/datepicker.js',
 
         '/third-party/backbone-forms/distribution/templates/bootstrap3.js',
     ], function () {
