@@ -107,7 +107,7 @@ define('views/generic-form', [
                 var isNew = instance.model.isNew();
                 instance.model.save({}, {
                     success: function () {
-                        alert('success!');
+                        alertify.success('success!');
                         if (isNew) {
                             document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
                         } else {
@@ -116,24 +116,26 @@ define('views/generic-form', [
                         }
                     },
                     error: function () {
-                        alert('an error has ocurred! :S');
+                        alertify.error('an error has ocurred! :S');
                     }
                 });
             } else {
                 console.log('model err', err);
-                alert('validation failed, look at the console for details.');
+                alertify.error('validation failed, look at the console for details.');
             }
         },
 
         remove: function () {
             var instance = this;
-            if (confirm('Are you sure you want to delete this '+ instance.collectionName)) {
-                instance.model.destroy({
-                    success: function () {
-                        document.location.href = '/search/' + instance.collectionName;
-                    }
-                });
-            }
+            alertify.confirm('Are you sure you want to delete this '+ instance.collectionName, function (ok) {
+                if (ok) {
+                    instance.model.destroy({
+                        success: function () {
+                            document.location.href = '/search/' + instance.collectionName;
+                        }
+                    });
+                }
+            });
         },
 
         /* adds compatibility for form refreshing on model change */

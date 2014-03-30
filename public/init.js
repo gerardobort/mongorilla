@@ -20,6 +20,7 @@ require.config({
 
 require(['backbone'], function () {
     require([
+            '/third-party/alertify.js/lib/alertify.min.js',
             '/third-party/backbone-deep-model/distribution/deep-model.min.js',
             '/third-party/backbone-forms/distribution/backbone-forms.min.js',
             '/third-party/bootstrap-modal/js/bootstrap-modal.js',
@@ -27,7 +28,9 @@ require(['backbone'], function () {
             '/third-party/humane-dates/humane.js',
             '/lib/bootstrap-typeahead.js',
             'helpers/string'
-        ], function () {
+        ], function (alertify) {
+
+            window.alertify = alertify;
 
             require(['routers/main'], function (MainRouter) {
                 var mainRouter = new MainRouter();

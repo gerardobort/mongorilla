@@ -2,6 +2,10 @@ define('views/generic-form-revisions', [], function () {
 
     return Backbone.View.extend({
 
+        events: {
+            'click li a.restore': 'restore',
+        },
+
         initialize: function (options) {
             this.model = options.model;
             this.revisionsModel = options.revisionsModel;
@@ -17,15 +21,6 @@ define('views/generic-form-revisions', [], function () {
                     + rev.user + ' - '  + rev.created + '</a></li>';
             }).join(''));
 
-            instance.$('li a.restore').on('click', function (event) {
-                var $button = $(this),
-                    i = $button.data('revision-i'),
-                    revisionModel = instance.revisionsModel[i];
-                instance.model.set(revisionModel.modelSnapshot);
-                event.preventDefault();
-                instance.repaintList(i);
-            });
-
             instance.repaintList(0);
         },
 
@@ -39,6 +34,17 @@ define('views/generic-form-revisions', [], function () {
                 else if (j > selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-step-backward'); }
                 if (j === selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-ok'); }
             });
+        },
+
+        restore: function (event) {
+            var instance = this,
+                $button = $(event.target),
+                i = $button.data('revision-i'),
+                revisionModel = instance.revisionsModel[i];
+            event.preventDefault();
+            instance.model.set(revisionModel.modelSnapshot);
+            instance.repaintList(i);
+            alertify.log('switched content to revision:' + $button.text());
         },
 
     });
