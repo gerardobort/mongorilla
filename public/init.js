@@ -21,9 +21,9 @@ require.config({
 require(['backbone'], function () {
     require([
             '/third-party/backbone-deep-model/distribution/deep-model.min.js',
+            '/third-party/backbone-forms/distribution/backbone-forms.min.js',
             '/third-party/bootstrap-modal/js/bootstrap-modal.js',
             '/third-party/bootstrap/dist/js/bootstrap.min.js',
-            '/third-party/bootstrap-datepicker/js/bootstrap-datepicker.js',
             '/lib/bootstrap-typeahead.js',
             '/lib/humane.js',
             'helpers/string'

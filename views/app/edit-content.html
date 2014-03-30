@@ -2,9 +2,9 @@
     <h1>
         <%= collection.humanName %>
         <% if (global.helpers.hasPermission(sessionUser, collection.name, 'ru')) { %>
-            <small> <span data-collection-name></span>  <span class="glyphicon glyphicon-edit"></span></small>
+            <small> <span data-collection-tostringfield></span>  <span class="glyphicon glyphicon-edit"></span></small>
         <% } else { %>
-            <small> <span data-collection-name></span>  <span class="glyphicon glyphicon-eye-open"></span></small>
+            <small> <span data-collection-tostringfield></span>  <span class="glyphicon glyphicon-eye-open"></span></small>
         <% } %>
     </h1>
 </div>

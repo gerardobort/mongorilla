@@ -1,22 +1,23 @@
-define('views/edit-form-revisions', [], function () {
+define('views/generic-form-revisions', [], function () {
 
-    return Backbone.Router.extend({
+    return Backbone.View.extend({
 
         initialize: function (options) {
             this.model = options.model;
             this.revisionsModel = options.revisionsModel;
+            this.setElement($('[data-revisions-list]').get(0));
         },
 
         render: function () {
             var instance = this;
 
-            $('[data-revisions-list]').html(_(instance.revisionsModel).map(function (rev, i) {
+            instance.$el.html(_(instance.revisionsModel).map(function (rev, i) {
                 return '<li><a class="restore" data-revision-i="' + i + '" href="#">'
                     + '<i class="glyphicon glyphicon-fast-backward"></i> '
                     + rev.user + ' - '  + rev.created + '</a></li>';
             }).join(''));
 
-            $('[data-revisions-list] li a.restore').on('click', function (event) {
+            instance.$('li a.restore').on('click', function (event) {
                 var $button = $(this),
                     i = $button.data('revision-i'),
                     revisionModel = instance.revisionsModel[i];
@@ -29,7 +30,8 @@ define('views/edit-form-revisions', [], function () {
         },
 
         repaintList: function (selectedIndex) {
-            $icons = $('[data-revisions-list] li a.restore i');
+            var instance = this;
+            $icons = instance.$('li a.restore i');
             $icons.each(function (j, el) {
                 if (j === 0) { $(el).attr('class', 'glyphicon glyphicon-fast-forward'); }
                 else if (j < selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-step-forward'); }
