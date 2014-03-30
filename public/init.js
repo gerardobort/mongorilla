@@ -24,8 +24,8 @@ require(['backbone'], function () {
             '/third-party/backbone-forms/distribution/backbone-forms.min.js',
             '/third-party/bootstrap-modal/js/bootstrap-modal.js',
             '/third-party/bootstrap/dist/js/bootstrap.min.js',
+            '/third-party/humane-dates/humane.js',
             '/lib/bootstrap-typeahead.js',
-            '/lib/humane.js',
             'helpers/string'
         ], function () {
 
