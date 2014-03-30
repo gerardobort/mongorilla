@@ -1,16 +1,16 @@
-define('views/edit-form-revisions', [
-    'json!/api/' + collectionName + '/' + objectId + '/revisions?t=' + Math.random()
-    ], function (modelRevisions) {
+define('views/edit-form-revisions', [], function () {
 
     return Backbone.Router.extend({
 
-        init: function () {
-
+        initialize: function (options) {
+            this.model = options.model;
+            this.revisionsModel = options.revisionsModel;
         },
 
         render: function () {
+            var instance = this;
 
-            $('[data-revisions-list]').html(_(modelRevisions).map(function (rev, i) {
+            $('[data-revisions-list]').html(_(instance.revisionsModel).map(function (rev, i) {
                 return '<li><a class="restore" data-revision-i="' + i + '" href="#">'
                     + '<i class="glyphicon glyphicon-fast-backward"></i> '
                     + rev.user + ' - '  + rev.created + '</a></li>';
@@ -19,13 +19,13 @@ define('views/edit-form-revisions', [
             $('[data-revisions-list] li a.restore').on('click', function (event) {
                 var $button = $(this),
                     i = $button.data('revision-i'),
-                    revisionModel = modelRevisions[i];
-                model.set(revisionModel.modelSnapshot);
+                    revisionModel = instance.revisionsModel[i];
+                instance.model.set(revisionModel.modelSnapshot);
                 event.preventDefault();
-                repaintRevisionsList(i);
+                instance.repaintList(i);
             });
 
-            repaintRevisionsList(0);
+            instance.repaintList(0);
         },
 
         repaintList: function (selectedIndex) {
