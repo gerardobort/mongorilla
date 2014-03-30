@@ -30,6 +30,16 @@
     clear: both;
 }
 
+.bbf-file, .bbf-image {
+    position: relative;
+}
+
+.bbf-file .remove-file,
+.bbf-image .remove-file {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
 
 /* bootstrap 3 patches */
 .form-group .form-control[id^="ck-"] {

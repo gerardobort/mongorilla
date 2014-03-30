@@ -29,7 +29,7 @@
                 this.value = options.value;
             }
 
-            this.$el.addClass('control-group fancyfile');
+            this.$el.addClass('control-group fancyfile bbf-file');
             editor.options = options;
             _.extend(editor, _.pick(options, 'key', 'form'));
             var schema = editor.schema = options.schema || {};
@@ -125,24 +125,28 @@
 
             $('.remove-file', editor.$el).on('click', function (event) {
                 event.preventDefault();
-                if (confirm('Are you sure you want to remove this file?')) {
-                    $.ajax({
-                        url: '/api/fs.files/' + editor.value._id,
-                        method: 'DELETE'
-                    })
-                    .success(function () {
-                        editor.setValue(null);
-                        //$('[type="file"]', editor.$el).val();
-                        $('.preview', editor.$el).attr('src', 'about:blank');
-                        $('.remove-file', editor.$el).toggle(!!editor.value);
-                        $('.fancy-file', editor.$el).toggle(!editor.value);
-                        $('.image-preview', editor.$el).toggle(!!editor.value);
-                        editor.repaintPreview();
-                    })
-                    .error(function () {
-                        alert('An error has occurred.');
-                    })
-                }
+                require(['/third-party/alertify.js/lib/alertify.min.js'], function () {
+                    alertify.confirm('Are you sure you want to remove this file?', function (ok) {
+                        if (ok) {
+                            $.ajax({
+                                url: '/api/fs.files/' + editor.value._id,
+                                method: 'DELETE'
+                            })
+                            .success(function () {
+                                editor.setValue(null);
+                                //$('[type="file"]', editor.$el).val();
+                                $('.preview', editor.$el).attr('src', 'about:blank');
+                                $('.remove-file', editor.$el).toggle(!!editor.value);
+                                $('.fancy-file', editor.$el).toggle(!editor.value);
+                                $('.image-preview', editor.$el).toggle(!!editor.value);
+                                editor.repaintPreview();
+                            })
+                            .error(function () {
+                                alert('An error has occurred.');
+                            })
+                        }
+                    });
+                });
             });
  
         },

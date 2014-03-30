@@ -35,8 +35,8 @@ define('views/generic-search', [], function () {
                                     return '<td>' + result[col] + '</td>';
                                 })
                                 + '<td>'
-                                + '<a class="btn" href="/edit/' + instance.collectionName+ '/' + result['_id'] + '"><i class="glyphicon glyphicon-edit"></i></a>'
-                                + '<a class="btn" href="/preview/' + instance.collectionName+ '/' + result['_id'] + '" target="_blank" ><i class="glyphicon glyphicon-eye-open"></i></a>'
+                                + '<div class="btn-group"><a class="btn btn-default btn-small" href="/edit/' + instance.collectionName+ '/' + result['_id'] + '"><i class="glyphicon glyphicon-edit"></i></a>'
+                                + ' <a class="btn btn-default btn-small" href="/preview/' + instance.collectionName+ '/' + result['_id'] + '" target="_blank" ><i class="glyphicon glyphicon-eye-open"></i></a></div>'
                                 + '</td></tr>'
                         }).join('')
                     );

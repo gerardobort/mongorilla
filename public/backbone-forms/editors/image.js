@@ -30,6 +30,7 @@
             }
 
             this.$el.removeClass('form-control');
+            this.$el.addClass('bbf-image');
             editor.options = options;
             _.extend(editor, _.pick(options, 'key', 'form'));
             var schema = editor.schema = options.schema || {};
@@ -45,10 +46,12 @@
          */
         render: function() {
             var editor = this;
-            editor.$el.css({ width: 290, display: 'block' });
+            editor.$el.css({ width: 190, display: 'block' });
             editor.$el.toggle(false);
             editor.$el.html(
-                '<img src="" class="image-preview img-thumbnail" style="display:block;max-height:300px;" />' + 
+                '<a class="img-link" href="#" target="_blank">' +
+                '<img src="" class="image-preview img-thumbnail" style="display:block;max-height:300px;" />' +
+                '</a>' + 
                 '<input name="upload" type="file" data-toggle="fancyfile" />' +
                 '<button class="btn btn-danger remove-file"><i class="glyphicon glyphicon-remove"></i></button>' +
                 '<div class="progress-container"></div>'
@@ -67,8 +70,10 @@
             }, 200)
             if (editor.value) {
                 if ('object' === typeof editor.value) {
+                    $('.img-link', editor.$el).attr('href', '/api/fs.files/' + editor.value._id + '/raw');
                     $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value._id + '/raw');
                 } else {
+                    $('.img-link', editor.$el).attr('href', '/api/fs.files/' + editor.value + '/raw');
                     $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value + '/raw');
                 }
             }
@@ -130,23 +135,27 @@
 
             $('.remove-file', editor.$el).on('click', function (event) {
                 event.preventDefault();
-                if (confirm('Are you sure you want to remove this file?')) {
-                    $.ajax({
-                        url: '/api/fs.files/' + editor.value._id,
-                        method: 'DELETE'
-                    })
-                    .success(function () {
-                        editor.setValue(null);
-                        //$('[type="file"]', editor.$el).val();
-                        $('.image-preview', editor.$el).attr('src', 'about:blank');
-                        $('.remove-file', editor.$el).toggle(!!editor.value);
-                        $('.fancy-file', editor.$el).toggle(!editor.value);
-                        $('.image-preview', editor.$el).toggle(!!editor.value);
-                    })
-                    .error(function () {
-                        alert('An error has occurred.');
-                    })
-                }
+                require(['/third-party/alertify.js/lib/alertify.min.js'], function () {
+                    alertify.confirm('Are you sure you want to remove this image?', function (ok) {
+                        if (ok) {
+                            $.ajax({
+                                url: '/api/fs.files/' + editor.value._id,
+                                method: 'DELETE'
+                            })
+                            .success(function () {
+                                editor.setValue(null);
+                                //$('[type="file"]', editor.$el).val();
+                                $('.image-preview', editor.$el).attr('src', 'about:blank');
+                                $('.remove-file', editor.$el).toggle(!!editor.value);
+                                $('.fancy-file', editor.$el).toggle(!editor.value);
+                                $('.image-preview', editor.$el).toggle(!!editor.value);
+                            })
+                            .error(function () {
+                                alert('An error has occurred.');
+                            })
+                        }
+                    });
+                });
             });
  
         },
