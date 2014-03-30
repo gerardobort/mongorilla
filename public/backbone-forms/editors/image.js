@@ -46,7 +46,7 @@
          */
         render: function() {
             var editor = this;
-            editor.$el.css({ width: 190, display: 'block' });
+            editor.$el.css({ width: 290, display: 'block' });
             editor.$el.toggle(false);
             editor.$el.html(
                 '<a class="img-link" href="#" target="_blank">' +

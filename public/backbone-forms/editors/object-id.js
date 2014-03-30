@@ -133,10 +133,10 @@
 
             if (editor.value) {
                 $('.info', editor.$el).html(
-                    '<a target="_blank" class="btn" href="/edit/'
+                    '<a target="_blank" class="btn btn-default btn-small" href="/edit/'
                         + editor.schema.autocompleteCollectionName + '/' + editor.value._id + '">'
                         + '<i class="glyphicon glyphicon-edit"></i></a>'
-                    + ' <a target="_blank" class="btn" href="/preview/'
+                    + ' <a target="_blank" class="btn btn-default btn-small" href="/preview/'
                         + editor.schema.autocompleteCollectionName + '/' + editor.value._id + '">'
                         + '<i class="glyphicon glyphicon-eye-open"></i></a>'
                 );
