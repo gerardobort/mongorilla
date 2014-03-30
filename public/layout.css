@@ -21,6 +21,10 @@
     color: #000;
 }
 
+.form-group .help-block {
+    clear: both;
+}
+
 
 /* bootstrap 3 patches */
 .form-group .form-control[id^="ck-"] {
