@@ -1,7 +1,11 @@
-define('init/edit-create-form', [
+define('views/create-form', [
         '/third-party/backbone-deep-model/distribution/deep-model.min.js',
         '/third-party/backbone-forms/distribution/backbone-forms.min.js',
+        '/third-party/bootstrap-datepicker/js/bootstrap-datepicker.js',
         '/third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal.js',
+        '/third-party/bs-fancyfile/js/bootstrap-fancyfile.min.js',
+        '/third-party/ckeditor/ckeditor.js',
+        '/lib/bootstrap-typeahead.js',
         '/lib/editors/list.js',
         '/lib/editors/file.js',
         '/lib/editors/image.js',
@@ -9,8 +13,6 @@ define('init/edit-create-form', [
         '/lib/editors/ckeditor.js',
         '/lib/editors/datepicker.js',
         '/third-party/backbone-forms/distribution/templates/bootstrap3.js',
-        '/third-party/bs-fancyfile/js/bootstrap-fancyfile.min.js',
-        '/third-party/ckeditor/ckeditor.js'
     ], function () {
 
     var $collectionForm = $('#collection-form');

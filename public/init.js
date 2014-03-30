@@ -24,10 +24,10 @@ require([
         'helpers/string'
     ], function () {
 
-        require(['init/list', 'init/edit-create-form'], function () {
-
-            console.log('Mongorilla satrted!');
-
+        //require(['init/list', 'init/edit-create-form'], function () { console.log('Mongorilla satrted!'); });
+        require(['routers/main'], function (MainRouter) {
+            var mainRouter = new MainRouter();
+            Backbone.history.start({ root: "", pushState: true });
         });
 
 });

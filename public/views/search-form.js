@@ -1,4 +1,4 @@
-define('init/list', [], function () {
+define('views/search-form', [], function () {
 
     var $collectionList = $('#collection-list'),
         $fastSearchQ = $('#fast-search-q');
