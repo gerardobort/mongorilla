@@ -41,7 +41,6 @@
     left: 15px;
 }
 
-.bbf-file input[type="file"],
 .bbf-image input[type="file"] {
     height: 36px; /* expands clickable area */
     margin-bottom: 6px;

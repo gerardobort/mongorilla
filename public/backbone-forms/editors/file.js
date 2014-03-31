@@ -75,7 +75,7 @@
                     '<a target="_blank" href="/api/fs.files/'
                     + ('string' === typeof editor.value ? editor.value : editor.value._id)
                     + '/raw"'
-                    + ' class="btn"'
+                    + ' class="btn btn-default btn-small"'
                     + '><i class="glyphicon glyphicon-download-alt"></i></a> '
                 );
             } else {
@@ -169,7 +169,6 @@
          * @param {String}
          */
         setValue: function(value) { 
-console.log('setValue',value)
             // set the file object w/ObjectId
             this.value = value;
         },
