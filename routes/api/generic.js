@@ -77,7 +77,7 @@ exports.post = function (req, res) {
                 if ('string' === typeof val ) {
                     return val;
                 }
-                return val['_id'].toString();
+                return val['_id'] ? val['_id'].toString() : '';
             });
             if (0 === attributes[relKey].length) {
                 delete attributes[relKey];
@@ -139,7 +139,7 @@ exports.put = function (req, res) {
                 if ('string' === typeof val ) {
                     return val;
                 }
-                return val['_id'].toString();
+                return val['_id'] ? val['_id'].toString() : '';
             });
             if (0 === attributes[relKey].length) {
                 delete attributes[relKey];

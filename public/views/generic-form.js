@@ -105,9 +105,9 @@ define('views/generic-form', [
         submit: function (event) {
             var instance = this;
             var err;
-            var l = Ladda.create(event.target);
-            l.start();
             if (!(err = instance.form.commit())) {
+                var l = Ladda.create(event.target);
+                l.start();
                 console.log('model submitted', instance.form.model.toJSON());
                 var isNew = instance.model.isNew();
                 instance.model.save({}, {
@@ -159,6 +159,7 @@ define('views/generic-form', [
                         val = new Date(val);
                     }
                     obj[prop] = val;
+                    // TODO file and image revisions seems to not work proprely yet
                     instance.form.setValue(obj);
                 });
             });

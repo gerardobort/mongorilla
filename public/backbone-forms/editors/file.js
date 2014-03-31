@@ -51,8 +51,8 @@
             setTimeout(function () { // once appended to the DOM
                 editor.$el.toggle(true);
                 $('[type="file"]', editor.$el).fancyfile({
-                    text  : 'Upload',
-                    icon  : '',
+                    text  : '',
+                    icon  : '<i class="glyphicon glyphicon-folder-open"></i>',
                     style : 'btn-info',
                     placeholder : 'Select File…'
                 });
@@ -93,12 +93,13 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '/api/fs.files');
 
+                $('.fancy-file', editor.$el).toggle(false);
                 xhr.upload.onprogress = function (e) {
                     console.log(e.loaded + ' of ' + e.total);
                     var percent = (e.loaded/(e.total||1))*100 + '%';
                     $('.progress-container .progress-bar', editor.$el)
                         .css('width', percent)
-                        .text('Uploading... ' + percent);
+                        .text('Uploading... ' + (percent === '100%' ? '(Waiting for a response)' : percent));
                 };
 
                 xhr.onload = function (xhr) {
@@ -134,7 +135,7 @@
                             })
                             .success(function () {
                                 editor.setValue(null);
-                                //$('[type="file"]', editor.$el).val();
+                                $('[type="file"]', editor.$el).val(null);
                                 $('.preview', editor.$el).attr('src', 'about:blank');
                                 $('.remove-file', editor.$el).toggle(!!editor.value);
                                 $('.fancy-file', editor.$el).toggle(!editor.value);
@@ -168,6 +169,7 @@
          * @param {String}
          */
         setValue: function(value) { 
+console.log('setValue',value)
             // set the file object w/ObjectId
             this.value = value;
         },

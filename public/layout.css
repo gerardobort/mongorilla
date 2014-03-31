@@ -41,6 +41,13 @@
     left: 15px;
 }
 
+.bbf-file input[type="file"],
+.bbf-image input[type="file"] {
+    height: 36px; /* expands clickable area */
+    margin-bottom: 6px;
+    padding-right: 20px;
+}
+
 /* bootstrap 3 patches */
 .form-group .form-control[id^="ck-"] {
     padding: 0;

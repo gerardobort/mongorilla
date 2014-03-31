@@ -45,7 +45,7 @@
             editor.$el.html(
                 '<input type="hidden" name="_id" placeholder="Search..." autocomplete="off">'
                 + '<input class="form-control" type="text" name="' + editor.schema.autocompleteField + '" placeholder="Search..." autocomplete="off">'
-                + '<span class="info"></span>'
+                + '<span class="info btn-group"></span>'
             );
             if (editor.value) {
                 $('input[type="hidden"]', editor.$el).val(editor.value['_id']);
