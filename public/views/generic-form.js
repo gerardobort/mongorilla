@@ -6,7 +6,8 @@ define('views/generic-form', [
         '/third-party/ckeditor/ckeditor.js',
         '/third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead.js',
 
-        '/backbone-forms/editors/list.js',
+        //'/backbone-forms/editors/list.js',
+        '/third-party/backbone-forms/src/editors/extra/list.js',
         '/backbone-forms/editors/file.js',
         '/backbone-forms/editors/image.js',
         '/backbone-forms/editors/object-id.js',
