@@ -80,6 +80,8 @@ define('views/generic-form', [
                     + instance.collectionName + '/' + instance.objectId + '" target="_blank" >Preview</a>';
             }
             instance.$el.html(controlsHtml);
+            instance.laddaSubmit = Ladda.create(instance.$('.submit').get(0));
+            instance.laddaRemove = Ladda.create(instance.$('.remove').get(0));
         },
 
         renderRevisionsControls: function () {
@@ -106,13 +108,12 @@ define('views/generic-form', [
             var instance = this;
             var err;
             if (!(err = instance.form.commit())) {
-                var l = Ladda.create(event.target);
-                l.start();
+                instance.laddaSubmit.start();
                 console.log('model submitted', instance.form.model.toJSON());
                 var isNew = instance.model.isNew();
                 instance.model.save({}, {
                     success: function () {
-                        l.stop();
+                        instance.laddaSubmit.stop();
                         alertify.success('success!');
                         if (isNew) {
                             document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
@@ -135,10 +136,9 @@ define('views/generic-form', [
 
         remove: function (event) {
             var instance = this;
-            var l = Ladda.create(event.target);
-            l.start();
+            instance.laddaRemove.start();
             alertify.confirm('Are you sure you want to delete this '+ instance.collectionName, function (ok) {
-                l.stop();
+                instance.laddaRemove.stop();
                 if (ok) {
                     instance.model.destroy({
                         success: function () {
@@ -161,6 +161,7 @@ define('views/generic-form', [
                     obj[prop] = val;
                     // TODO file and image revisions seems to not work proprely yet
                     instance.form.setValue(obj);
+console.log('setValue', obj)
                 });
             });
         }

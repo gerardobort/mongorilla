@@ -35,6 +35,7 @@ exports.get = function(req, res){
     global.getRevisionModel(collection.name)
         .find({ objectId: objectId })
         .sort({ created: -1 })
+        .limit(15)
         .exec()
         .then(function (data) {
             res.send(data);

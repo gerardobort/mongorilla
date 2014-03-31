@@ -168,7 +168,7 @@
          */
         getValue: function() {
             // set the file object w/ObjectId
-            if (this.vaue && 'object' === typeof this.value) {
+            if (this.value && 'object' === typeof this.value) {
                 return this.value._id;
             }
             return this.value;
@@ -180,6 +180,9 @@
          */
         setValue: function(value) { 
             // set the file object w/ObjectId
+            if (value && 'object' === typeof value) {
+                value = value._id;
+            }
             this.value = value;
         },
 
