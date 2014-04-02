@@ -202,6 +202,12 @@ define('views/generic-form', [
             }
 
             if (valFrom !== valTo) {
+                if (valFrom.length > 100) {
+                    valFrom = $(valFrom.toString().substr(0, 100)).text() + '...';
+                }
+                if (valTo.length > 100) {
+                    valTo = $(valTo.toString().substr(0, 100)).text() + '...';
+                }
                 alertify.success('<strong>' + fieldName + '</strong><br> ' + valFrom + ' <i class="glyphicon glyphicon-arrow-right"></i> ' + valTo + '');
             }
 

@@ -15,6 +15,7 @@ define('routers/main', ['mongorilla-spinner'], function (spinner) {
 
         loginForm: function (collectionName) {
             var $form = $('form');
+            $form.find('[type="submit"]').removeAttr('disabled');
             $form.submit(function (event) {   
                 event.preventDefault();
                 $.ajax({
@@ -24,7 +25,7 @@ define('routers/main', ['mongorilla-spinner'], function (spinner) {
                     })
                     .success(function (data) {
                         alertify.success('<i class="glyphicon glyphicon-ok"></i> <span class="col-sm-offset-1">Welcome, <strong>' + data.user.username + '</strong></span>!');
-                        $('form').fadeOut(1000, function () {
+                        $form.fadeOut(1000, function () {
                             document.location = '/dashboard';
                         });
                     })
