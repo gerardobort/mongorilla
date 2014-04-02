@@ -127,7 +127,7 @@ exports.post = function (req, res) {
             delete responseData.__v;
 
             if (collection.revisionable) {
-                saveRevisionSnapshot(collection, model._id, req.session.uer, function (err, revision) {
+                saveRevisionSnapshot(collection, model._id, req.session.user, function (err, revision) {
                     res.send(responseData);
                 });
             } else {

@@ -13,8 +13,10 @@ exports.bootstrap = function(req, res, next){
 
     if (!req.session.user && url_parts.path !== '/' && !url_parts.path.match(/^\/auth\/login/)) {
         res.redirect('/');
+        return;
     } else if (req.session.user && url_parts.path === '/') {
         res.redirect('/dashboard');
+        return;
     }
 
     res.locals.sessionUser = req.session.user;
