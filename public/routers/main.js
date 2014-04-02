@@ -23,15 +23,15 @@ define('routers/main', ['mongorilla-spinner'], function (spinner) {
                         data: $form.serialize()
                     })
                     .success(function (data) {
-                        alertify.success('Welcome, <strong>' + data.user.username + '</strong>!');
+                        alertify.success('<i class="glyphicon glyphicon-ok"></i> <span class="col-sm-offset-1">Welcome, <strong>' + data.user.username + '</strong></span>!');
                         $('form').fadeOut(1000, function () {
                             document.location = '/dashboard';
                         });
                     })
                     .error(function (data) {
                         $('form .alert').remove();
-                        $('form').prepend('<div class="alert alert-danger">Invalid credentials.</div>');
-                        alertify.error('Unable to perform login, please verify your credentials.')
+                        $('form').prepend('<div class="alert alert-danger"><i class="glyphicon glyphicon-remove"></i> Invalid credentials.</div>');
+                        alertify.error('<i class="glyphicon glyphicon-remove"></i> <span class="col-sm-offset-1">Unable to perform login, please verify your credentials.</span>')
                     })
             });
         },
