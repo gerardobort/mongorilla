@@ -11,7 +11,7 @@ exports.bootstrap = function(req, res, next){
     var url = require('url'),
         url_parts = url.parse(req.url, true);
 
-    if (!req.session.user && url_parts.path !== '/' && url_parts.path !== '/auth/login') {
+    if (!req.session.user && url_parts.path !== '/' && !url_parts.path.match(/^\/auth\/login/)) {
         res.redirect('/');
     } else if (req.session.user && url_parts.path === '/') {
         res.redirect('/dashboard');
@@ -36,9 +36,13 @@ exports.postLogin = function(req, res){
         return u.username === req.body.user && u.password === req.body.pass;
     });
     if (req.session.user) {
-        res.redirect('/dashboard');
+        res.send({
+            user: { username: req.session.user.username },
+            ok: true
+        });
     } else {
-        res.redirect('/');
+        res.status(403);
+        res.send({ ok: false });
     }
 };
 
