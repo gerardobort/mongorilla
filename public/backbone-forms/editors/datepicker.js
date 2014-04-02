@@ -48,7 +48,7 @@
          * @return {String}
          */
         getValue: function() {
-            this.value = this.$el.datepicker('getDate');
+            this.value = this.$el.datepicker('getUTCDate');
             return this.value;
         },
         

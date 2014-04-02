@@ -7,7 +7,6 @@ define('views/generic-form', [
         '/third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead.js',
 
         '/backbone-forms/editors/list.js',
-        //'/third-party/backbone-forms/distribution/editors/list.js',
         '/backbone-forms/editors/file.js',
         '/backbone-forms/editors/image.js',
         '/backbone-forms/editors/object-id.js',
@@ -151,7 +150,7 @@ define('views/generic-form', [
             });
         },
 
-        /* adds compatibility for form refreshing on model change */
+        /* adds compatibility to form refreshing on model change */
         applyRevisionsPatch: function () {
             var instance = this;
             _(instance.config.schema).each(function (schema, prop) {
@@ -161,7 +160,32 @@ define('views/generic-form', [
                         val = new Date(val);
                     }
                     obj[prop] = val;
+
                     instance.form.setValue(obj);
+
+                    var fieldName = instance.config.schema[prop].title,
+                        fieldType = instance.config.schema[prop].type,
+                        valFrom = model._previousAttributes[prop],
+                        valTo = model.attributes[prop];
+
+                    if ('List' === fieldType) {
+                        valFrom = valFrom.length + ' elements';
+                        valTo = valTo.length + ' elements';
+                    }
+
+                    if ('Datepicker' === fieldType) {
+                        valFrom = (new Date(valFrom)).toLocaleDateString();
+                        valTo = (new Date(valTo)).toLocaleDateString();
+                    }
+
+                    if ('Date' === fieldType) {
+                        valFrom = (new Date(valFrom)).toTimeString();
+                        valTo = (new Date(valTo)).toTimeString();
+                    }
+
+                    if (valFrom !== valTo) {
+                        alertify.success('<strong>' + fieldName + '</strong><br> ' + valFrom + ' <i class="glyphicon glyphicon-arrow-right"></i> ' + valTo + '');
+                    }
                 });
             });
         }
