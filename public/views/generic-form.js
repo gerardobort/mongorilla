@@ -160,41 +160,44 @@ define('views/generic-form', [
                         val = new Date(val);
                     }
                     obj[prop] = val;
-
                     instance.form.setValue(obj);
-
-                    var fieldName = instance.config.schema[prop].title,
-                        fieldType = instance.config.schema[prop].type,
-                        valFrom = model.previous(prop),
-                        valTo = model.get(prop);
-
-                    if ('List' === fieldType) {
-                        valFrom = valFrom.length + ' elements';
-                        valTo = valTo.length + ' elements';
-                    }
-
-                    if ('Datepicker' === fieldType) {
-                        valFrom = (new Date(valFrom)).toLocaleDateString();
-                        valTo = (new Date(valTo)).toLocaleDateString();
-                    }
-
-                    if ('Date' === fieldType) {
-                        valFrom = (new Date(valFrom)).toTimeString();
-                        valTo = (new Date(valTo)).toTimeString();
-                    }
-
-                    if ('File' === fieldType || 'Image' === fieldType) {
-                        valFrom = _.isObject(valFrom) ? valFrom._id : valFrom;
-                        valTo = _.isObject(valTo) ? valTo._id : valTo;
-                    }
-
-                    if (valFrom !== valTo) {
-                        alertify.success('<strong>' + fieldName + '</strong><br> ' + valFrom + ' <i class="glyphicon glyphicon-arrow-right"></i> ' + valTo + '');
-                    }
+                    instance.notifyRevisionChanges(model, prop);
                 });
             });
-        }
+        },
 
+        notifyRevisionChanges: function (changingModel, prop) {
+            var instance = this,
+                fieldName = instance.config.schema[prop].title,
+                fieldType = instance.config.schema[prop].type,
+                valFrom = changingModel.previous(prop),
+                valTo = changingModel.get(prop);
+
+            if ('List' === fieldType) {
+                valFrom = valFrom.length + ' elements';
+                valTo = valTo.length + ' elements';
+            }
+
+            if ('Datepicker' === fieldType) {
+                valFrom = (new Date(valFrom)).toLocaleDateString();
+                valTo = (new Date(valTo)).toLocaleDateString();
+            }
+
+            if ('Date' === fieldType) {
+                valFrom = (new Date(valFrom)).toTimeString();
+                valTo = (new Date(valTo)).toTimeString();
+            }
+
+            if ('File' === fieldType || 'Image' === fieldType) {
+                valFrom = _.isObject(valFrom) ? valFrom._id : valFrom;
+                valTo = _.isObject(valTo) ? valTo._id : valTo;
+            }
+
+            if (valFrom !== valTo) {
+                alertify.success('<strong>' + fieldName + '</strong><br> ' + valFrom + ' <i class="glyphicon glyphicon-arrow-right"></i> ' + valTo + '');
+            }
+
+        }
     });
 
 });
