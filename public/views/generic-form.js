@@ -165,8 +165,8 @@ define('views/generic-form', [
 
                     var fieldName = instance.config.schema[prop].title,
                         fieldType = instance.config.schema[prop].type,
-                        valFrom = model._previousAttributes[prop],
-                        valTo = model.attributes[prop];
+                        valFrom = model.previous(prop),
+                        valTo = model.get(prop);
 
                     if ('List' === fieldType) {
                         valFrom = valFrom.length + ' elements';
@@ -181,6 +181,11 @@ define('views/generic-form', [
                     if ('Date' === fieldType) {
                         valFrom = (new Date(valFrom)).toTimeString();
                         valTo = (new Date(valTo)).toTimeString();
+                    }
+
+                    if ('File' === fieldType || 'Image' === fieldType) {
+                        valFrom = _.isObject(valFrom) ? valFrom._id : valFrom;
+                        valTo = _.isObject(valTo) ? valTo._id : valTo;
                     }
 
                     if (valFrom !== valTo) {
