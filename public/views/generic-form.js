@@ -153,7 +153,7 @@ define('views/generic-form', [
         /* adds compatibility for form refreshing on model change */
         applyRevisionsPatch: function () {
             var instance = this;
-            instance.model.on('revision-change', function(model) {
+            instance.model.on('revision:change', function(model) {
                 _(instance.config.schema).each(function (schema, prop) {
                     var obj = {},
                         val = instance.model.get(prop);

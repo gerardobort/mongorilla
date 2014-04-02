@@ -156,28 +156,39 @@ exports.put = function (req, res) {
     var attributesToSet = global.helpers.toFlat(attributes);
     attributesToSet[collection.updatedField.key] = new global[collection.createdField.type||'Date']().toISOString();
 
-    getModel(collection.name)
-        .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
-            if (err) {
-                res.send(err);
-            } else {
 
-                if (collection.revisionable) {
-                    // mongoose hooks doesn't have  support for update, so here is the "hook"
-                    var RevisionModel = global.getRevisionModel(collection.name);
-                    var revisionModel = new RevisionModel();
-                    revisionModel.set({
-                        objectId: model.get('_id'),
-                        collectionName: collection.name,
-                        user: req.session.user.username,
-                        created: new Date(),
-                        modelSnapshot: model
-                    });
-                    revisionModel.save();
-                }
+    // generate revision for the old content before save the new
+    var oldFullModelPromise = getModel(collection.name)
+        .findOne({ _id: objectId })
+        .populate(_(collection.relations).keys().join(' '))
+        .exec();
 
-                res.send(responseData);
-            }
+    mongoose.Promise
+        .when(oldFullModelPromise)
+        .addBack(function (err, oldFullModel) {
+            getModel(collection.name)
+                .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
+                    if (err) {
+                        res.send(err);
+                    } else {
+
+                        if (collection.revisionable) {
+                            // mongoose hooks doesn't have  support for update, so here is the "hook"
+                            var RevisionModel = global.getRevisionModel(collection.name);
+                            var revisionModel = new RevisionModel();
+                            revisionModel.set({
+                                objectId: model.get('_id'),
+                                collectionName: collection.name,
+                                user: req.session.user.username,
+                                created: new Date(),
+                                modelSnapshot: oldFullModel.toJSON()
+                            });
+                            revisionModel.save();
+                        }
+
+                        res.send(responseData);
+                    }
+                });
         });
 
 };
