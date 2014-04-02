@@ -53,7 +53,9 @@ define('views/generic-form', [
                     instance.renderRevisionsControls();
                 }
 
-                instance.applyRevisionsPatch();
+                if (!instance.model.isNew()) {
+                    instance.applyRevisionsPatch();
+                }
 
             });
 
