@@ -119,17 +119,18 @@ define('views/generic-form', [
                         if (isNew) {
                             document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
                         } else {
+                            // TODO refresh collection
                             instance.revisionsView && instance.revisionsView.render(); // repaint view
                             $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
                         }
                     },
                     error: function () {
-                        l.stop();
+                        instance.laddaSubmit.stop();
                         alertify.error('an error has ocurred! :S');
                     }
                 });
             } else {
-                l.stop();
+                instance.laddaSubmit.stop();
                 console.log('model err', err);
                 alertify.error('validation failed, look at the console for details.');
             }
@@ -153,7 +154,9 @@ define('views/generic-form', [
         /* adds compatibility for form refreshing on model change */
         applyRevisionsPatch: function () {
             var instance = this;
-            instance.model.on('revision:change', function(model) {
+            window.form = instance.form;
+            instance.model.on('change', function(model) {
+                console.log('change revision!')
                 _(instance.config.schema).each(function (schema, prop) {
                     var obj = {},
                         val = instance.model.get(prop);
@@ -163,10 +166,12 @@ define('views/generic-form', [
                     }
                         
                     if (instance.form.getEditor(prop).items) {
-                        // remove exising items
+                        // <workaround desc="Backbone.editors.List issue workaround for setValue()">
                         _(instance.form.getEditor(prop).items).each(function (item) {
                             item.remove();
                         });
+                        instance.form.getEditor(prop).items = [];
+                        // </workaround>
                         if (_.isArray(val)) {
                             _(val).each(function (item) {
                                 instance.form.getEditor(prop).addItem(item);
@@ -175,7 +180,7 @@ define('views/generic-form', [
                         }
                     } else {
                         obj[prop] = val;
-                        instance.form.setValue(obj);
+                        instance.form.setValue(obj, { silent: true });
                     }
                 });
             });

@@ -4,12 +4,14 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-    <form class="input-group col-xs-12 col-md-6" role="search">
-        <input type="search" class="form-control" placeholder="Search..." id="fast-search-q">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
-        </span>
-    </form>
+        <form class="input-group col-xs-12 col-md-6" role="search">
+            <input type="search" class="form-control" placeholder="Search..." id="fast-search-q">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                <a class="btn btn-info" href="/add/<%= collection.name %>">
+                    <i class="glyphicon glyphicon-plus"></i></a>
+            </span>
+        </form>
+    </div>
+    <div id="collection-list" data-collection-name="<%= collection.name %>"></div>
 </div>
-
-<div id="collection-list" data-collection-name="<%= collection.name %>"></div>

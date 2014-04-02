@@ -7,6 +7,28 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId,
     _ = require('underscore');
 
+function saveRevisionSnapshot (collection, objectId, user, callback) {
+    getModel(collection.name)
+        .findOne({ _id: objectId })
+        .populate(_(collection.relations).keys().join(' '))
+        .exec(function (err, fullModel) {
+            // mongoose hooks doesn't have  support for update, so here is the "hook"
+            var RevisionModel = global.getRevisionModel(collection.name);
+            var revisionModel = new RevisionModel();
+            revisionModel.set({
+                objectId: objectId,
+                collectionName: collection.name,
+                user: user.username,
+                created: new Date(),
+                modelSnapshot: fullModel.toJSON()
+            });
+            revisionModel.save(function (err, revision) {
+                if (callback) {
+                    callback.apply(null, err, revision);
+                }
+            });
+        });
+}
 
 function getCollection(req, res) {
     var collectionName = req.route.params.collectionName;
@@ -105,20 +127,12 @@ exports.post = function (req, res) {
             delete responseData.__v;
 
             if (collection.revisionable) {
-                // mongoose hooks doesn't have  support for update, so here is the "hook"
-                var RevisionModel = global.getRevisionModel(collection.name);
-                var revisionModel = new RevisionModel();
-                revisionModel.set({
-                    objectId: model.get('_id'),
-                    collectionName: collection.name,
-                    user: req.session.user.username,
-                    created: new Date(),
-                    modelSnapshot: model
+                saveRevisionSnapshot(collection, model._id, req.session.uer, function (err, revision) {
+                    res.send(responseData);
                 });
-                revisionModel.save();
+            } else {
+                res.send(responseData);
             }
-
-            res.send(responseData);
         }
     });
 };
@@ -157,38 +171,19 @@ exports.put = function (req, res) {
     attributesToSet[collection.updatedField.key] = new global[collection.createdField.type||'Date']().toISOString();
 
 
-    // generate revision for the old content before save the new
-    var oldFullModelPromise = getModel(collection.name)
-        .findOne({ _id: objectId })
-        .populate(_(collection.relations).keys().join(' '))
-        .exec();
-
-    mongoose.Promise
-        .when(oldFullModelPromise)
-        .addBack(function (err, oldFullModel) {
-            getModel(collection.name)
-                .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
-                    if (err) {
-                        res.send(err);
-                    } else {
-
-                        if (collection.revisionable) {
-                            // mongoose hooks doesn't have  support for update, so here is the "hook"
-                            var RevisionModel = global.getRevisionModel(collection.name);
-                            var revisionModel = new RevisionModel();
-                            revisionModel.set({
-                                objectId: model.get('_id'),
-                                collectionName: collection.name,
-                                user: req.session.user.username,
-                                created: new Date(),
-                                modelSnapshot: oldFullModel.toJSON()
-                            });
-                            revisionModel.save();
-                        }
-
+    getModel(collection.name)
+        .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
+            if (err) {
+                res.send(err);
+            } else {
+                if (collection.revisionable) {
+                    saveRevisionSnapshot(collection, objectId, req.session.user, function (err, revision) {
                         res.send(responseData);
-                    }
-                });
+                    });
+                } else {
+                    res.send(responseData);
+                }
+            }
         });
 
 };

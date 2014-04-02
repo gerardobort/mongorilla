@@ -43,8 +43,6 @@ define('views/generic-form-revisions', [], function () {
                 revisionModel = instance.revisionsModel[i];
             event.preventDefault();
             instance.model.set(revisionModel.modelSnapshot);
-            // there are some issues with the List editor when listening to model:change
-            instance.model.trigger('revision:change');
             instance.repaintList(i);
             alertify.log('switched content to revision:' + $button.text());
         },
