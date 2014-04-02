@@ -6,8 +6,8 @@ define('views/generic-form', [
         '/third-party/ckeditor/ckeditor.js',
         '/third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead.js',
 
-        //'/backbone-forms/editors/list.js',
-        '/third-party/backbone-forms/src/editors/extra/list.js',
+        '/backbone-forms/editors/list.js',
+        //'/third-party/backbone-forms/distribution/editors/list.js',
         '/backbone-forms/editors/file.js',
         '/backbone-forms/editors/image.js',
         '/backbone-forms/editors/object-id.js',
@@ -153,16 +153,32 @@ define('views/generic-form', [
         /* adds compatibility for form refreshing on model change */
         applyRevisionsPatch: function () {
             var instance = this;
+            window.form = instance.form;
             _(instance.config.schema).each(function (schema, prop) {
                 instance.model.on('change:' + prop, function(model, val) {
+                    console.log('instance.model change:', prop, val)
                     var obj = {};
                     if (instance.config.schema[prop].type === 'Date') {
                         val = new Date(val);
                     }
-                    obj[prop] = val;
                     // TODO file and image revisions seems to not work proprely yet
-                    instance.form.setValue(obj);
-console.log('setValue', obj)
+                    if (false && instance.form.getEditor(prop).items) {
+                        // remove exising items
+                        obj[prop] = [];
+                        instance.form.setValue(obj);
+                        _(instance.form.getEditor(prop).items).each(function (item) {
+                            item.remove();
+                        });
+                        if (_.isArray(val)) {
+                            _(val).each(function (item) {
+                                instance.form.getEditor(prop).addItem(item);
+                                console.log('addItem', prop, item);
+                            });
+                        }
+                    } else {
+                        obj[prop] = val;
+                        instance.form.setValue(obj);
+                    }
                 });
             });
         }
