@@ -118,8 +118,14 @@ define('views/generic-form', [
                         if (isNew) {
                             document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
                         } else {
-                            // TODO refresh collection
-                            instance.revisionsView && instance.revisionsView.render(); // repaint view
+                            if (instance.revisionsView) {
+                                require([
+                                    'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
+                                    ], function (revisionsModel) {
+                                    instance.revisionsView.revisionsModel = revisionsModel;
+                                    instance.revisionsView.render(); // repaint view
+                                });
+                            }
                             $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
                         }
                     },
