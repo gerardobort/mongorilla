@@ -92,6 +92,7 @@ exports.post = function (req, res) {
     }
 
     var attributes = _.clone(req.body);
+    var responseData = _.clone(attributes);
 
     _(collection.relations).each(function (data, relKey) {
         if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
@@ -109,7 +110,6 @@ exports.post = function (req, res) {
         }
     });
 
-    var responseData = _.clone(attributes);
     delete attributes['_id'];
 
     // TODO skip all attributes not specified in schema
@@ -146,6 +146,7 @@ exports.put = function (req, res) {
     }
 
     var attributes = _.clone(req.body);
+    var responseData = _.clone(attributes);
 
     _(collection.relations).each(function (data, relKey) {
         if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
@@ -163,7 +164,6 @@ exports.put = function (req, res) {
         }
     });
 
-    var responseData = _.clone(attributes);
     delete attributes['_id'];
 
     // TODO skip all attributes not specified in schema

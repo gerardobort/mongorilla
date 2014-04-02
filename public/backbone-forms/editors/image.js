@@ -188,6 +188,10 @@
 
         focus: function () {
             $('[type="file"]', this.$el).get(0).focus();
+        },
+
+        blur: function () {
+            $('[type="file"]', this.$el).get(0).blur();
         }
 
     });

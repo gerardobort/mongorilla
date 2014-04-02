@@ -155,33 +155,14 @@ define('views/generic-form', [
         applyRevisionsPatch: function () {
             var instance = this;
             window.form = instance.form;
-            instance.model.on('change', function(model) {
-                console.log('change revision!')
-                _(instance.config.schema).each(function (schema, prop) {
-                    var obj = {},
-                        val = instance.model.get(prop);
-
+            _(instance.config.schema).each(function (schema, prop) {
+                instance.model.on('change:' + prop, function(model, val) {
+                    var obj = {};
                     if (instance.config.schema[prop].type === 'Date') {
                         val = new Date(val);
                     }
-                        
-                    if (instance.form.getEditor(prop).items) {
-                        // <workaround desc="Backbone.editors.List issue workaround for setValue()">
-                        _(instance.form.getEditor(prop).items).each(function (item) {
-                            item.remove();
-                        });
-                        instance.form.getEditor(prop).items = [];
-                        // </workaround>
-                        if (_.isArray(val)) {
-                            _(val).each(function (item) {
-                                instance.form.getEditor(prop).addItem(item);
-                                console.log('addItem', prop, item);
-                            });
-                        }
-                    } else {
-                        obj[prop] = val;
-                        instance.form.setValue(obj, { silent: true });
-                    }
+                    obj[prop] = val;
+                    instance.form.setValue(obj);
                 });
             });
         }

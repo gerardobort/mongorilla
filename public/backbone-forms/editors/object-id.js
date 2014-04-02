@@ -148,10 +148,12 @@
         },
 
         focus: function () {
-console.log('focus')
             $('[type="text"]', this.$el).get(0).focus();
-        }
+        },
 
+        blur: function () {
+            $('[type="text"]', this.$el).get(0).blur();
+        }
     });
 
 }());

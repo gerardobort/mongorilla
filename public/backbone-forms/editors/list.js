@@ -69,7 +69,12 @@
         if (!this.Editor.isAsync) this.addItem();
       }
 
+      var domReferenced = this.el;
       this.setElement($el);
+      if (domReferenced) {
+        $(domReferenced).replaceWith(this.el);
+      }
+
       this.$el.attr('id', this.id);
       this.$el.attr('name', this.key);
             
@@ -191,6 +196,7 @@
     },
 
     setValue: function(value) {
+      this.items = [];
       this.value = value;
       this.render();
     },
