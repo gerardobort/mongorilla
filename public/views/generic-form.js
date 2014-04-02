@@ -153,19 +153,17 @@ define('views/generic-form', [
         /* adds compatibility for form refreshing on model change */
         applyRevisionsPatch: function () {
             var instance = this;
-            window.form = instance.form;
-            _(instance.config.schema).each(function (schema, prop) {
-                instance.model.on('change:' + prop, function(model, val) {
-                    console.log('instance.model change:', prop, val)
-                    var obj = {};
+            instance.model.on('revision-change', function(model) {
+                _(instance.config.schema).each(function (schema, prop) {
+                    var obj = {},
+                        val = instance.model.get(prop);
+
                     if (instance.config.schema[prop].type === 'Date') {
                         val = new Date(val);
                     }
-                    // TODO file and image revisions seems to not work proprely yet
-                    if (false && instance.form.getEditor(prop).items) {
+                        
+                    if (instance.form.getEditor(prop).items) {
                         // remove exising items
-                        obj[prop] = [];
-                        instance.form.setValue(obj);
                         _(instance.form.getEditor(prop).items).each(function (item) {
                             item.remove();
                         });
