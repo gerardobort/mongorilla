@@ -81,11 +81,14 @@
                 "defaults": {
                 }
             },
-            "toStringField": "fullname",
+            "toStringField": "lastname",
             "updatedField": { "key": "updated", "type": "Date" },
             "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
-                "find": { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                "find": {
+                    "firstname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] },
+                    "lastname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] }
+                },
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["lastname", "firstname", "uri", "created", "updated"]
