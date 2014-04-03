@@ -10,14 +10,14 @@
         {
             "name": "root",
             "permissions": {
-                "user": "crud",
+                "developer": "crud",
                 "company": "crud"
             }
         },
         {
             "name": "editor",
             "permissions": {
-                "user": "",
+                "developer": "cru",
                 "company": "cru"
             }
         }
@@ -28,24 +28,24 @@
     ],
     "collections": [
         {
-            "name": "user",
-            "humanName": "User",
+            "name": "developer",
+            "humanName": "Developer",
             "previewUrl": "http://example.com/${uri}.html",
             "backboneForms": {
                 "schema": {
-                    "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"] },
                     "firstname": { "type": "Text", "title": "First Name", "validators": ["required"] },
                     "lastname": { "type": "Text", "title": "Last Name", "validators": ["required"] },
-                    "twitter.username": { "type": "Text", "title": "Twitter Username", "help": "e.g. @pepe" },
+                    "twitter.username": { "type": "Text", "title": "Twitter Username", "editorAttrs": { "placeholder": "@YourTwitterAccount" } },
                     "github.username": { "type": "Text", "title": "GitHub Username", "help": "e.g. pepe" },
-                    "dob": { "type": "Datepicker", "title": "Day of Birth", "editorAttrs": { "format": "dd/mm/yyyy" } },
+                    "dob": { "type": "Datepicker", "title": "Day of Birth", "editorAttrs": { "placeholder": "dd/mm/yyyy", "format": "dd/mm/yyyy" } },
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "bio": { "type": "CKEditor", "title": "Bio" },
-                    "website_url": { "type": "Text", "validators": ["required", "url"], "title": "Website URL", "help": "please, include http:// prefix" },
+                    "website_url": { "type": "Text", "validators": ["url"], "title": "Website URL", "help": "please, include http:// prefix", "editorAttrs": { "placeholder": "http://" } },
                     "photo": { "type": "Image", "title": "Photo", "pushToS3": true },
                     "other_photos": { "type": "List", "itemType": "Image", "title": "Other Photos", "pushToS3": true },
                     "cv": { "type": "File", "title": "Curriculum Vitae", "pushToS3": true },
-                    "company": { "type": "ObjectId", "title": "Actual Company", "validators": ["required"] },
+                    "position": { "type": "Text", "title": "Current Position", "validators": ["required"] },
+                    "company": { "type": "ObjectId", "title": "Actual Company", "validators": [] },
                     "previous_companies": { "type": "List", "itemType": "ObjectId", "title": "Previous Companies" },
                     "uri": {
                         "validators": [
@@ -54,13 +54,16 @@
                                 "type": "regexp",
                                 "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$"] }
                             }
-                        ] 
+                        ],
+                        "title": "URI",
+                        "editorAttrs": { "placeholder": "developer-name" }, 
+                        "help": "URI is a slug token that helps to construct URLs:  example: /developers/developer-name.html" 
                     }
                 },
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["fullname", "firstname", "lastname", "dob", "photo", "other_photos"]
+                        "fields": ["firstname", "lastname", "dob", "photo", "other_photos"]
                     },
                     {
                         "legend": "About",
@@ -68,7 +71,7 @@
                     },
                     {
                         "legend": "Work",
-                        "fields": ["cv", "company", "previous_companies"]
+                        "fields": ["cv", "position", "company", "previous_companies"]
                     },
                     {
                         "legend": "System Data",
