@@ -46,7 +46,7 @@ define('views/generic-form-revisions', [], function () {
 
         restore: function (event) {
             var instance = this,
-                $button = $(event.target),
+                $button = $(event.currentTarget),
                 i = $button.data('revision-i'),
                 revisionModel = instance.revisionsModel[i];
 
