@@ -71,7 +71,11 @@
             if (editor.value) {
                 if ('object' === typeof editor.value) {
                     $('.img-link', editor.$el).attr('href', '/api/fs.files/' + editor.value._id + '/raw');
-                    $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value._id + '/raw');
+                    if (editor.value.metadata && editor.value.metadata.s3_url) {
+                        $('.image-preview', editor.$el).attr('src', editor.value.metadata.s3_url);
+                    } else {
+                        $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value._id + '/raw');
+                    }
                 } else {
                     $('.img-link', editor.$el).attr('href', '/api/fs.files/' + editor.value + '/raw');
                     $('.image-preview', editor.$el).attr('src', '/api/fs.files/' + editor.value + '/raw');
