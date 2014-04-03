@@ -54,7 +54,7 @@ define('views/generic-form', [
                 }
 
                 if (!instance.model.isNew()) {
-                    instance.applyRevisionsPatch();
+                    instance.bindModelEvents();
                 }
 
             });
@@ -100,7 +100,8 @@ define('views/generic-form', [
 
                 instance.revisionsView = new GenericFormRevisionsView({
                     model: instance.model,
-                    revisionsModel: revisionsModel
+                    revisionsModel: revisionsModel,
+                    config: instance.config
                 });
                 instance.revisionsView.render();
             });
@@ -109,11 +110,12 @@ define('views/generic-form', [
         submit: function (event) {
             var instance = this;
             var err;
+            instance.revisionsView.pushRevision(false);
             if (!(err = instance.form.commit())) {
                 instance.laddaSubmit.start();
-                console.log('model submitted', instance.form.model.toJSON());
                 var isNew = instance.model.isNew();
                 instance.model.save({}, {
+                    silent: true,
                     success: function () {
                         instance.laddaSubmit.stop();
                         alertify.success('success!');
@@ -159,59 +161,20 @@ define('views/generic-form', [
         },
 
         /* adds compatibility to form refreshing on model change */
-        applyRevisionsPatch: function () {
+        bindModelEvents: function () {
             var instance = this;
-            _(instance.config.schema).each(function (schema, prop) {
-                instance.model.on('change:' + prop, function(model, val) {
-                    var obj = {};
-                    if (instance.config.schema[prop].type === 'Date') {
-                        val = new Date(val);
+            instance.model.on('change', function(model) {
+                _(instance.config.schema).each(function (schema, prop) {
+                    if (!model.hasChanged(prop)) {
+                        return;
                     }
-                    obj[prop] = val;
+                    var obj = {};
+                    obj[prop] = model.get(prop);
                     instance.form.setValue(obj);
-                    instance.notifyRevisionChanges(model, prop);
                 });
             });
         },
 
-        notifyRevisionChanges: function (changingModel, prop) {
-            var instance = this,
-                fieldName = instance.config.schema[prop].title,
-                fieldType = instance.config.schema[prop].type,
-                valFrom = changingModel.previous(prop),
-                valTo = changingModel.get(prop);
-
-            if ('List' === fieldType) {
-                valFrom = valFrom.length + ' elements';
-                valTo = valTo.length + ' elements';
-            }
-
-            if ('Datepicker' === fieldType) {
-                valFrom = (new Date(valFrom)).toLocaleDateString();
-                valTo = (new Date(valTo)).toLocaleDateString();
-            }
-
-            if ('Date' === fieldType) {
-                valFrom = (new Date(valFrom)).toTimeString();
-                valTo = (new Date(valTo)).toTimeString();
-            }
-
-            if ('File' === fieldType || 'Image' === fieldType) {
-                valFrom = _.isObject(valFrom) ? valFrom._id : valFrom;
-                valTo = _.isObject(valTo) ? valTo._id : valTo;
-            }
-
-            if (valFrom !== valTo) {
-                if (valFrom.length > 100) {
-                    valFrom = $(valFrom.toString().substr(0, 100)).text() + '...';
-                }
-                if (valTo.length > 100) {
-                    valTo = $(valTo.toString().substr(0, 100)).text() + '...';
-                }
-                alertify.success('<strong>' + fieldName + '</strong><br> ' + valFrom + ' <i class="glyphicon glyphicon-arrow-right"></i> ' + valTo + '');
-            }
-
-        }
     });
 
 });

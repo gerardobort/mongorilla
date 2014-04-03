@@ -125,7 +125,7 @@
 
             // set the file object w/ObjectId
             editor.value = value;
-            editor.refresh();
+            editor.render();
         },
 
         refresh: function () {
