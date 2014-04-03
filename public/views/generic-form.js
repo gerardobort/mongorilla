@@ -110,7 +110,9 @@ define('views/generic-form', [
         submit: function (event) {
             var instance = this;
             var err;
-            instance.revisionsView.pushRevision(false);
+            if (instance.revisionsView) {
+                instance.revisionsView.pushRevision(false);
+            }
             if (!(err = instance.form.commit())) {
                 instance.laddaSubmit.start();
                 var isNew = instance.model.isNew();
