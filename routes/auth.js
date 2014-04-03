@@ -39,7 +39,10 @@ exports.postLogin = function(req, res){
     });
     if (req.session.user) {
         res.send({
-            user: { username: req.session.user.username },
+            user: {
+                fullname: req.session.user.fullname, 
+                username: req.session.user.username 
+            },
             ok: true
         });
     } else {

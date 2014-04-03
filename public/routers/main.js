@@ -1,4 +1,7 @@
-define('routers/main', ['mongorilla-spinner'], function (spinner) {
+define('routers/main', [
+        'mongorilla-spinner',
+        '/third-party/ladda-bootstrap/dist/ladda.min.js',
+    ], function (spinner, Ladda) {
 
     return Backbone.Router.extend({
 
@@ -14,22 +17,26 @@ define('routers/main', ['mongorilla-spinner'], function (spinner) {
         },
 
         loginForm: function (collectionName) {
-            var $form = $('form');
+            var $form = $('form'),
+                laddaSubmit = Ladda.create($form.find('[type="submit"]').get(0));
             $form.find('[type="submit"]').removeAttr('disabled');
             $form.submit(function (event) {   
                 event.preventDefault();
+                laddaSubmit.start();
                 $.ajax({
                         method: 'POST',
                         url: $form.attr('action'),
                         data: $form.serialize()
                     })
                     .success(function (data) {
-                        alertify.success('<i class="glyphicon glyphicon-ok"></i> <span class="col-sm-offset-1">Welcome, <strong>' + data.user.username + '</strong></span>!');
+                        alertify.success('<i class="glyphicon glyphicon-ok"></i> <span class="col-sm-offset-1">Welcome, <strong>' + data.user.fullname + '</strong></span>!');
                         $form.fadeOut(1000, function () {
+                            laddaSubmit.stop();
                             document.location = '/dashboard';
                         });
                     })
                     .error(function (data) {
+                        laddaSubmit.stop();
                         $('form .alert').remove();
                         $('form').prepend('<div class="alert alert-danger"><i class="glyphicon glyphicon-remove"></i> Invalid credentials.</div>');
                         alertify.error('<i class="glyphicon glyphicon-remove"></i> <span class="col-sm-offset-1">Unable to perform login, please verify your credentials.</span>')
