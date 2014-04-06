@@ -38,13 +38,17 @@ exports.postLogin = function(req, res){
         return u.username === req.body.user && u.password === req.body.pass;
     });
     if (req.session.user) {
-        res.send({
-            user: {
-                fullname: req.session.user.fullname, 
-                username: req.session.user.username 
-            },
-            ok: true
-        });
+        if (req.xhr) {
+            res.send({
+                user: {
+                    fullname: req.session.user.fullname, 
+                    username: req.session.user.username 
+                },
+                ok: true
+            });
+        } else {
+            res.redirect('/dashboard');
+        }
     } else {
         res.status(403);
         res.send({ ok: false });
