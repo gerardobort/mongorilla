@@ -13,8 +13,12 @@
         <link href="/third-party/alertify/themes/alertify.core.css" rel="stylesheet" />
         <link href="/third-party/alertify-bootstrap-3/alertify.bootstrap3.css" rel="stylesheet" />
         <link href="/third-party/ladda-bootstrap/dist/ladda-themeless.min.css" rel="stylesheet" />
+
+        <link href="/third-party/AdminLTE/css/AdminLTE.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/AdminLTE/css/ionicons.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/AdminLTE/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css" />
     </head>
-    <body>
+    <body class="skin-black">
         <nav class="navbar navbar-default" role="navigation">
 
             <div class="container-fluid">
@@ -33,7 +37,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                     <% if (sessionUser) { %>
-                        <li class="dropdown">
+                        <!--li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span> Search <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                             <% collections.forEach(function (collection) { %>
@@ -52,7 +56,7 @@
                                 <% } %>
                             <% }) %>
                             </ul>
-                        </li>
+                        </li-->
                     <% } %>
                     </ul>
                     <!--form class="navbar-form navbar-left" role="search">
@@ -63,10 +67,41 @@
                     </form-->
                     <ul class="nav navbar-nav navbar-right">
                     <% if (sessionUser) { %>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <%= sessionUser.fullname %> <b class="caret"></b></a>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <span><%= sessionUser.fullname %> <i class="caret"></i></span>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/auth/logout">Logout</a></li>
+                                <!-- User image -->
+                                <li class="user-header bg-light-blue">
+                                    <img src="/images/mock/gorilla-user-1.jpg" class="img-circle" alt="User Image" />
+                                    <p>
+                                        <%= sessionUser.fullname %> - <%= sessionUser.roles.join(', ') %> 
+                                        <small>Member since Nov. 2013</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!--li class="user-body">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </li-->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
                             </ul>
                         </li>
                     <% } %>
@@ -76,11 +111,92 @@
 
         </nav>
 
-        <div id="main-container" class="container">
-        <%= body %>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <% if (sessionUser) { %>
+            <aside class="left-side sidebar-offcanvas">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="/images/mock/gorilla-user-1.jpg" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p>Hello, <%= sessionUser.fullname  %></p>
+
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>
+                    <!-- search form -->
+                    <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+                        <li>
+                            <a href="/dashboard">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-search"></i>
+                                <span>Search Content</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                            <% collections.forEach(function (collection) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <li><a href="/search/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
+                                <% } %>
+                            <% }) %>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-plus"></i>
+                                <span>Create Content</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                            <% collections.forEach(function (collection) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <li><a href="/add/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
+                                <% } %>
+                            <% }) %>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+            <% } %>
+
+            <aside class="right-side">
+                <section class="content-header">
+                    <h1>
+                        <%= title %>
+                        <small><%= (typeof subtitle !== 'undefined') ? subtitle : '' %></small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li class="active"><%= title %></li>
+                    </ol>
+                </section>
+
+                <div id="main-container" class="content">
+                <%= body %>
+                </div>
+            </aside>
         </div>
 
-        <footer class="m-footer" role="contentinfo">
+        <footer class="m-footer clearfix" role="contentinfo">
             <div class="container">
                 <% if (!sessionUser) { %>
                 <div class="m-social">

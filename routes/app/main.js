@@ -16,7 +16,7 @@ exports.getIndex = function(req, res){
         return;
     }
     res.render('app/index.html', {
-        title: 'welcome'
+        title: 'Welcome'
     });
 };
 

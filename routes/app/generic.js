@@ -18,7 +18,8 @@ exports.getAdd = function (req, res) {
     });
 
     res.render('app/add-content.html', {
-        title: 'edit',
+        title: collection.humanName,
+        subtitle: 'Create Content',
         collection: collection,
     });
 };
@@ -35,7 +36,8 @@ exports.getEdit = function (req, res) {
     });
 
     res.render('app/edit-content.html', {
-        title: 'edit',
+        title: collection.humanName,
+        subtitle: 'Edit Content',
         collection: collection,
         objectId: objectId,
     });
@@ -52,7 +54,8 @@ exports.getSearch = function (req, res) {
     });
 
     res.render('app/search-content.html', {
-        title: 'edit',
+        title: collection.humanName,
+        subtitle: 'Search Content',
         collection: collection
     });
 };
