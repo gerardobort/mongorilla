@@ -111,8 +111,8 @@
 
         </nav>
 
+        <% if (sessionUser) { %>
         <div class="wrapper row-offcanvas row-offcanvas-left">
-            <% if (sessionUser) { %>
             <aside class="left-side sidebar-offcanvas">
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
@@ -217,7 +217,10 @@
                 <%= body %>
                 </div>
             </aside>
+
+        <% if (sessionUser) { %>
         </div>
+        <% } %>
 
         <footer class="m-footer clearfix" role="contentinfo">
             <div class="container">
