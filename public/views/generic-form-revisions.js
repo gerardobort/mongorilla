@@ -1,4 +1,4 @@
-define('views/generic-form-revisions', [], function () {
+define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-item.html'], function (revItemTemplate) {
 
     return Backbone.View.extend({
 
@@ -22,11 +22,23 @@ define('views/generic-form-revisions', [], function () {
         render: function () {
             var instance = this;
 
+            var lastLabel = '';
             instance.$el.html(_(instance.revisionsModel).map(function (rev, i) {
-                return '<li><a class="restore" data-revision-i="' + i + '" href="#">'
-                    + '<i class="glyphicon glyphicon-fast-backward"></i> '
-                    + '<strong>' + rev.user + '</strong> ('  + humaneDate(rev.created) + ')</a></li>';
+                var label = '<li class="time-label"><span class="bg-green">' + humaneDate(rev.created).toLowerCase() + '</span></li>';
+                if (label === lastLabel) {
+                    label = ''; 
+                } else {
+                    lastLabel = label;
+                }
+                return label + _.template(revItemTemplate, { rev: rev, i: i });
             }).join(''));
+
+            instance.$el.append('<li><i class="fa fa-clock-o"></i><div class="timeline-item"><h3 class="timeline-header no-border">Created</h3></div></li>');
+
+            instance.$el.slimscroll({
+                height: ($(window).height() / 1.5) + "px",
+                color: "rgba(0,0,0,0.2)"
+            });
 
             instance.currentRevision = instance.revisionsModel[0];
             instance.repaintList(0);
@@ -41,6 +53,12 @@ define('views/generic-form-revisions', [], function () {
                 if (j === $icons.size()-1) { $(el).attr('class', 'glyphicon glyphicon-fast-backward'); }
                 else if (j > selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-step-backward'); }
                 if (j === selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-ok'); }
+            });
+
+            $icons = instance.$('li > i.fa.fa-pencil');
+            $icons.each(function (j, el) {
+                if (j === selectedIndex) { $(el).attr('class', 'fa fa-pencil bg-aqua'); }
+                else { $(el).attr('class', 'fa fa-pencil'); }
             });
         },
 
@@ -112,9 +130,9 @@ define('views/generic-form-revisions', [], function () {
             });
             report = '<div class="modal-header"><h3>Changelog</h3>'
             if (instance.previousRevision && instance.currentRevision) {
-                report += '<span class="bg-danger"><strong>' + instance.previousRevision.user + '</strong> (' + humaneDate(instance.previousRevision.created) + ')</span>'
+                report += '<span class="bg-danger"><strong>' + instance.previousRevision.user + '</strong> (' + humaneDate(instance.previousRevision.created).toLowerCase() + ')</span>'
                 report += ' <i class="glyphicon glyphicon-arrow-right"></i> '
-                report += '<span class="bg-success"><strong>' + instance.currentRevision.user + '</strong> (' + humaneDate(instance.currentRevision.created) + ')</span>';
+                report += '<span class="bg-success"><strong>' + instance.currentRevision.user + '</strong> (' + humaneDate(instance.currentRevision.created).toLowerCase() + ')</span>';
             }
             report += '</div>';
             report += '<div class="modal-body">';

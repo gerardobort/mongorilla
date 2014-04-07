@@ -93,3 +93,8 @@
     border: 0;
     margin-top:
 }
+
+/* adminLTE patches */
+.slimScrollDiv .timeline:before {
+    left: 30px;
+}

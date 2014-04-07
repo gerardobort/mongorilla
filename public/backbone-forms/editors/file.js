@@ -30,6 +30,7 @@
             }
 
             this.$el.addClass('control-group fancyfile bbf-file');
+            this.$el.removeClass('form-control');
             editor.options = options;
             _.extend(editor, _.pick(options, 'key', 'form'));
             var schema = editor.schema = options.schema || {};

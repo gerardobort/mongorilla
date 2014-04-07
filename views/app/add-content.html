@@ -1,12 +1,14 @@
 <div class="container-fluid">
     <div class="row">
-        <div id="collection-form" data-collection-name="<%= collection.name %>"
-            <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
-            <%= global.helpers.hasPermission(sessionUser, collection.name, 'r') ? 'data-permission-r' : '' %>
-            <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
-            <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
-        ></div>
+        <div class="col-xs-12 col-md-8">
+            <div id="collection-form" data-collection-name="<%= collection.name %>"
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'r') ? 'data-permission-r' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
+            ></div>
 
-        <div class="btn-group pull-right" id="form-controls"></div>
+            <div class="btn-group pull-right" id="form-controls"></div>
+        </div>
     </div>
 </div>
