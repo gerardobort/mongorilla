@@ -4,6 +4,7 @@
   "version": "0.0.2",
   "private": false,
   "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install",
     "start": "node server.js"
   },
   "dependencies": {
@@ -18,7 +19,24 @@
     "knox": "*",
     "sha1": "^1.1.0"
   },
-  "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install"
-  }
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gerardobort/mongorilla.git"
+  },
+  "keywords": [
+    "mongodb",
+    "cms",
+    "nodejs",
+    "backbone",
+    "backbone-forms",
+    "bootstrap"
+  ],
+  "author": "Gerardo Bort",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gerardobort/mongorilla/issues"
+  },
+  "homepage": "https://github.com/gerardobort/mongorilla"
 }
