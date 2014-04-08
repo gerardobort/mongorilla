@@ -1,7 +1,8 @@
 Mongorilla is a simple CMS (Content Management System) for MongoDB.
-Check the [Live demo!](http://mongorilla.herokuapp.com) - use one of these credentials:
-1. admin / 123
-2. test / 123
+
+Check the [Live demo!](http://mongorilla.herokuapp.com) using one of these credentials:
+* admin / 123
+* test / 123
 
 ## Why Mongorilla
 Mongoorilla let you define your Mongo Documnets schemas by simply editing a [JSON config file](https://github.com/gerardobort/mongorilla/blob/master/config/default.json).
@@ -10,11 +11,11 @@ The first principle of Mongorilla is to store your documents *as you defined* di
 
 ## Dependencies
 Mongorilla is a NodeJS application, distributed via NPM which also have both: NPM and Bower dependencies.  The application is built on top of:
-1. Express3
-2. Mongoose
-2. BackboneJS
-3. Backbone-Forms in combination with Backbone-Deep-Model
-4. Bootstrap3
+* Express3
+* Mongoose
+* BackboneJS
+* Backbone-Forms in combination with Backbone-Deep-Model
+* Bootstrap3
 
 ## Key features
 * Support for multidimentional documents and/with ObjectId document references.
