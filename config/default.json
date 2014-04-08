@@ -1,7 +1,4 @@
 {
-    "mongo": {
-        "url": ""
-    },
     "s3": {
         "bucket": "mongorilla"
     },
