@@ -2,7 +2,7 @@
   "name": "mongorilla",
   "description": "Mongorilla is a simple, clean, and powerful NodeJS based content moderator for MongoDB.",
   "version": "0.0.2",
-  "private": true,
+  "private": false,
   "scripts": {
     "start": "node server.js"
   },
