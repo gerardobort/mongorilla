@@ -1,46 +1,56 @@
-# What is it?
-Mongorilla is a simple CMS / Content Management System for MongoDB. But WAIT! it's something different than you have ever seen in other CMSs.
+Mongorilla is a simple CMS (Content Management System) for MongoDB.
+Check the [Live demo!](http://mongorilla.herokuapp.com) - use one of these credentials:
+1. admin / 123
+2. test / 123
 
-## What makes it different?
-Mongoorilla will store your data *as it is* directly in your Mongo database.
-What that means? ... No extra metadata, no complex structures, just the data with the structure you want.
-You only need to define a document structure/schema in a JSON config file, and Mongorilla will render the interface to CRUD rich documents in a simple fashion.
+## Why Mongorilla
+Mongoorilla let you define your Mongo Documnets schemas by simply editing a [JSON config file](https://github.com/gerardobort/mongorilla/blob/master/config/default.json).
+Once you have the JSON setup, It will generate (no the fly) the administrator views and forms, including dashboards and search tools.
+The first principle of Mongorilla is to store your documents *as you defined* directly in your MongoDB database.  This means no extra metadata embed on your documents.  You define the documents structure on your own!
 
-## Advantages
-* Mongorilla is written in well known technologies, NodeJS in the backend and Backbone and more in the front.
-* The core functionality is quite simple, all the hard work rely on proved libraries such as Backbone-Forms, Mongoose and many others.
-* Mongorilla supports multidimentional documents and ObjectId references.
-* Mongorilla supports File/Image uploads against the same MongoDB using GridFS.
-* Mongorilla supports rich text editors, CKEditor and Aloha comes out of the box.
-* Mongorilla supports revisioning - rolling back document revisions is very easy!
-* Setup is just to complete a JSON file under the config folder.
-* Customize Mongorilla from the source code is not as terrible as other CMSs, even for tweaking forms, you can create your own editors.
+## Dependencies
+Mongorilla is a NodeJS application, distributed via NPM which also have both: NPM and Bower dependencies.  The application is built on top of:
+1. Express3
+2. Mongoose
+2. BackboneJS
+3. Backbone-Forms in combination with Backbone-Deep-Model
+4. Bootstrap3
+
+## Key features
+* Support for multidimentional documents and/with ObjectId document references.
+* Support for File/Image uploads against the same MongoDB using GridFS, and/or Amazon S3 buckets.
+* Supports rich content, CKEditor come out of the box.
+* Revisioning - You can rollback document revisions very easily, by navigating an edition tmieline!
+* Customizing Mongorilla from the source code is not as terrible as in other CMSs.  Even tweaking forms, you can create your own editors, create backend hooks and even, re-use the REST API to serve the content to your frontend app.
 
 ## Limitations
-* This CMS is not intended to be public faced. It's just for trusted Content Managers, at least by now and for security reasons.
 * Mongorilla is good for managing static content only.  For collections that are managed by your own application and they have a specific business logic, then Mongorilla isn't your solution.
 
-# Architecture
-The core application is based on NodeJS Express.  It has a RESTful API with a unique endpoint which handles all the collections/documents.
-There's also a web interface and a JS endpoint for retrieve generated (runtime) javascript files such as Backbone Forms definitions and Backbone Model definitions.
+##Installation
 
-# Live Example
-This example site contains exactly the same source as this repository has.  We only pushed to heroku and set up the $MONGORILLA_MONGO_URL env var.
-The database on this example is stored in MongoHQ and there's no restriction on what you can edit through Mongorilla, so please, be a good person :).
+### Using NPM
+1. ``$ npm install mongorilla``
+2. Setup your MongoDB connection: ``$ export MONGORILLA_MONGO_URL="mongodb://localhost/my_mongorilla"``
+3. Run the server instance: ``$ nodejs node_modules/mongorilla/server.js``
+4. Enjoy!
 
-http://mongorilla.herokuapp.com/
-credentials: admin / 123 and test / 123
-
-#Installation
+### Using Git
 1. Clone this repository: ``$ git clone https://github.com/gerardobort/mongorilla.git``
 2. Install the dependencies: (once in the repository folder) ``$ npm install``
 3. Setup your MongoDB connection: ``$ export MONGORILLA_MONGO_URL="mongodb://localhost/my_mongorilla"``
 4. Run the server instance: ``$ nodejs server.js``
-5. First login: admin / 123
-6. Enjoy!
+5. Enjoy!
 
-# Roadmap
-* Improve documentation, create "How to start", etc.
-* Enhance the UI, visually and informationally,such as showing the dates better, etc.
+### Deploy to Heroku
+1. Clone this repository: ``$ git clone https://github.com/gerardobort/mongorilla.git`` (or follow the NPM steps)
+2. Add your Heroku app remote: ``$ git remote add path-to@your-heroku-app.git``
+3. Install one of the MongoDB Addons to your Heroku App (``$ heroku addons:add mongolab`` or ``heroku addons:add mongohq``).
+4. Push to Heroku ``git push heroku``.
+5. Enjoy!
+
+## Roadmap
+* Improve documentation
+* Enhance the UI, dashboards
+* Possibly: make the documents structure and users be editable from the same admin panel.
 
 ![Logo](public/images/logo.jpg)
