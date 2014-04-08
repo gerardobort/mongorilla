@@ -1,7 +1,7 @@
 {
   "name": "mongorilla",
   "description": "Mongorilla is a simple, clean, and powerful NodeJS based content moderator for MongoDB.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
@@ -38,5 +38,11 @@
   "bugs": {
     "url": "https://github.com/gerardobort/mongorilla/issues"
   },
-  "homepage": "https://github.com/gerardobort/mongorilla"
+  "homepage": "https://github.com/gerardobort/mongorilla",
+  "engines": {
+    "node": "*"
+  },
+  "bin": {
+    "mongorilla": "./server.js"
+  }
 }
