@@ -1,6 +1,6 @@
 <div class="jumbotron">
     <h1>Access</h1>
-    <p>Mongorilla is an Open Source Content Management System.</p>
+    <p>Please, sign-in using your credentials:</p>
     <form class="form-inline" role="form" method="post" action="/auth/login">
         <div class="form-group">
             <label class="sr-only" for="user">Email address</label>
@@ -16,7 +16,17 @@
             </label>
         </div-->
         <button type="submit" class="btn btn-primary ladda-button" data-style="expand-left" value="login" disabled="disabled">Sign in</button>
+
+        <% if (showGuestLoginButton) { %>
+        <p></p>
+        <p>
+            ...or if you don't have an account and <strong>want to take a loook at this demo</strong>:
+        </p>
+        </p>
+            <button id="submit-guest" class="btn btn-success btn-lg ladda-button" data-style="expand-left" value="login" disabled="disabled">Enter as Guest!</button>
+        </p>
+        <% } %>
     </form>
 
-    <!--p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p-->
+
 </div>

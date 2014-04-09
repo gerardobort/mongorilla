@@ -6,12 +6,14 @@ define('views/login-form', [
 
         events: {
             'submit': 'submit',
+            'click #submit-guest': 'signinAsGuest',
         },
 
         initialize: function (options) {
             var instance = this;
             instance.setElement($('form').get(0));
             instance.$('[type="submit"]').removeAttr('disabled');
+            instance.$('#submit-guest').removeAttr('disabled');
             instance.laddaSubmit = Ladda.create(this.$el.find('[type="submit"]').get(0));
         },
 
@@ -40,6 +42,14 @@ define('views/login-form', [
                     instance.$el.prepend('<div class="alert alert-danger"><i class="glyphicon glyphicon-remove"></i> Invalid credentials.</div>');
                     alertify.error('<i class="glyphicon glyphicon-remove"></i> <span class="col-sm-offset-1">Unable to perform login, please verify your credentials.</span>')
                 })
+        },
+
+        signinAsGuest: function (event) {
+            var instance = this;
+            event.preventDefault();
+            instance.$('[name="user"]').val('guest');
+            instance.$('[name="pass"]').val('');
+            instance.submit(event);
         },
 
     });

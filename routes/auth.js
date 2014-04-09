@@ -25,8 +25,12 @@ exports.bootstrap = function(req, res, next){
 };
 
 exports.getLogin = function(req, res){
+    var showGuestLoginButton = _(global.config.users).find(function (u) {
+        return u.username === 'guest';
+    });
     res.render('auth/login.html', {
-        title: 'login'
+        title: 'Sign-in',
+        showGuestLoginButton: showGuestLoginButton
     });
 };
 

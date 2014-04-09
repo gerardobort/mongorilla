@@ -19,12 +19,13 @@ define('routers/main', [
                     .error(function () { alertify.error('Ooops!') });
                 event.preventDefault();
             });
-            $('.sidebar input[name="q"').on('keydown', function (event) {
+            $('.sidebar input[name="q"]').get(0).focus();
+            $('.sidebar input[name="q"]').on('keydown', function (event) {
                 if (13 === event.keyCode) {
                     event.preventDefault();
                 }
             });
-            $('.sidebar input[name="q"').on('keyup', function (event) {
+            $('.sidebar input[name="q"]').on('keyup', function (event) {
                 var q = $(this).val(),
                     $as = $('.sidebar-menu a');
 
