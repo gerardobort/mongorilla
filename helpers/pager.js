@@ -1,4 +1,4 @@
-var DEFAULT_IPP = 30;
+var DEFAULT_IPP = 20;
 
 exports.Pager = function (currentUrl) {
     var _this = {},
@@ -135,7 +135,7 @@ exports.GetListRouter = function (req, res, mongooseModel, options) {
                                 _(data).each(function (modelData) {
                                     var populatePromise = new mongoose.Promise();
                                     mongooseModel.findOne({ _id: modelData._id }).populate(options.populate).exec(function (err, model) {
-                                        populatePromise.resolve(err, model.toJSON());
+                                        populatePromise.resolve(err, model ? model.toJSON() : null);
                                     });
                                     populatePromises.push(populatePromise);
                                 });
@@ -147,7 +147,7 @@ exports.GetListRouter = function (req, res, mongooseModel, options) {
                                         pager.setTotalCount(total);
                                         res.send({
                                             pager: pager.toJSON(),
-                                            data: data
+                                            data: _.isArray(data[0]) ? [] : data
                                         });
                                     });
                             } else if (data) {

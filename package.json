@@ -17,7 +17,8 @@
     "uinexpress": "*",
     "underscore": "*",
     "knox": "*",
-    "sha1": "^1.1.0"
+    "sha1": "^1.1.0",
+    "mongodb": "^1.4.0"
   },
   "main": "server.js",
   "devDependencies": {},

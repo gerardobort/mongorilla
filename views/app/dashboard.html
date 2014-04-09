@@ -16,7 +16,7 @@
                         </tr>
                         <% _(stat.colLastCreated).each(function (obj, i) { %>
                         <tr>
-                            <td style="width: 10px"><%= i %></td>
+                            <td style="width: 10px"><%= i+1 %></td>
                             <td><a href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a></td>
                             <td>Updated <date><%= moment(obj[stat.collection.updatedField.key]).fromNow() %></date></td>
                         </tr>

@@ -84,7 +84,7 @@ app.get('/', authRoute.bootstrap, appMainRoute.getIndex);
 
 app.get('/auth/login', authRoute.bootstrap, authRoute.getLogin);
 app.post('/auth/login', authRoute.postLogin);
-app.get('/auth/logout', authRoute.postLogout); // @TODO make it POST method
+app.post('/auth/logout', authRoute.postLogout);
 
 app.get('/dashboard', authRoute.bootstrap, appMainRoute.getDashboard);
 
@@ -104,6 +104,7 @@ app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiFileRoute.del);
 
 // api generic
 app.get('/api/search/:collectionName', authRoute.bootstrap, apiGenericRoute.getSearch);
+app.get('/api/:collectionName', authRoute.bootstrap, apiGenericRoute.getList);
 app.post('/api/:collectionName', authRoute.bootstrap, apiGenericRoute.post);
 app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.get);
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.put);

@@ -242,3 +242,17 @@ exports.getSearch = function (req, res) {
             });
         });
 };
+
+exports.getList = function (req, res) {
+    var pager = require('../../helpers/pager'),
+        collection = getCollection(req, res);
+
+    if (!collection) {
+        return;
+    }
+
+    var router = new pager.GetListRouter(req, res, getModel(collection.name), {
+        populate: _(collection.relations).keys()
+    });
+    router.send();
+};

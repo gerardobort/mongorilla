@@ -13,6 +13,12 @@ define('routers/main', [
         },
 
         initialize: function () {
+            $('a[href="/auth/logout"]').on('click', function (event) {
+                $.ajax({ method: 'POST', url: '/auth/logout' })
+                    .success(function () { document.location.href = '/'; })
+                    .error(function () { alertify.error('Ooops!') });
+                event.preventDefault();
+            });
             console.log('Mongorilla!');
         },
 
