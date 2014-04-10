@@ -40,8 +40,16 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
                 color: "rgba(0,0,0,0.2)"
             });
 
-            instance.currentRevision = instance.revisionsModel[0];
-            instance.repaintList(0);
+            var currentRevisionIndex = 0; 
+            _(instance.revisionsModel).every(function (rev, i) {
+                if (!rev.is_draft) {
+                    currentRevisionIndex = i;
+                    return false;
+                }
+                return true;
+            });
+            instance.currentRevision = instance.revisionsModel[currentRevisionIndex];
+            instance.repaintList(currentRevisionIndex);
         },
 
         repaintList: function (selectedIndex) {

@@ -27,6 +27,7 @@ exports.getModel = function (collectionName) {
             collectionName: String,
             user: String,
             created: Date,
+            is_draft: { type: Boolean, default: false },
             modelSnapshot: Schema.Types.Mixed
         };
 
@@ -66,6 +67,7 @@ exports.saveRevisionSnapshot = function (collection, objectId, user, callback) {
                 collectionName: collection.name,
                 user: user.username,
                 created: new Date(),
+                is_draft: false,
                 modelSnapshot: fullModel.toJSON()
             });
             revisionModel.save(function (err, revision) {
@@ -84,6 +86,7 @@ exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, u
         collectionName: collection.name,
         user: user.username,
         created: new Date(),
+        is_draft: true,
         modelSnapshot: model.toJSON()
     });
     revisionModel.save(function (err, revision) {

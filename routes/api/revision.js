@@ -79,6 +79,7 @@ exports.post = function (req, res) {
     var attributesToSet = global.helpers.toFlat(modelAttributes);
 
     var model = new getModel(collection.name)();
+    model.set({ _id: objectId });
     model.set(attributesToSet);
     model.set(collection.createdField.key, new global[collection.createdField.type||'Date']());
     model.set(collection.updatedField.key, new global[collection.createdField.type||'Date']());
