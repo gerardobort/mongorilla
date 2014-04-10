@@ -228,7 +228,7 @@
                     "composer": { "type": "ObjectId", "title": "Composer" }
                 }
             },
-            "relations": { // mongorilla notation
+            "relations": {
                 "composer": {
                     "type": "HasOne",
                     "relatedCollection": "composer"
