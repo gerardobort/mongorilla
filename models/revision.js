@@ -1,6 +1,5 @@
-
 /*
- * generic model
+ * revision model
  */
 
 var mongoose = require('mongoose'),
@@ -8,7 +7,8 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId,
     _ = require('underscore');
 
-exports.getRevisionModel = function (collectionName) {
+
+exports.getModel = function (collectionName) {
     var model = mongoose.models[collectionName + 'Revision'];
 
     if (model) {
@@ -23,11 +23,12 @@ exports.getRevisionModel = function (collectionName) {
 
         // _id should not be specified in schema ... http://stackoverflow.com/a/10835032
         var schema = {
-            _id: ObjectId,
             objectId: { type: ObjectId, ref: collectionName },
             collectionName: String,
             user: String,
             created: Date,
+            is_draft: { type: Boolean, default: false },
+            description: String,
             modelSnapshot: Schema.Types.Mixed
         };
 
@@ -46,10 +47,57 @@ exports.getRevisionModel = function (collectionName) {
         // this is only for loading purposes: whitout this the refs may not work
         _(collection.relations).each(function (relation, key) {
             if (!mongoose.models[relation.relatedCollection] && 'fs.files' !== relation.relatedCollection) {
-                var relatedModel = global.getModel(relation.relatedCollection);
+                var relatedModel = getModel(relation.relatedCollection);
             }
         });
 
         return mongoose.model(collectionName + 'Revision');
     }
+}
+
+exports.saveRevisionSnapshot = function (collection, objectId, description, user, callback) {
+    getModel(collection.name)
+        .findOne({ _id: objectId })
+        .populate(_(collection.relations).keys().join(' '))
+        .exec(function (err, fullModel) {
+            // mongoose hooks doesn't have  support for update, so here is the "hook"
+            var RevisionModel = global.getRevisionModel(collection.name);
+            var revisionModel = new RevisionModel();
+            revisionModel.set({
+                objectId: objectId,
+                collectionName: collection.name,
+                user: user.username,
+                created: new Date(),
+                is_draft: false,
+                description: description,
+                modelSnapshot: fullModel.toJSON()
+            });
+            revisionModel.save(function (err, revision) {
+                if (callback) {
+                    callback.apply(null, err, revision);
+                }
+            });
+        });
+}
+
+exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, description, user, callback) {
+    var RevisionModel = global.getRevisionModel(collection.name);
+    var revisionModel = new RevisionModel();
+
+    model.populate(_(collection.relations).keys().join(' '), function (err, model) {
+        revisionModel.set({
+            objectId: objectId,
+            collectionName: collection.name,
+            user: user.username,
+            created: new Date(),
+            is_draft: true,
+            description: description,
+            modelSnapshot: model.toJSON()
+        });
+        revisionModel.save(function (err, revision) {
+            if (callback) {
+                callback.apply(null, [err, revision]);
+            }
+        });
+    });
 }

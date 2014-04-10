@@ -1,23 +1,66 @@
 require.config({
-    baseUrl: "/",
+    baseUrl: '/',
+    timeout: 30,
     map: {
         '*': {
-            text: '/lib/require/require-text.js',
-            css: '/lib/require/require-css.js',
-            json: '/lib/require/require-json.js'
-        }
+            text: '/third-party/requirejs-text/text.js',
+            json: '/third-party/requirejs-json/json.js',
+            css: '/third-party/require-css/css.js',
+        },
+    },
+    paths: {
+        jquery: '/third-party/jquery/dist/jquery.min',
+        underscore: '/third-party/underscore/underscore',
+        backbone: '/third-party/backbone/backbone',
+        spin: '/third-party/ladda-bootstrap/dist/spin.min',
+        bootstrap: '/third-party/bootstrap/dist/js/bootstrap.min',
+        admin_lte: '/admin-lte',
+    },
+    shim: {
+        underscore: { exports: '_' },
+        jquery: { exports: 'jQuery' },
+        backbone: { deps: ['underscore', 'jquery'], exports: 'Backbone' },
+        '/third-party/backbone-forms/distribution/templates/bootstrap3.js': {
+            deps: ['/backbone-forms/editors/list.js'],
+            exports: 'Backbone'
+        },
+        bootstrap: { deps: ['jquery'] },
+        admin_lte: {
+            deps: [
+                '/third-party/AdminLTE/js/plugins/slimScroll/jquery.slimscroll.min.js',
+                '/third-party/AdminLTE/js/plugins/iCheck/icheck.min.js',
+            ]
+        },
     }
 });
 
+define('mongorilla-spinner', ['spin'], function(Spinner) {
+    return new Spinner({
+        color: '#999',
+        length: 6,
+        width: 2,
+        radius: 6,
+        top: 20
+    });
+});
 
-String.prototype.toCamelCase = function () {
-    return this.split(/\W+/g).map(function (w) {
-        return w.substr(0, 1).toUpperCase() + w.substr(1); 
-    }).join(' ');
-};
+require(['backbone', 'bootstrap'], function () {
+    require([
+            '/third-party/alertify.js/lib/alertify.min.js',
+            '/third-party/backbone-deep-model/distribution/deep-model.min.js',
+            '/third-party/backbone-forms/distribution/backbone-forms.min.js',
+            '/third-party/bootstrap-modal/js/bootstrap-modal.js',
+            '/third-party/humane-dates/humane.js',
+            'admin-lte',
+            'helpers/string'
+        ], function (alertify) {
 
-require(['init/list', 'init/edit-create-form'], function () {
+            window.alertify = alertify;
 
-    console.log('Mongorilla satrted!');
+            require(['routers/main'], function (MainRouter) {
+                var mainRouter = new MainRouter();
+                Backbone.history.start({ root: "", pushState: true });
+            });
 
+    });
 });

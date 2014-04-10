@@ -1,5 +1,4 @@
 {
-    "MONGO_URL": "",
     "project_name": "Damusiq CMS",
     "users": [
         { "username": "pbort", "password": "5ap1t0!A", "fullname": "Pablo Bort" },

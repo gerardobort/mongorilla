@@ -5,104 +5,248 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
-        <link href="/lib/bootstrap/css/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
-        <link href="/lib/templates/bootstrap.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/bootstrap/dist/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/backbone-forms/distribution/templates/bootstrap3.css" media="all" rel="stylesheet" type="text/css" />
         <link href="/layout.css" media="all" rel="stylesheet" type="text/css" />
-        <link href="/lib/fancyfile/bootstrap-fancyfile.min.css" media="all" rel="stylesheet" type="text/css" />
-        <link href="/lib/aloha/css/aloha.css" type="text/css" rel="stylesheet" />
+        <link href="/third-party/bs-fancyfile/css/bootstrap-fancyfile.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/bootstrap-datepicker/css/datepicker3.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/alertify/themes/alertify.core.css" rel="stylesheet" />
+        <link href="/third-party/alertify-bootstrap-3/alertify.bootstrap3.css" rel="stylesheet" />
+        <link href="/third-party/ladda-bootstrap/dist/ladda-themeless.min.css" rel="stylesheet" />
+
+        <link href="/third-party/AdminLTE/css/AdminLTE.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/AdminLTE/css/ionicons.min.css" media="all" rel="stylesheet" type="text/css" />
+        <link href="/third-party/AdminLTE/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css" />
     </head>
-    <body>
-        <div class="navbar">
-            <div class="navbar-inner">
-                <a class="brand" href="/"><%= global.config.project_name||'Mongorilla' %></a>
-                <div class="row">
-                    <% if (sessionUser) { %>
-                    <ul class="nav span4">
-                        <li>
-                            <div class="btn-group">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="icon-search"></i> Search
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                <% collections.forEach(function (collection) { %>
-                                    <li><a href="/search/<%= collection.name %>"><%= collection.humanName %></a></li>
-                                <% }) %>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="btn-group">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="icon-plus"></i> Add Content
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                <% collections.forEach(function (collection) { %>
-                                    <li><a href="/add/<%= collection.name %>"><%= collection.humanName %></a></li>
-                                <% }) %>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="nav span1">
-                        <li>
-                            <div class="btn-group">
-                                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
-                                    <i class="icon-user"></i> <%= sessionUser.fullname %>
-                                    <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/user/settings"><i class="icon-cog"></i> Settings</a></li>
-                                    <li><a href="/user/logout"><i class="icon-off"></i> Logout</a></li>
-                                </ul>
-                        </li>
-                    </ul>
-                    <% } %>
+    <body class="skin-black">
+        <nav class="navbar navbar-default" role="navigation">
+
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/"><%= global.config.project_name||'Mongorilla' %></a>
                 </div>
-            </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                    <% if (sessionUser) { %>
+                        <!--li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span> Search <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                            <% collections.forEach(function (collection) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <li><a href="/search/<%= collection.name %>"><%= collection.humanName %></a></li>
+                                <% } %>
+                            <% }) %>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-plus"></span> Create <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                            <% collections.forEach(function (collection) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <li><a href="/add/<%= collection.name %>"><%= collection.humanName %></a></li>
+                                <% } %>
+                            <% }) %>
+                            </ul>
+                        </li-->
+                    <% } %>
+                    </ul>
+                    <!--form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form-->
+                    <ul class="nav navbar-nav navbar-right">
+                    <% if (sessionUser) { %>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="glyphicon glyphicon-user"></i>
+                                <span><%= sessionUser.fullname %> <i class="caret"></i></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header bg-light-blue">
+                                    <img src="/images/mock/gorilla-user-1.jpg" class="img-circle" alt="User Image" />
+                                    <p>
+                                        <%= sessionUser.fullname %> - <%= sessionUser.roles.join(', ') %> 
+                                        <small>Member since Nov. 2013</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!--li class="user-body">
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Followers</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Sales</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">Friends</a>
+                                    </div>
+                                </li-->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    <% } %>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+
+        </nav>
+
+        <% if (sessionUser) { %>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <aside class="left-side sidebar-offcanvas">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="/images/mock/gorilla-user-1.jpg" class="img-circle" alt="User Image" />
+                        </div>
+                        <div class="pull-left info">
+                            <p>Hello, <%= sessionUser.fullname  %></p>
+
+                            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                        </div>
+                    </div>
+                    <!-- search form -->
+                    <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='seach' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+                        <li>
+                            <a href="/dashboard">
+                                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-search"></i>
+                                <span>Search Content</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                            <% collections.forEach(function (collection) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <li><a href="/search/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
+                                <% } %>
+                            <% }) %>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-plus"></i>
+                                <span>Create Content</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                            <% collections.forEach(function (collection) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <li><a href="/add/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
+                                <% } %>
+                            <% }) %>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-github"></i>
+                                <span>About</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a target="_blank" href="http://github.com/gerardobort/mongorilla"><i class="fa fa-angle-double-right"></i> Mongorilla on Github</a></li>
+                                <li><a target="_blank" href="http://github.com/gerardobort/mongorilla/issues"><i class="fa fa-angle-double-right"></i> Issues</a></li>
+                                <li><a target="_blank" href="https://raw.githubusercontent.com/gerardobort/mongorilla/master/LICENSE"><i class="fa fa-angle-double-right"></i> MIT License</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-question"></i>
+                                <span>Help</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a target="_blank" href="https://github.com/gerardobort/mongorilla/wiki/Defining-Content-Types"><i class="fa fa-angle-double-right"></i> Define Content Types</a></li>
+                                <li><a target="_blank" href="https://github.com/gerardobort/mongorilla/wiki/Defining-Users-and-Roles"><i class="fa fa-angle-double-right"></i> Define Users and Roles</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+            <% } %>
+
+            <aside class="right-side">
+                <% if (sessionUser) { %>
+                <section class="content-header">
+                    <h1>
+                        <%= title %>
+                        <small><%= (typeof subtitle !== 'undefined') ? subtitle : '' %></small>
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                        <li class="active"><%= title %></li>
+                    </ol>
+                </section>
+                <% } %>
+
+                <div id="main-container" class="content">
+                <%= body %>
+                </div>
+            </aside>
+
+        <% if (sessionUser) { %>
         </div>
-
-        <div class="container">
-        <%= body %>
-        </div>
-
-        <script src="/lib/jquery.min.js"></script>
-        <script src="/lib/underscore.js"></script>
-        <script src="/lib/backbone.js"></script>
-        <script src="/lib/backbone-deep-model.js"></script>
-        <script src="/lib/bootstrap-modal.js"></script>
-        <script src="/lib/bootstrap/js/bootstrap.js"></script>
-        <script src="/lib/bootstrap-typeahead.js"></script>
-
-        <% if ('boolean' === typeof includeFormsAssets && true === includeFormsAssets) { %>
-        <script src="/lib/backbone-forms.js"></script>
-        <script src="/lib/adapters/backbone.bootstrap-modal.js"></script>
-        <script src="/lib/editors/list.js"></script>
-        <script src="/lib/editors/file.js"></script>
-        <script src="/lib/editors/image.js"></script>
-        <script src="/lib/editors/object-id.js"></script>
-        <script src="/lib/templates/default.js"></script>
-        <script src="/lib/templates/bootstrap.js"></script>
-        <script src="/lib/fancyfile/bootstrap-fancyfile.js"></script>
-        <script src="/lib/require/require-js.js" data-main="/init.js" ></script>
-        <script type="text/javascript" src="/lib/aloha/lib/aloha.js"
-                    data-aloha-plugins="common/ui,
-                                        common/format,
-                                        common/table,
-                                        common/list,
-                                        common/link,
-                                        common/highlighteditables,
-                                        common/block,
-                                        common/undo,
-                                        common/contenthandler,
-                                        common/paste,
-                                        common/commands,
-                                        common/abbr"></script>
-        <script src="/lib/editors/aloha.js"></script>
-        <% } else { %>
-        <script src="/lib/require/require-js.js" data-main="/init.js" ></script>
         <% } %>
+
+        <footer class="m-footer clearfix" role="contentinfo">
+            <div class="container">
+                <% if (!sessionUser) { %>
+                <div class="m-social">
+                    <ul class="m-social-buttons">
+                        <li>
+                            <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=gerardobort&amp;repo=mongorilla&amp;type=watch&amp;count=true" width="100" height="20" title="Star on GitHub"></iframe>
+                        </li>
+                        <li>
+                            <iframe class="github-btn" src="http://ghbtns.com/github-btn.html?user=gerardobort&amp;repo=mongorilla&amp;type=fork&amp;count=true" width="102" height="20" title="Fork on GitHub"></iframe>
+                        </li>
+                    </ul>
+                </div>
+                <% } %>
+
+                <p>
+                    Created by <a href="http://twitter.com/gerardobort" target="_blank">@gerardobort</a>.
+                    Code licensed under <a href="https://github.com/gerardobort/mongorilla/blob/master/LICENSE" target="_blank">MIT</a>.
+                </p>
+            </div>
+        </footer>
+
+        <script src="/third-party/requirejs/require.js" data-main="/init.js" ></script>
 
     </body>
 </html>

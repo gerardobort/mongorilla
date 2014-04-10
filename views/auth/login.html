@@ -1,0 +1,32 @@
+<div class="jumbotron">
+    <h1>Access</h1>
+    <p>Please, sign-in using your credentials:</p>
+    <form class="form-inline" role="form" method="post" action="/auth/login">
+        <div class="form-group">
+            <label class="sr-only" for="user">Email address</label>
+            <input type="text" class="form-control" id="user" placeholder="Username" name="user">
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="pass">Password</label>
+            <input type="password" class="form-control" id="pass" placeholder="Password" name="pass">
+        </div>
+        <!--div class="checkbox">
+            <label>
+                <input type="checkbox"> Remember me
+            </label>
+        </div-->
+        <button type="submit" class="btn btn-primary ladda-button" data-style="expand-left" value="login" disabled="disabled">Sign in</button>
+
+        <% if (showGuestLoginButton) { %>
+        <p></p>
+        <p>
+            ...or if you don't have an account and <strong>want to take a loook at this demo</strong>:
+        </p>
+        </p>
+            <button id="submit-guest" class="btn btn-success btn-lg ladda-button" data-style="expand-left" value="login" disabled="disabled">Enter as Guest!</button>
+        </p>
+        <% } %>
+    </form>
+
+
+</div>

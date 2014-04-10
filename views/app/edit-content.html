@@ -1,17 +1,46 @@
-<h1><%= collection.humanName %></h1>
-<h2>Edit: <span data-collection-name></span></h2>
-<p>
-    Created: <span data-created></span>
-    Last Update: <span data-updated></span>
-</p>
-<% if (collection.revisionable) { %>
-<div class="btn-group">
-    <a class="btn dropdown-toggle btn-inverse" data-toggle="dropdown" href="#">
-        <i class="icon-time"></i> revisions <span class="caret"></span>
-    </a>
-    <ul class="dropdown-menu" data-revisions-list></ul>
-</div>
-<% } %>
+<!--div class="page-header">
+    <h1>
+        <% if (global.helpers.hasPermission(sessionUser, collection.name, 'ru')) { %>
+            <small> <span data-collection-tostringfield></span>  <span class="glyphicon glyphicon-edit"></span></small>
+        <% } else { %>
+            <small> <span data-collection-tostringfield></span>  <span class="glyphicon glyphicon-eye-open"></span></small>
+        <% } %>
+    </h1>
+</div-->
 
-<div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"></div>
-<div id="form-controls"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'r') ? 'data-permission-r' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
+                <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
+                ></div>
+            <div id="form-controls">
+                <div class="btn-group pull-left left"></div>
+                <div class="btn-group pull-right right"></div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4">
+            <div class="box box-primary">
+                <div class="box-header" data-toggle="tooltip" title data-original-title="Edit Revisions">
+                    <h3 class="box-title"><i class="fa fa-clock-o"></i> Revisions Timeline</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-default btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body" style="position:relative;">
+                    <% if (collection.revisionable) { %>
+                    <ul class="timeline" data-revisions-list></ul>
+                    <% } %>
+                </div>
+                <div class="box-footer">
+                    <p>Created <span data-created></span></p>
+                    <p>Last update <span data-updated></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,10 +2,99 @@
     display: inline-block;
 }
 
+.bbf-object-id {
+    clear: both;
+}
+
+.bbf-object-id .form-control {
+    width: 65%;
+    float: left;
+}
+
 .bbf-object-id .info {
-    margin-left: 30px;
+    width: 30%;
+    float: right;
+    font-size: 0.75em;
+    line-height: 30px;
 }
 
 .bbf-object-id .info a {
     color: #000;
+}
+
+.bbf-list li div.pull-left {
+    width: 70%;
+}
+
+.form-group .help-block {
+    clear: both;
+}
+
+.bbf-file, .bbf-image {
+    position: relative;
+}
+
+.bbf-image .remove-file {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+.bbf-file input[type="file"],
+.bbf-image input[type="file"] {
+    height: 36px; /* expands clickable area */
+    margin-bottom: 6px;
+    padding-right: 20px;
+}
+
+/* bootstrap 3 patches */
+.form-group .form-control[id^="ck-"] {
+    padding: 0;
+    overflow: hidden;
+}
+
+.form-group .form-control[id^="ck-"] .cke_chrome {
+    border: 0;
+}
+
+.control-group.fancyfile {
+    padding: 6px 0 0 0;
+    border: 0;
+    box-shadow: none;
+}
+
+.bbf-list ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+
+
+/* brand footer */
+.m-footer {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    margin-top: 100px;
+    color: #777;
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+    display: block;
+}
+.m-social {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.m-social-buttons li {
+    display: inline-block;
+    line-height: 1;
+    padding: 5px 8px;
+}
+.m-social-buttons li iframe {
+    border: 0;
+    margin-top:
+}
+
+/* adminLTE patches */
+.slimScrollDiv .timeline:before {
+    left: 30px;
 }
