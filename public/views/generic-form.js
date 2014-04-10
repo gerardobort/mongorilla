@@ -172,7 +172,6 @@ define('views/generic-form', [
                                 });
                             }
                             $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
-                        }
                     },
                     error: function () {
                         instance.laddaSubmit.stop();
