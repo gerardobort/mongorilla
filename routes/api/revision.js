@@ -53,29 +53,30 @@ exports.post = function (req, res) {
         return;
     }
 
-    var attributes = _.clone(req.body);
-    var responseData = _.clone(attributes);
+    var revisionAttributes = _.clone(req.body);
+    var modelAttributes = revisionAttributes.snapshot;
+    var responseData = _.clone(revisionAttributes);
 
     _(collection.relations).each(function (data, relKey) {
         if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
-            attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
+            modelAttributes[relKey] = _(req.body[relKey]).map(function (val, key) {
                 if ('string' === typeof val ) {
                     return val;
                 }
                 return val['_id'] ? val['_id'].toString() : '';
             });
-            if (0 === attributes[relKey].length) {
-                delete attributes[relKey];
+            if (0 === modelAttributes[relKey].length) {
+                delete modelAttributes[relKey];
             }
         } else if (_.isObject(req.body[relKey]) && req.body[relKey]['_id']) {
-            attributes[relKey] = req.body[relKey]['_id'].toString();
+            modelAttributes[relKey] = req.body[relKey]['_id'].toString();
         }
     });
 
-    delete attributes['_id'];
+    delete modelAttributes['_id'];
 
     // TODO skip all attributes not specified in schema
-    var attributesToSet = global.helpers.toFlat(attributes);
+    var attributesToSet = global.helpers.toFlat(modelAttributes);
 
     var model = new getModel(collection.name)();
     model.set(attributesToSet);
@@ -84,7 +85,12 @@ exports.post = function (req, res) {
 
     if (collection.revisionable) {
         require('../../models/revision').saveRevisionSnapshotFromModel(collection, model._id, model, req.session.user, function (err, revision) {
-            res.send(responseData);
+            if (err) {
+                res.status(501);
+                res.send(err);
+            } else {
+                res.send(revision.toJSON());
+            }
         });
     } else {
         res.status(400);

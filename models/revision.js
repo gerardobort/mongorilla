@@ -88,7 +88,7 @@ exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, u
     });
     revisionModel.save(function (err, revision) {
         if (callback) {
-            callback.apply(null, err, revision);
+            callback.apply(null, [err, revision]);
         }
     });
 }

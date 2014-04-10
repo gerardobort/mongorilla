@@ -158,25 +158,29 @@ define('views/generic-form', [
             }
             if (!(err = instance.form.commit())) {
                 instance.laddaSubmit.start();
-                instance.model.save({}, {   // TODO add revision Model
-                    silent: true,
-                    success: function () {
-                        instance.laddaSubmit.stop();
-                        alertify.success('success!');
-                            if (instance.revisionsView) {
-                                require([
-                                    'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
-                                    ], function (revisionsModel) {
-                                    instance.revisionsView.revisionsModel = revisionsModel;
-                                    instance.revisionsView.render(); // repaint view
-                                });
-                            }
-                            $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
-                    },
-                    error: function () {
-                        instance.laddaSubmit.stop();
-                        alertify.error('an error has ocurred! :S');
-                    }
+                require(['model/' + instance.collectionName + 'Revision', ], function (RevisionsModel) {
+                    var revision = new RevisionsModel({ snapshot: instance.model.toJSON() });
+                    revision.save({}, {
+                        silent: true,
+                        url: revision.urlRoot.replace(/:objectId/, instance.objectId),
+                        success: function () {
+                            instance.laddaSubmit.stop();
+                            alertify.success('success!');
+                                if (instance.revisionsView) {
+                                    require([
+                                        'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
+                                        ], function (revisionsModel) {
+                                        instance.revisionsView.revisionsModel = revisionsModel;
+                                        instance.revisionsView.render(); // repaint view
+                                    });
+                                }
+                                $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
+                        },
+                        error: function () {
+                            instance.laddaSubmit.stop();
+                            alertify.error('an error has ocurred! :S');
+                        }
+                    });
                 });
             } else {
                 instance.laddaSubmit.stop();
