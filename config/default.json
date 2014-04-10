@@ -332,7 +332,7 @@
                     "order_index": { "type": "Text", "title": "Sort String", "editorAttrs": { "disabled": "disabled" } }
                 }
             },
-            "relations": { // mongorilla notation
+            "relations": {
                 "composer": {
                     "type": "HasOne",
                     "relatedCollection": "composer"
