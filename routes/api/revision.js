@@ -57,9 +57,15 @@ exports.post = function (req, res) {
     var modelAttributes = revisionAttributes.snapshot;
     var responseData = _.clone(revisionAttributes);
 
+    if ('object' !== typeof modelAttributes) {
+        res.status(400);
+        res.send({ error: 'bad request', details: 'missing snapshot subdocument' });
+        return;
+    }
+
     _(collection.relations).each(function (data, relKey) {
-        if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
-            modelAttributes[relKey] = _(req.body[relKey]).map(function (val, key) {
+        if (_.isArray(req.body.snapshot[relKey]) && req.body.snapshot[relKey].length) {
+            modelAttributes[relKey] = _(req.body.snapshot[relKey]).map(function (val, key) {
                 if ('string' === typeof val ) {
                     return val;
                 }
@@ -68,8 +74,8 @@ exports.post = function (req, res) {
             if (0 === modelAttributes[relKey].length) {
                 delete modelAttributes[relKey];
             }
-        } else if (_.isObject(req.body[relKey]) && req.body[relKey]['_id']) {
-            modelAttributes[relKey] = req.body[relKey]['_id'].toString();
+        } else if (_.isObject(req.body.snapshot[relKey]) && req.body.snapshot[relKey]['_id']) {
+            modelAttributes[relKey] = req.body.snapshot[relKey]['_id'].toString();
         }
     });
 
@@ -98,4 +104,23 @@ exports.post = function (req, res) {
         res.send({ error: 'bad request', details: 'collection not revisionable' });
         return;
     }
+};
+
+exports.del = function (req, res) {
+    var objectId = req.route.params.objectId,
+        revisionId = req.route.params.revisionId,
+        collection = getCollection(req, res);
+
+    if (!collection) {
+        return;
+    }
+
+    global.getRevisionModel(collection.name)
+        .findByIdAndRemove(revisionId, function (err, model) {
+            if (err) {
+                res.send(err);
+            } else {
+                res.send(model);
+            }
+        });
 };

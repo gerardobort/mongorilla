@@ -180,6 +180,7 @@ exports.del = function (req, res) {
         return;
     }
 
+    // TODO ACL for this
     getModel(collection.name)
         .findByIdAndRemove(objectId, function (err, model) {
             if (err) {

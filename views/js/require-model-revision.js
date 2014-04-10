@@ -1,4 +1,4 @@
-define('model/<%= collection.name %>Revision', [], function () {
+define('model/<%= collection.name %>-revision', [], function () {
 
     Backbone.Model.<%= collection.name.toCamelCase() %>Revision = Backbone.DeepModel.extend({
         idAttribute: '_id',

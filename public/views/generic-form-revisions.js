@@ -4,6 +4,7 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
 
         events: {
             'click li a.restore': 'restore',
+            'click li a.remove-revision': 'remove',
         },
 
         initialize: function (options) {
@@ -125,8 +126,8 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
                 }
 
                 if (valFrom !== valTo) {
-                    valFrom = $('<div>' + valFrom.toString() + '</div>').text();
-                    valTo = $('<div>' + valTo.toString() + '</div>').text();
+                    valFrom = valFrom ? $('<div>' + valFrom.toString() + '</div>').text() : '';
+                    valTo = valTo ? $('<div>' + valTo.toString() + '</div>').text() : '';
                     if (valFrom.length > 500) {
                         valFrom = valFrom.substr(0, 500) + '...';
                     }
@@ -147,7 +148,31 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
             report += diffs.length ? diffs.join('') : '<div class="alert alert-warning">Woha! No changes found.</div>';
             report += '</div>';
             alertify.alert(report);
-        }
+        },
+
+        remove: function (event) {
+            var instance = this,
+                $button = $(event.currentTarget),
+                i = $button.data('revision-i'),
+                revisionModel = instance.revisionsModel[i];
+
+            event.preventDefault();
+            alertify.confirm('Are you sure you want to remove this revision?', function (ok) {
+                if (!ok) {
+                    return;
+                }
+                require(['model/' + revisionModel.collectionName + '-revision', ], function (RevisionModel) {
+                    var revision = new RevisionModel(revisionModel);
+                    revision.destroy({
+                        success: function() {
+                            alertify.log('revision removed: "<i>' + revisionModel.description + '</i>"<br/> by <strong>' + revisionModel.user + '</strong>');
+                            instance.revisionsModel.splice(i, 1);
+                            instance.render();
+                        }
+                    });
+                });
+            });
+        },
 
     });
 

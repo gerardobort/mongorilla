@@ -19,13 +19,14 @@ exports.getModel = function (req, res) {
     });
 
     if (!collection) {
-        collectionName = collectionName.replace(/Revision$/, '');
+        collectionName = collectionName.replace(/-revision$/, '');
         var collection = _(global.config.collections).find(function (col) {
             return col.name === collectionName;
         });
         if (!collection) {
             res.status(404);
             res.send({ error: 'Not found' });
+            return;
         }
         isRevisionModel = true;
     }

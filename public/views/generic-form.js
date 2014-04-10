@@ -78,7 +78,9 @@ define('views/generic-form', [
 
             var controlsHtml = '';
             if ($('[data-permission-u], [data-permission-c]').size()) {
-                controlsHtml += '<button class="btn btn-primary btn-lg submit-draft ladda-button" data-style="expand-right"><i class="fa fa-star"></i> Save draft</button>';
+                if (instance.objectId) {
+                    controlsHtml += '<button class="btn btn-primary btn-lg submit-draft ladda-button" data-style="expand-right"><i class="fa fa-star"></i> Save draft</button>';
+                }
                 controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right"><i class="fa fa-pencil"></i> ' + (instance.objectId ? 'Save' : 'Create') + '</button>';
             }
             if (!instance.model.isNew()) {
@@ -173,8 +175,8 @@ define('views/generic-form', [
                     instance.revisionsView.pushRevision(false);
                 }
                 if (!(err = instance.form.commit())) {
-                    require(['model/' + instance.collectionName + 'Revision', ], function (RevisionsModel) {
-                        var revision = new RevisionsModel({ description: description, snapshot: instance.model.toJSON() });
+                    require(['model/' + instance.collectionName + '-revision', ], function (RevisionModel) {
+                        var revision = new RevisionModel({ description: description, snapshot: instance.model.toJSON() });
                         revision.save({}, {
                             silent: true,
                             url: revision.urlRoot.replace(/:objectId/, instance.objectId),

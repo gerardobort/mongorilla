@@ -83,18 +83,21 @@ exports.saveRevisionSnapshot = function (collection, objectId, description, user
 exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, description, user, callback) {
     var RevisionModel = global.getRevisionModel(collection.name);
     var revisionModel = new RevisionModel();
-    revisionModel.set({
-        objectId: objectId,
-        collectionName: collection.name,
-        user: user.username,
-        created: new Date(),
-        is_draft: true,
-        description: description,
-        modelSnapshot: model.toJSON()
-    });
-    revisionModel.save(function (err, revision) {
-        if (callback) {
-            callback.apply(null, [err, revision]);
-        }
+
+    model.populate(_(collection.relations).keys().join(' '), function (err, model) {
+        revisionModel.set({
+            objectId: objectId,
+            collectionName: collection.name,
+            user: user.username,
+            created: new Date(),
+            is_draft: true,
+            description: description,
+            modelSnapshot: model.toJSON()
+        });
+        revisionModel.save(function (err, revision) {
+            if (callback) {
+                callback.apply(null, [err, revision]);
+            }
+        });
     });
 }

@@ -113,6 +113,7 @@ app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.d
 // api revision
 app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.get);
 app.post('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.post);
+app.del('/api/:collectionName/:objectId/revisions/:revisionId', authRoute.bootstrap, apiRevisionRoute.del);
 
 app.locals(global.config);
 
