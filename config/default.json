@@ -1,8 +1,24 @@
 {
     "project_name": "Damusiq CMS",
+    "s3": {
+        "bucket": "mongorilla"
+    },
+    "roles": [
+        {
+            "name": "editor",
+            "permissions": {
+                "composer": "crud",
+                "composerCategory": "crud",
+                "instrument": "crud",
+                "opus": "crud",
+                "period": "crud",
+                "score": "crud"
+            }
+        }
+    ],
     "users": [
-        { "username": "pbort", "password": "5ap1t0!A", "fullname": "Pablo Bort" },
-        { "username": "gbort", "password": "5ap1t0!B", "fullname": "Gerardo Bort" }
+        { "username": "pbort", "password": "5ap1t0!A", "fullname": "Pablo Bort", "roles": ["editor"] },
+        { "username": "gbort", "password": "5ap1t0!B", "fullname": "Gerardo Bort", "roles": ["editor"] }
     ],
     "collections": [
         {
@@ -81,7 +97,7 @@
                 "limit": 10,
                 "columns": ["lastname", "firstname", "uri", "created", "updated"]
             },
-            "relations": { // mongorilla notation
+            "relations": {
                 "categories": {
                     "type": "HasMany",
                     "relatedCollection": "composerCategory"
@@ -94,9 +110,6 @@
                     "type": "HasMany",
                     "relatedCollection": "opus"
                 }
-            },
-            "mongoose": {
-                "schema": null
             },
             "readonly": false,
             "revisionable": true
@@ -124,7 +137,7 @@
                     "count": { "type": "Number", "title": "Composers Amount", "editorAttrs": { "disabled": "disabled" } }
                 }
             },
-            "relations": { // mongorilla notation
+            "relations": {
             },
             "toStringField": "name",
             "updatedField": { "key": "updated", "type": "Date" },
@@ -134,9 +147,6 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "count", "created", "updated"]
-            },
-            "mongoose": {
-                "schema": null
             },
             "readonly": false,
             "revisionable": true
@@ -193,9 +203,6 @@
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
             },
-            "mongoose": {
-                "schema": null
-            },
             "readonly": false,
             "revisionable": true
         },
@@ -235,9 +242,6 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
-            },
-            "mongoose": {
-                "schema": null
             },
             "readonly": false,
             "revisionable": true
@@ -300,9 +304,6 @@
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
             },
-            "mongoose": {
-                "schema": null
-            },
             "readonly": false,
             "revisionable": true
         },
@@ -353,9 +354,6 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
-            },
-            "mongoose": {
-                "schema": null
             },
             "readonly": false,
             "revisionable": true
