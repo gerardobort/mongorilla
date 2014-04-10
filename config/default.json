@@ -111,6 +111,9 @@
                     "relatedCollection": "opus"
                 }
             },
+            "mongoose": {
+                "schema": null
+            },
             "readonly": false,
             "revisionable": true
         },
@@ -147,6 +150,9 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "count", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
             },
             "readonly": false,
             "revisionable": true
@@ -203,6 +209,9 @@
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
             },
+            "mongoose": {
+                "schema": null
+            },
             "readonly": false,
             "revisionable": true
         },
@@ -242,6 +251,9 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
             },
             "readonly": false,
             "revisionable": true
@@ -304,6 +316,9 @@
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
             },
+            "mongoose": {
+                "schema": null
+            },
             "readonly": false,
             "revisionable": true
         },
@@ -354,6 +369,9 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
             },
             "readonly": false,
             "revisionable": true
