@@ -78,8 +78,8 @@ define('views/generic-form', [
 
             var controlsHtml = '';
             if ($('[data-permission-u], [data-permission-c]').size()) {
-                controlsHtml += '<button class="btn btn-success btn-lg submit-draft ladda-button" data-style="expand-right"><i class="fa fa-star"></i> Save draft</button>';
-                controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right"><i class="fa fa-save"></i> ' + (instance.objectId ? 'Save' : 'Create') + '</button>';
+                controlsHtml += '<button class="btn btn-primary btn-lg submit-draft ladda-button" data-style="expand-right"><i class="fa fa-star"></i> Save draft</button>';
+                controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right"><i class="fa fa-pencil"></i> ' + (instance.objectId ? 'Save' : 'Create') + '</button>';
             }
             if (!instance.model.isNew()) {
                 controlsHtml += '<a class="btn btn-info btn-lg preview" href="/preview/'

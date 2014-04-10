@@ -65,8 +65,8 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
 
             $icons = instance.$('li > i.fa');
             $icons.each(function (j, el) {
-                if (j === selectedIndex) { $(el).attr('class', 'fa fa-pencil bg-aqua'); }
-                else { $(el).attr('class', 'fa fa-pencil'); }
+                if (j === selectedIndex) { $(el).toggleClass('bg-aqua', true); }
+                else { $(el).toggleClass('bg-aqua', false); }
             });
         },
 
