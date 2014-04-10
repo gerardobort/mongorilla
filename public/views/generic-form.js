@@ -72,20 +72,23 @@ define('views/generic-form', [
             var instance = this;
             var controlsHtml = '';
             if (instance.objectId && $('[data-permission-d]').size()) {
-                controlsHtml +='<button class="btn btn-danger btn-lg remove ladda-button" data-style="expand-right">Delete</button>';
+                controlsHtml +='<button class="btn btn-danger btn-lg remove ladda-button" data-style="expand-right"><i class="fa fa-times"></i> Delete</button>';
             }
+            instance.$('.left').html(controlsHtml);
+
+            var controlsHtml = '';
             if ($('[data-permission-u], [data-permission-c]').size()) {
-                controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right">'
-                    + (instance.objectId ? 'Save' : 'Create') + '</button>';
-                controlsHtml += '<button class="btn btn-success btn-lg submit-draft ladda-button" data-style="expand-right">'
-                    + 'Save as Draft' + '</button>';
+                controlsHtml += '<button class="btn btn-success btn-lg submit-draft ladda-button" data-style="expand-right"><i class="fa fa-star"></i> Save draft</button>';
+                controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right"><i class="fa fa-save"></i> ' + (instance.objectId ? 'Save' : 'Create') + '</button>';
             }
             if (!instance.model.isNew()) {
                 controlsHtml += '<a class="btn btn-info btn-lg preview" href="/preview/'
-                    + instance.collectionName + '/' + instance.objectId + '" target="_blank" >Preview</a>';
+                    + instance.collectionName + '/' + instance.objectId + '" target="_blank"><i class="fa fa-eye"></i> View</a>';
             }
-            instance.$el.html(controlsHtml);
+            instance.$('.right').html(controlsHtml);
+
             instance.laddaSubmit = Ladda.create(instance.$('.submit').get(0));
+            instance.laddaSubmitDraft = Ladda.create(instance.$('.submit-draft').get(0));
             instance.laddaRemove = Ladda.create(instance.$('.remove').get(0));
         },
 
@@ -113,59 +116,26 @@ define('views/generic-form', [
         submit: function (event) {
             var instance = this;
             var err;
-            if (instance.revisionsView) {
-                instance.revisionsView.pushRevision(false);
-            }
-            if (!(err = instance.form.commit())) {
-                instance.laddaSubmit.start();
-                var isNew = instance.model.isNew();
-                instance.model.save({}, {
-                    silent: true,
-                    success: function () {
-                        instance.laddaSubmit.stop();
-                        alertify.success('success!');
-                        if (isNew) {
-                            document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
-                        } else {
-                            if (instance.revisionsView) {
-                                require([
-                                    'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
-                                    ], function (revisionsModel) {
-                                    instance.revisionsView.revisionsModel = revisionsModel;
-                                    instance.revisionsView.render(); // repaint view
-                                });
-                            }
-                            $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
-                        }
-                    },
-                    error: function () {
-                        instance.laddaSubmit.stop();
-                        alertify.error('an error has ocurred! :S');
-                    }
-                });
-            } else {
-                instance.laddaSubmit.stop();
-                console.log('model err', err);
-                alertify.error('validation failed, look at the console for details.');
-            }
-        },
-
-        submitDraft: function (event) {
-            var instance = this;
-            var err;
-            if (instance.revisionsView) {
-                instance.revisionsView.pushRevision(false);
-            }
-            if (!(err = instance.form.commit())) {
-                instance.laddaSubmit.start();
-                require(['model/' + instance.collectionName + 'Revision', ], function (RevisionsModel) {
-                    var revision = new RevisionsModel({ snapshot: instance.model.toJSON() });
-                    revision.save({}, {
+            instance.laddaSubmit.start();
+            alertify.prompt('Please, enter a revision description:', function (ok, description) {
+                if (!ok) {
+                    instance.laddaSubmit.stop();
+                    return;
+                }
+                if (instance.revisionsView) {
+                    instance.revisionsView.pushRevision(false);
+                }
+                if (!(err = instance.form.commit())) {
+                    var isNew = instance.model.isNew();
+                    instance.model.save({}, {
                         silent: true,
-                        url: revision.urlRoot.replace(/:objectId/, instance.objectId),
+                        url: instance.model.url() + '?description=' + encodeURIComponent(description),
                         success: function () {
                             instance.laddaSubmit.stop();
                             alertify.success('success!');
+                            if (isNew) {
+                                document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
+                            } else {
                                 if (instance.revisionsView) {
                                     require([
                                         'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
@@ -175,18 +145,64 @@ define('views/generic-form', [
                                     });
                                 }
                                 $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
+                            }
                         },
                         error: function () {
                             instance.laddaSubmit.stop();
                             alertify.error('an error has ocurred! :S');
                         }
                     });
-                });
-            } else {
-                instance.laddaSubmit.stop();
-                console.log('model err', err);
-                alertify.error('validation failed, look at the console for details.');
-            }
+                } else {
+                    instance.laddaSubmit.stop();
+                    console.log('model err', err);
+                    alertify.error('validation failed, look at the console for details.');
+                }
+            });
+        },
+
+        submitDraft: function (event) {
+            var instance = this;
+            var err;
+            instance.laddaSubmitDraft.start();
+            alertify.prompt('Please, enter a revision description:', function (ok, description) {
+                if (!ok) {
+                    instance.laddaSubmitDraft.stop();
+                    return;
+                }
+                if (instance.revisionsView) {
+                    instance.revisionsView.pushRevision(false);
+                }
+                if (!(err = instance.form.commit())) {
+                    require(['model/' + instance.collectionName + 'Revision', ], function (RevisionsModel) {
+                        var revision = new RevisionsModel({ description: description, snapshot: instance.model.toJSON() });
+                        revision.save({}, {
+                            silent: true,
+                            url: revision.urlRoot.replace(/:objectId/, instance.objectId),
+                            success: function () {
+                                instance.laddaSubmitDraft.stop();
+                                alertify.success('success!');
+                                    if (instance.revisionsView) {
+                                        require([
+                                            'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
+                                            ], function (revisionsModel) {
+                                            instance.revisionsView.revisionsModel = revisionsModel;
+                                            instance.revisionsView.render(); // repaint view
+                                        });
+                                    }
+                                    $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
+                            },
+                            error: function () {
+                                instance.laddaSubmitDraft.stop();
+                                alertify.error('an error has ocurred! :S');
+                            }
+                        });
+                    });
+                } else {
+                    instance.laddaSubmitDraft.stop();
+                    console.log('model err', err);
+                    alertify.error('validation failed, look at the console for details.');
+                }
+            });
         },
 
         remove: function (event) {

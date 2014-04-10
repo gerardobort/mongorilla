@@ -63,7 +63,7 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
                 if (j === selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-ok'); }
             });
 
-            $icons = instance.$('li > i.fa.fa-pencil');
+            $icons = instance.$('li > i.fa');
             $icons.each(function (j, el) {
                 if (j === selectedIndex) { $(el).attr('class', 'fa fa-pencil bg-aqua'); }
                 else { $(el).attr('class', 'fa fa-pencil'); }

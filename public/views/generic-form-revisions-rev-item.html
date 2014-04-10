@@ -1,9 +1,10 @@
 <li>
-    <i class="fa fa-pencil bg-aqua"></i>
+    <i class="fa <%= rev.is_draft ? 'fa-star' : 'fa-pencil' %> bg-aqua"></i>
     <div class="timeline-item">
         <span class="time"><i class="fa fa-clock-o"></i> <%= (new Date(rev.created)).toLocaleString() %></span>
         <h3 class="timeline-header"><a href="#"><%= rev.user %></a> edited</h3>
         <div class="timeline-body">
+            <blockquote><%= rev.description || 'no description available.' %></blockquote>
         </div>
         <div class='timeline-footer'>
             <a class="btn btn-primary btn-xs restore" data-revision-i="<%= i %>" href="#">

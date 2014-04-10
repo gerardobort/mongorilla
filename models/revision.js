@@ -28,6 +28,7 @@ exports.getModel = function (collectionName) {
             user: String,
             created: Date,
             is_draft: { type: Boolean, default: false },
+            description: String,
             modelSnapshot: Schema.Types.Mixed
         };
 
@@ -54,7 +55,7 @@ exports.getModel = function (collectionName) {
     }
 }
 
-exports.saveRevisionSnapshot = function (collection, objectId, user, callback) {
+exports.saveRevisionSnapshot = function (collection, objectId, description, user, callback) {
     getModel(collection.name)
         .findOne({ _id: objectId })
         .populate(_(collection.relations).keys().join(' '))
@@ -68,6 +69,7 @@ exports.saveRevisionSnapshot = function (collection, objectId, user, callback) {
                 user: user.username,
                 created: new Date(),
                 is_draft: false,
+                description: description,
                 modelSnapshot: fullModel.toJSON()
             });
             revisionModel.save(function (err, revision) {
@@ -78,7 +80,7 @@ exports.saveRevisionSnapshot = function (collection, objectId, user, callback) {
         });
 }
 
-exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, user, callback) {
+exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, description, user, callback) {
     var RevisionModel = global.getRevisionModel(collection.name);
     var revisionModel = new RevisionModel();
     revisionModel.set({
@@ -87,6 +89,7 @@ exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, u
         user: user.username,
         created: new Date(),
         is_draft: true,
+        description: description,
         modelSnapshot: model.toJSON()
     });
     revisionModel.save(function (err, revision) {

@@ -85,7 +85,7 @@ exports.post = function (req, res) {
     model.set(collection.updatedField.key, new global[collection.createdField.type||'Date']());
 
     if (collection.revisionable) {
-        require('../../models/revision').saveRevisionSnapshotFromModel(collection, model._id, model, req.session.user, function (err, revision) {
+        require('../../models/revision').saveRevisionSnapshotFromModel(collection, model._id, model, revisionAttributes.description, req.session.user, function (err, revision) {
             if (err) {
                 res.status(501);
                 res.send(err);

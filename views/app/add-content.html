@@ -8,7 +8,10 @@
                 <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
             ></div>
 
-            <div class="btn-group pull-right" id="form-controls"></div>
+            <div id="form-controls">
+                <div class="btn-group pull-left left"></div>
+                <div class="btn-group pull-right right"></div>
+            </div>
         </div>
     </div>
 </div>

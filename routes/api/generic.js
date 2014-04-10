@@ -63,7 +63,10 @@ exports.get = function (req, res) {
 
 exports.post = function (req, res) {
     var objectId = req.route.params.objectId,
-        collection = getCollection(req, res);
+        collection = getCollection(req, res),
+        url = require('url'),
+        url_parts = url.parse(req.url, true),
+        description = url_parts.query.description || '';
 
     if (!collection) {
         return;
@@ -105,7 +108,7 @@ exports.post = function (req, res) {
             delete responseData.__v;
 
             if (collection.revisionable) {
-                require('../../models/revision').saveRevisionSnapshot(collection, model._id, req.session.user, function (err, revision) {
+                require('../../models/revision').saveRevisionSnapshot(collection, model._id, description, req.session.user, function (err, revision) {
                     res.send(responseData);
                 });
             } else {
@@ -117,7 +120,10 @@ exports.post = function (req, res) {
 
 exports.put = function (req, res) {
     var objectId = req.route.params.objectId,
-        collection = getCollection(req, res);
+        collection = getCollection(req, res),
+        url = require('url'),
+        url_parts = url.parse(req.url, true),
+        description = url_parts.query.description || '';
 
     if (!collection) {
         return;
@@ -155,7 +161,7 @@ exports.put = function (req, res) {
                 res.send(err);
             } else {
                 if (collection.revisionable) {
-                    require('../../models/revision').saveRevisionSnapshot(collection, objectId, req.session.user, function (err, revision) {
+                    require('../../models/revision').saveRevisionSnapshot(collection, objectId, description, req.session.user, function (err, revision) {
                         res.send(responseData);
                     });
                 } else {
