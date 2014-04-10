@@ -20,6 +20,7 @@ define('views/generic-form', [
 
         events: {
             'click .submit': 'submit',
+            'click .submit-draft': 'submitDraft',
             'click .remove': 'remove',
         },
 
@@ -76,6 +77,8 @@ define('views/generic-form', [
             if ($('[data-permission-u], [data-permission-c]').size()) {
                 controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right">'
                     + (instance.objectId ? 'Save' : 'Create') + '</button>';
+                controlsHtml += '<button class="btn btn-success btn-lg submit-draft ladda-button" data-style="expand-right">'
+                    + 'Save as Draft' + '</button>';
             }
             if (!instance.model.isNew()) {
                 controlsHtml += '<a class="btn btn-info btn-lg preview" href="/preview/'
@@ -124,6 +127,42 @@ define('views/generic-form', [
                         if (isNew) {
                             document.location.href = '/edit/' + instance.collectionName + '/' + instance.model.id;
                         } else {
+                            if (instance.revisionsView) {
+                                require([
+                                    'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
+                                    ], function (revisionsModel) {
+                                    instance.revisionsView.revisionsModel = revisionsModel;
+                                    instance.revisionsView.render(); // repaint view
+                                });
+                            }
+                            $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
+                        }
+                    },
+                    error: function () {
+                        instance.laddaSubmit.stop();
+                        alertify.error('an error has ocurred! :S');
+                    }
+                });
+            } else {
+                instance.laddaSubmit.stop();
+                console.log('model err', err);
+                alertify.error('validation failed, look at the console for details.');
+            }
+        },
+
+        submitDraft: function (event) {
+            var instance = this;
+            var err;
+            if (instance.revisionsView) {
+                instance.revisionsView.pushRevision(false);
+            }
+            if (!(err = instance.form.commit())) {
+                instance.laddaSubmit.start();
+                instance.model.save({}, {   // TODO add revision Model
+                    silent: true,
+                    success: function () {
+                        instance.laddaSubmit.stop();
+                        alertify.success('success!');
                             if (instance.revisionsView) {
                                 require([
                                     'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()

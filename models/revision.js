@@ -52,3 +52,43 @@ exports.getModel = function (collectionName) {
         return mongoose.model(collectionName + 'Revision');
     }
 }
+
+exports.saveRevisionSnapshot = function (collection, objectId, user, callback) {
+    getModel(collection.name)
+        .findOne({ _id: objectId })
+        .populate(_(collection.relations).keys().join(' '))
+        .exec(function (err, fullModel) {
+            // mongoose hooks doesn't have  support for update, so here is the "hook"
+            var RevisionModel = global.getRevisionModel(collection.name);
+            var revisionModel = new RevisionModel();
+            revisionModel.set({
+                objectId: objectId,
+                collectionName: collection.name,
+                user: user.username,
+                created: new Date(),
+                modelSnapshot: fullModel.toJSON()
+            });
+            revisionModel.save(function (err, revision) {
+                if (callback) {
+                    callback.apply(null, err, revision);
+                }
+            });
+        });
+}
+
+exports.saveRevisionSnapshotFromModel = function (collection, objectId, model, user, callback) {
+    var RevisionModel = global.getRevisionModel(collection.name);
+    var revisionModel = new RevisionModel();
+    revisionModel.set({
+        objectId: objectId,
+        collectionName: collection.name,
+        user: user.username,
+        created: new Date(),
+        modelSnapshot: model.toJSON()
+    });
+    revisionModel.save(function (err, revision) {
+        if (callback) {
+            callback.apply(null, err, revision);
+        }
+    });
+}

@@ -7,28 +7,6 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId,
     _ = require('underscore');
 
-function saveRevisionSnapshot (collection, objectId, user, callback) {
-    getModel(collection.name)
-        .findOne({ _id: objectId })
-        .populate(_(collection.relations).keys().join(' '))
-        .exec(function (err, fullModel) {
-            // mongoose hooks doesn't have  support for update, so here is the "hook"
-            var RevisionModel = global.getRevisionModel(collection.name);
-            var revisionModel = new RevisionModel();
-            revisionModel.set({
-                objectId: objectId,
-                collectionName: collection.name,
-                user: user.username,
-                created: new Date(),
-                modelSnapshot: fullModel.toJSON()
-            });
-            revisionModel.save(function (err, revision) {
-                if (callback) {
-                    callback.apply(null, err, revision);
-                }
-            });
-        });
-}
 
 function getCollection(req, res) {
     var collectionName = req.route.params.collectionName;
@@ -127,7 +105,7 @@ exports.post = function (req, res) {
             delete responseData.__v;
 
             if (collection.revisionable) {
-                saveRevisionSnapshot(collection, model._id, req.session.user, function (err, revision) {
+                require('../../models/revision').saveRevisionSnapshot(collection, model._id, req.session.user, function (err, revision) {
                     res.send(responseData);
                 });
             } else {
@@ -177,7 +155,7 @@ exports.put = function (req, res) {
                 res.send(err);
             } else {
                 if (collection.revisionable) {
-                    saveRevisionSnapshot(collection, objectId, req.session.user, function (err, revision) {
+                    require('../../models/revision').saveRevisionSnapshot(collection, objectId, req.session.user, function (err, revision) {
                         res.send(responseData);
                     });
                 } else {
