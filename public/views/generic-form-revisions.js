@@ -63,7 +63,7 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
                 if (j === selectedIndex) { $(el).attr('class', 'glyphicon glyphicon-ok'); }
             });
 
-            $icons = instance.$('li > i.fa');
+            $icons = instance.$('li > a.fa');
             $icons.each(function (j, el) {
                 if (j === selectedIndex) { $(el).toggleClass('bg-aqua', true); }
                 else { $(el).toggleClass('bg-aqua', false); }
@@ -82,7 +82,7 @@ define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-i
             event.preventDefault();
             instance.model.set(revisionModel.modelSnapshot);
             instance.repaintList(i);
-            alertify.log('switched content to revision:' + $button.text());
+            alertify.log('switched content to revision: "<i>' + revisionModel.description + '</i>"<br/> by <strong>' + revisionModel.user + '</strong>');
         },
 
         pushRevision: function (revisionModel) {
