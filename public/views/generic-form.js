@@ -189,6 +189,7 @@ define('views/generic-form', [
                                             ], function (revisionsModel) {
                                             instance.revisionsView.revisionsModel = revisionsModel;
                                             instance.revisionsView.render(); // repaint view
+                                            instance.revisionsView.repaintList(0); // put the mark on the current rev
                                         });
                                     }
                                     $('[data-updated]').html(humaneDate(instance.model.get(instance.config.updatedField.key)));
