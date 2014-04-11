@@ -1,5 +1,5 @@
-define('model/<%= collection.name %>', [
-        <%= _(collection.relations).filter(function (relation) { return 'fs.files' !== relation.relatedCollection; }).map(function (relation, key) { return '\'model/' + relation.relatedCollection + '\''; }).join(', ') %>
+define('models/<%= collection.name %>', [
+        <%= _(collection.relations).filter(function (relation) { return 'fs.files' !== relation.relatedCollection; }).map(function (relation, key) { return '\'models/' + relation.relatedCollection + '\''; }).join(', ') %>
     ], function (
         <%= _(collection.relations).filter(function (relation) { return 'fs.files' !== relation.relatedCollection; }).map(function (relation, key) { return relation.relatedCollection.toCamelCase(); }).join(', ') %>
     ) {

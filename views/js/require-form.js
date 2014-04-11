@@ -1,4 +1,4 @@
-define(['model/<%= collection.name %>'], function (<%= collection.name.toCamelCase() %>Model) {
+define('forms/<%= collection.name %>', ['models/<%= collection.name %>'], function (<%= collection.name.toCamelCase() %>Model) {
 
     <%
 

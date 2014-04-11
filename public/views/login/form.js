@@ -1,4 +1,4 @@
-define('views/login-form', [
+define('views/login/form', [
         '/third-party/ladda-bootstrap/dist/ladda.min.js',
     ], function (Ladda) {
 

@@ -79,24 +79,24 @@ config.collections.forEach(function (collection) {
     getModel(collection.name);
 });
 
-// routes
+// frontend
 app.get('/', authRoute.bootstrap, appMainRoute.getIndex);
-
 app.get('/auth/login', authRoute.bootstrap, authRoute.getLogin);
 app.post('/auth/login', authRoute.postLogin);
 app.post('/auth/logout', authRoute.postLogout);
-
 app.get('/dashboard', authRoute.bootstrap, appMainRoute.getDashboard);
-
 app.get('/add/:collectionName', authRoute.bootstrap, appGenericRoute.getAdd);
 app.get('/search/:collectionName', authRoute.bootstrap, appGenericRoute.getSearch);
 app.get('/edit/:collectionName/:objectId', authRoute.bootstrap, appGenericRoute.getEdit);
 app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appGenericRoute.getPreview);
 
-app.get('/model/:collectionName.js', authRoute.bootstrap, appJsRoute.getModel);
-app.get('/form/:collectionName.js', authRoute.bootstrap, appJsRoute.getForm);
+// dynamic javascript assets
+app.get('/models/:collectionName.js', authRoute.bootstrap, appJsRoute.getModel);
+app.get('/collections/:collectionName.js', authRoute.bootstrap, appJsRoute.getCollection);
+app.get('/forms/:collectionName.js', authRoute.bootstrap, appJsRoute.getForm);
 app.get('/config/:collectionName.json', authRoute.bootstrap, appJsRoute.getConfig);
 
+// api gridfs interface
 app.post('/api/fs.files', authRoute.bootstrap, apiFileRoute.post);
 app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiFileRoute.get);
 app.get('/api/fs.files/:objectId/:view', authRoute.bootstrap, apiFileRoute.get);

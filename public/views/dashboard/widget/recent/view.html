@@ -1,0 +1,36 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title"><%= config.humanName %></h3>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <table class="table table-stripped">
+            <tr>
+                <th style="width: 10px">#</th>
+                <th>Title</a></th>
+                <th>Modified</th>
+                <th>API Endpoint</th>
+            </tr>
+            <% _(collection.models).each(function (model, i) { %>
+            <tr>
+                <td style="width: 10px"><%= i+1 %></td>
+                <td><a href="/edit/<%= config.name %>/<%= model.get('_id') %>"><%= model.toString() %></a></td>
+                <td><date><%= (new Date(model.get(config.updatedField.key))).toLocaleString() %></date></td>
+                <td><a target="_blank" href="/api/<%= config.name + '/' + model.get('_id') %>"><i class="fa fa-link"></i></a></td>
+            </tr>
+            <% }) %>
+        </table>
+    </div><!-- /.box-body -->
+    <div class="box-footer clearfix">
+        <ul class="pagination pagination-sm no-margin pull-right">
+            <% if (pager.prev) { %>
+            <li><a href="<%= pager.prev %>">&laquo;</a></li>
+            <% } %>
+            <% if (pager.current) { %>
+            <li><a href="#"><%= pager.p %></a></li>
+            <% } %>
+            <% if (pager.next) { %>
+            <li><a href="<%= pager.next %>">&raquo;</a></li>
+            <% } %>
+        </ul>
+    </div>
+</div><!-- /.box -->
