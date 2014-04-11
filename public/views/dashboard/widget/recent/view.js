@@ -25,7 +25,13 @@ define('views/dashboard/widget/recent/view', [
                             pager: collection.pager
                         }));
                     }, this);
-                    instance.collection.fetch({ data: { ipp: 5, p: instance.p } });
+                    instance.collection.fetch({
+                        data: {
+                            ipp: 5,
+                            p: instance.p,
+                            'sort[]': config.updatedField.key + '=-1'
+                        }
+                    });
             });
             instance.delegateEvents();
         },

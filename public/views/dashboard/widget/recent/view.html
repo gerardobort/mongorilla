@@ -1,18 +1,23 @@
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title"><%= config.humanName %></h3>
+        <h3 class="box-title">
+            <%= config.humanName %>
+        </h3>
+        <div class="box-tools pull-right">
+            <a href="/search/<%= config.name %>" class="btn btn-default fa fa-search"></a>
+        </div>
     </div><!-- /.box-header -->
     <div class="box-body">
         <table class="table table-stripped">
             <tr>
                 <th style="width: 10px">#</th>
-                <th>Title</a></th>
-                <th>Modified</th>
+                <th><%= config.schema[ config.toStringField ].title || 'Title' %></a></th>
+                <th>Modified <i class="fa fa-caret-down"></i></th>
                 <th>API Endpoint</th>
             </tr>
             <% _(collection.models).each(function (model, i) { %>
             <tr>
-                <td style="width: 10px"><%= i+1 %></td>
+                <td style="width: 10px"><%= (i+1) + (pager.ipp * (pager.p-1)) %></td>
                 <td><a href="/edit/<%= config.name %>/<%= model.get('_id') %>"><%= model.toString() %></a></td>
                 <td><date><%= (new Date(model.get(config.updatedField.key))).toLocaleString() %></date></td>
                 <td><a target="_blank" href="/api/<%= config.name + '/' + model.get('_id') %>"><i class="fa fa-link"></i></a></td>

@@ -12,7 +12,7 @@ exports.bootstrap = function(req, res, next){
         url_parts = url.parse(req.url, true);
 
     if (!req.session.user && url_parts.path !== '/' && !url_parts.path.match(/^\/auth\/login/)) {
-        res.redirect('/');
+        res.redirect('/auth/login');
         return;
     } else if (req.session.user && url_parts.path === '/') {
         res.redirect('/dashboard');

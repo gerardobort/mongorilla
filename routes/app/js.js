@@ -113,6 +113,7 @@ exports.getConfig = function (req, res) {
     if (collection 
         && collection.name 
         && collection.humanName 
+        && collection.toStringField
         && collection.backboneForms 
         && collection.backboneForms.schema
         ) {
@@ -122,7 +123,8 @@ exports.getConfig = function (req, res) {
                 createdField: collection.createdField,
                 updatedField: collection.updatedField,
                 name: collection.name,
-                humanName: collection.humanName
+                humanName: collection.humanName,
+                toStringField: collection.toStringField
             }
         ));
     } else {

@@ -11,19 +11,34 @@ exports.Pager = function (currentUrl) {
     _this.p = parseInt(url_parts.query.p, 10) || 1;
     _this.ipp = parseInt(url_parts.query.ipp, 10) || DEFAULT_IPP;
 
-    if ('object' === typeof url_parts.query['filters[]']) {
-        _this.filters = _.reduce(
-            _(url_parts.query['filters[]']).map(function (filter) {
-                return url.parse('?' + filter || '', true).query; 
-            }),
-            function (memo, prop) {
-                return _.extend(memo, prop); 
-            }, 
-            {}
-        );
-    } else if ('string' === typeof url_parts.query['filters[]']) {
-        _this.filters = url.parse('?' + url_parts.query['filters[]'] || '', true).query;
+    function parseQuerystringArray(key) {
+        if ('object' === typeof url_parts.query[key + '[]']) {
+            return _.reduce(
+                _(url_parts.query[key + '[]']).map(function (filter) {
+                    var map = url.parse('?' + filter || '', true).query;
+                    _(map).each(function (v, k) {
+                        map[k] = (v == parseFloat(v, 10)) ? parseFloat(v, 10) : v;
+                    }); 
+                    return map;
+                }),
+                function (memo, prop) {
+                    return _.extend(memo, prop); 
+                }, 
+                {}
+            );
+        } else if ('string' === typeof url_parts.query[key + '[]']) {
+            var map = url.parse('?' + url_parts.query[key + '[]'] || '', true).query;
+            _(map).each(function (v, k) {
+                map[k] = (v == parseFloat(v, 10)) ? parseFloat(v, 10) : v;
+            }); 
+            return map;
+        }
+        return {};
     }
+
+    _this.sort = parseQuerystringArray('sort');
+    _this.mongoSort = _.extend({}, _this.sort);
+    _this.filters = parseQuerystringArray('filters');
 
     _this.mongoFilters = _.extend({}, _this.filters);
     _(_this.mongoFilters).each(function (value, path) {
@@ -52,6 +67,7 @@ exports.Pager = function (currentUrl) {
     this.getItemsPerPage = function () { return _this.ipp; };
     this.getMongoSkip = function () { return _this.mongoSkip; };
     this.getMongoLimit = function () { return _this.mongoLimit; };
+    this.getMongoSort = function () { return _this.mongoSort; };
     this.getMongoFilter = function () { return _this.mongoFilters; };
 
     this.setPageCount = function (count) {
@@ -102,6 +118,7 @@ exports.Pager = function (currentUrl) {
             page_count: _this.pageCount,
             total_count: _this.totalCount,
             filters: _this.filters,
+            sort: _this.sort,
             prev: this.getPrevUrl(),
             current: this.getCurrentUrl(),
             next: this.getNextUrl(),
@@ -126,6 +143,7 @@ exports.GetListRouter = function (req, res, mongooseModel, options) {
                 {
                     skip: pager.getMongoSkip(),
                     limit: pager.getMongoLimit(),
+                    sort: pager.getMongoSort(),
                 },
                 function (err, cursor) {
                     cursor.count(false, function (err, total) {
