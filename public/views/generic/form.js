@@ -1,4 +1,4 @@
-define('views/generic-form', [
+define('views/generic/form', [
         '/third-party/ladda-bootstrap/dist/ladda.min.js',
         '/third-party/bootstrap-datepicker/js/bootstrap-datepicker.js',
         '/third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal.js',
@@ -102,7 +102,7 @@ define('views/generic-form', [
 
             // TODO convert revisionsModel into a collection and handle it with async events
             require([
-                'views/generic-form-revisions',
+                'views/generic/revisions/timeline',
                 'json!/api/' + instance.collectionName + '/' + instance.objectId + '/revisions?t=' + Math.random()
                 ], function (GenericFormRevisionsView, revisionsModel) {
 

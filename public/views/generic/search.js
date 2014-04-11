@@ -1,4 +1,4 @@
-define('views/generic-search', [], function () {
+define('views/generic/search', [], function () {
 
     return Backbone.View.extend({
 

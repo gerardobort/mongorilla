@@ -1,4 +1,4 @@
-define('views/generic-form-revisions', ['text!views/generic-form-revisions-rev-item.html'], function (revItemTemplate) {
+define('views/generic/revisions/timeline', ['text!views/generic/revisions/timeline-item.html'], function (revItemTemplate) {
 
     return Backbone.View.extend({
 
