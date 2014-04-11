@@ -12,11 +12,19 @@ define('views/dashboard/widget/recent/view', [
             var instance = this;
             instance.setElement(options.el);
             instance.collectionName = instance.$el.data('collection-name');
-            instance.p = 1;
             require([
                 'json!/config/' + instance.collectionName + '.json',
                 'collections/' + instance.collectionName
                 ], function (config, Collection) {
+                    instance.pager = {
+                        p: 1,
+                        ipp: 5,
+                        'sort[]': (function (map) {
+                            map[ config.updatedField.key ] = -1;
+                            return map;
+                        })({}),
+                    };
+
                     instance.collection = new Collection();
                     instance.collection.on('add', function (response, collection, xhr) {
                         instance.$el.html(_.template(templateHtml, {
@@ -26,11 +34,7 @@ define('views/dashboard/widget/recent/view', [
                         }));
                     }, this);
                     instance.collection.fetch({
-                        data: {
-                            ipp: 5,
-                            p: instance.p,
-                            'sort[]': config.updatedField.key + '=-1'
-                        }
+                        data: instance.pager
                     });
             });
             instance.delegateEvents();
@@ -42,7 +46,19 @@ define('views/dashboard/widget/recent/view', [
 
         gotoPage: function (event) {
             var instance = this;
-            instance.collection.fetch({ url: $(event.target).attr('href') });
+                $el = $(event.target);
+            if ($el.data('pager')) {
+                var pager = $el.data('pager'),
+                    data = {
+                        p: pager.p,
+                        ipp: pager.ipp,
+                        sort: pager.sort,
+                        filter: pager.filter,
+                    };
+                instance.collection.fetch({ data: data });
+            } else {
+                instance.collection.fetch({ url: $(event.target).attr('href') });
+            }
             event.preventDefault();
         },
 

@@ -26,16 +26,22 @@
         </table>
     </div><!-- /.box-body -->
     <div class="box-footer clearfix">
+
+        <%
+            var getAttrPagerData = function (p) {
+                return JSON.stringify(_.extend({}, pager, { p: p })).replace(/"/g, '&quot;');
+            }
+        %>
         <ul class="pagination pagination-sm no-margin pull-right">
-            <% if (pager.prev) { %>
-            <li><a href="<%= pager.prev %>">&laquo;</a></li>
+            <li><a href="#" data-pager="<%= getAttrPagerData(1) %>" class="fa fa-caret-left"></a></li>
+            <% for (var p = (pager.p < 3 ? 3 - pager.p : pager.p-2); p < pager.p; p++) { %>
+            <li><a href="#" data-pager="<%= getAttrPagerData(p) %>"><%= p %></a></li>
             <% } %>
-            <% if (pager.current) { %>
-            <li><a href="#"><%= pager.p %></a></li>
+            <li><a href="#" data-pager="<%= getAttrPagerData(pager.current) %>" class="bg-blue"><%= pager.p %></a></li>
+            <% for (var p = pager.p+1; p < (pager.total_pages - (pager.p+1) < 2 ? pager.total_pages+1 : pager.p+3); p++) { %>
+            <li><a href="#" data-pager="<%= getAttrPagerData(p) %>"><%= p %></a></li>
             <% } %>
-            <% if (pager.next) { %>
-            <li><a href="<%= pager.next %>">&raquo;</a></li>
-            <% } %>
+            <li><a href="#" data-pager="<%= getAttrPagerData(pager.total_pages) %>" class="fa fa-caret-right"></a></li>
         </ul>
     </div>
 </div><!-- /.box -->
