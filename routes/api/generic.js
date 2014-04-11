@@ -208,7 +208,7 @@ exports.getSearch = function (req, res) {
         return col;
     });
 
-    var findParams = global.helpers.toJS(_(collection.fastSearch.find).clone(), function (arg) {
+    var findParams = global.helpers.toJS(global.helpers.deepClone(collection.fastSearch.find), function (arg) {
         return arg.replace(/\$\{q\}/g, q);
     });
 
