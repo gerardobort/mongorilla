@@ -97,7 +97,7 @@ exports.Pager = function (currentUrl) {
     this.toJSON = function () {
         return {
             p: _this.p,
-            total_pages: Math.round(_this.totalCount/(_this.ipp||1)),
+            total_pages: Math.ceil(_this.totalCount/(_this.ipp||1)),
             ipp: _this.ipp,
             page_count: _this.pageCount,
             total_count: _this.totalCount,

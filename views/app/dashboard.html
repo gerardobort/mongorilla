@@ -1,41 +1,11 @@
 <section class="content">
     <div class="row">
-    <% _(colsStats).each(function (stat) { %>
-        <% if (global.helpers.hasPermission(sessionUser, stat.collection.name, 'r')) { %>
-        <div class="col-md-6">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title"><%= stat.collection.humanName %></h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                    <table class="table table-stripped">
-                        <tr>
-                            <th style="width: 10px">#</th>
-                            <th>Title</a></th>
-                            <th>Modified</th>
-                            <th>API Endpoint</th>
-                        </tr>
-                        <% _(stat.colLastCreated).each(function (obj, i) { %>
-                        <tr>
-                            <td style="width: 10px"><%= i+1 %></td>
-                            <td><a href="/edit/<%= stat.collection.name %>/<%= obj._id %>"><%= obj[stat.collection.toStringField] %></a></td>
-                            <td>Updated <date><%= moment(obj[stat.collection.updatedField.key]).fromNow() %></date></td>
-                            <td><a target="_blank" href="/api/<%= stat.collection.name + '/' + obj._id %>"><i class="fa fa-link"></i></a></td>
-                        </tr>
-                        <% }) %>
-                    </table>
-                </div><!-- /.box-body -->
-                <div class="box-footer clearfix">
-                    <ul class="pagination pagination-sm no-margin pull-right">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
-                </div>
-            </div><!-- /.box -->
-        </div>
+    <% _(config.collections).each(function (collection) { %>
+        <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+        <div class="col-md-6"
+            data-view="dashboard/widget/recent/view"
+            data-collection-name="<%= collection.name %>"
+            ></div>
         <% } %>
     <% }) %>
     </div>

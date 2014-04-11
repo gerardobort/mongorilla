@@ -7,6 +7,7 @@ define('routers/main', [
 
         routes: {
             'auth/login': 'loginForm',
+            'dashboard': 'dashboard',
             'add/:collectionName': 'createForm',
             'edit/:collectionName/:objectId': 'editForm',
             'search/:collectionName': 'searchForm',
@@ -22,7 +23,15 @@ define('routers/main', [
             console.log('Mongorilla!');
         },
 
-        loginForm: function (collectionName) {
+        dashboard: function () {
+            require(['views/dashboard/widget/recent/view'], function (WidgetRecentView) {
+                $('[data-view="dashboard/widget/recent/view"]').each(function (i, el) {
+                    var view = new WidgetRecentView({ el: el });
+                })
+            });
+        },
+
+        loginForm: function () {
             require(['views/login/form'], function (LoginFormView) {
                 var form = new LoginFormView();
             });

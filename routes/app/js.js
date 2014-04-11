@@ -45,6 +45,44 @@ exports.getModel = function (req, res) {
     }
 };
 
+exports.getCollection = function (req, res) {
+    var url = require('url'),
+        collectionName = req.route.params.collectionName,
+        url_parts = url.parse(req.url, true),
+        _ = require('underscore'),
+        isRevisionModel = false;
+
+    var collection = _(global.config.collections).find(function (col) {
+        return col.name === collectionName;
+    });
+
+    if (!collection) {
+        collectionName = collectionName.replace(/-revision$/, '');
+        var collection = _(global.config.collections).find(function (col) {
+            return col.name === collectionName;
+        });
+        if (!collection) {
+            res.status(404);
+            res.send({ error: 'Not found' });
+            return;
+        }
+        isRevisionModel = true;
+    }
+
+    res.header('Content-Type', 'text/javascript');
+    if (isRevisionModel) {
+        res.render('js/require-collection-revision.js', {
+            collection: collection,
+            layout: null
+        });
+    } else {
+        res.render('js/require-collection.js', {
+            collection: collection,
+            layout: null
+        });
+    }
+};
+
 exports.getForm = function (req, res) {
     var url = require('url'),
         collectionName = req.route.params.collectionName,
@@ -72,12 +110,19 @@ exports.getConfig = function (req, res) {
         return col.name === collectionName;
     });
 
-    if (collection && collection.backboneForms && collection.backboneForms.schema) {
+    if (collection 
+        && collection.name 
+        && collection.humanName 
+        && collection.backboneForms 
+        && collection.backboneForms.schema
+        ) {
         res.send(_.extend(
             collection.backboneForms,
             {
                 createdField: collection.createdField,
-                updatedField: collection.updatedField
+                updatedField: collection.updatedField,
+                name: collection.name,
+                humanName: collection.humanName
             }
         ));
     } else {
