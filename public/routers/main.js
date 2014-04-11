@@ -24,10 +24,11 @@ define('routers/main', [
         },
 
         dashboard: function () {
-            require(['views/dashboard/widget/recent/view'], function (WidgetRecentView) {
-                $('[data-view="dashboard/widget/recent/view"]').each(function (i, el) {
+            $('[data-view="dashboard/widget/recent/view"]').each(function (i, el) {
+                require(['views/dashboard/widget/recent/view'], function (WidgetRecentView) {
+                    spinner.spin(el);
                     var view = new WidgetRecentView({ el: el });
-                })
+                });
             });
         },
 
@@ -38,7 +39,7 @@ define('routers/main', [
         },
 
         createForm: function (collectionName) {
-            spinner.spin($('#collection-form').get(0))
+            spinner.spin($('#collection-form').get(0));
             require(['views/generic/form'], function (GenericFormView) {
                 var form = new GenericFormView({ collectionName: collectionName });
             });
