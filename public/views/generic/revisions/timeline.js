@@ -161,7 +161,7 @@ define('views/generic/revisions/timeline', ['text!views/generic/revisions/timeli
                 if (!ok) {
                     return;
                 }
-                require(['model/' + revisionModel.collectionName + '-revision', ], function (RevisionModel) {
+                require(['models/' + revisionModel.collectionName + '-revision', ], function (RevisionModel) {
                     var revision = new RevisionModel(revisionModel);
                     revision.destroy({
                         success: function() {

@@ -33,8 +33,8 @@ define('views/generic/form', [
             instance.setElement($('#form-controls').get(0));
 
             require([
-                'model/' + instance.collectionName, 
-                'form/' + instance.collectionName,
+                'models/' + instance.collectionName, 
+                'forms/' + instance.collectionName,
                 'json!/config/' + instance.collectionName + '.json',
                 'json!/api/' + instance.collectionName + '/' + (instance.objectId||'default'),
                 ], function (Model, Form, config, modelData) {
@@ -175,7 +175,7 @@ define('views/generic/form', [
                     instance.revisionsView.pushRevision(false);
                 }
                 if (!(err = instance.form.commit())) {
-                    require(['model/' + instance.collectionName + '-revision', ], function (RevisionModel) {
+                    require(['models/' + instance.collectionName + '-revision', ], function (RevisionModel) {
                         var revision = new RevisionModel({ description: description, snapshot: instance.model.toJSON() });
                         revision.save({}, {
                             silent: true,
