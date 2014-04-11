@@ -1,7 +1,8 @@
 define('routers/main', [
-        'mongorilla-spinner',
+        'spin',
+        'mongorilla/config/spinner-default',
         '/third-party/ladda-bootstrap/dist/ladda.min.js',
-    ], function (spinner, Ladda) {
+    ], function (Spinner, spinnerOptions, Ladda) {
 
     return Backbone.Router.extend({
 
@@ -26,7 +27,7 @@ define('routers/main', [
         dashboard: function () {
             $('[data-view="dashboard/widget/recent/view"]').each(function (i, el) {
                 require(['views/dashboard/widget/recent/view'], function (WidgetRecentView) {
-                    spinner.spin(el);
+                    (new Spinner(spinnerOptions)).spin(el);
                     var view = new WidgetRecentView({ el: el });
                 });
             });
@@ -39,21 +40,24 @@ define('routers/main', [
         },
 
         createForm: function (collectionName) {
-            spinner.spin($('#collection-form').get(0));
+            var el = $('#collection-form').get(0);
+            (new Spinner(spinnerOptions)).spin(el);
             require(['views/generic/form'], function (GenericFormView) {
                 var form = new GenericFormView({ collectionName: collectionName });
             });
         },
 
         editForm: function (collectionName, objectId) {
-            spinner.spin($('#collection-form').get(0))
+            var el = $('#collection-form').get(0);
+            (new Spinner(spinnerOptions)).spin(el);
             require(['views/generic/form'], function (GenericFormView) {
                 var form = new GenericFormView({ collectionName: collectionName, objectId: objectId });
             });
         },
 
         searchForm: function (collectionName) {
-            spinner.spin($('#collection-list').get(0))
+            var el = $('#collection-list').get(0);
+            (new Spinner(spinnerOptions)).spin(el);
             require(['views/generic/search'], function (SearchFormView) {
                 var form = new SearchFormView({ collectionName: collectionName });
             });

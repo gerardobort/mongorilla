@@ -34,14 +34,14 @@ require.config({
     }
 });
 
-define('mongorilla-spinner', ['spin'], function(Spinner) {
-    return new Spinner({
+define('mongorilla/config/spinner-default', function() {
+    return {
         color: '#999',
         length: 6,
         width: 2,
         radius: 6,
         top: 20
-    });
+    };
 });
 
 require(['backbone', 'bootstrap'], function () {
