@@ -50,7 +50,6 @@ define('views/dashboard/widget/editions-chart/view', [
                         ];
                     })
                 );
-
                 var options = {
                     title: 'Latest Editions',
                     crosshair: {
