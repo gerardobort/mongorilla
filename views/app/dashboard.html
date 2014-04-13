@@ -1,11 +1,15 @@
 <section class="content">
     <div class="row">
+        <div class="col-md-12"
+            data-view="dashboard/widget/collections-pie/view"
+            data-collection-names="<%= _(config.collections).pluck('name').join() %>"
+            ><div class="box"><br><br><br><br></div></div>
     <% _(config.collections).each(function (collection) { %>
         <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
         <div class="col-md-6"
             data-view="dashboard/widget/recent/view"
             data-collection-name="<%= collection.name %>"
-            ></div>
+            ><div class="box"><br><br><br><br></div></div>
         <% } %>
     <% }) %>
     </div>

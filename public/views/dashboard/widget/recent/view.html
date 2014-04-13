@@ -19,7 +19,7 @@
             <tr>
                 <td style="width: 10px"><%= (i+1) + (pager.ipp * (pager.p-1)) %></td>
                 <td><a href="/edit/<%= config.name %>/<%= model.get('_id') %>"><%= model.toString() %></a></td>
-                <td><date><%= (new Date(model.get(config.updatedField.key))).toLocaleString() %></date></td>
+                <td><time datetime="<%= model.get(config.updatedField.key) %>"></time></td>
                 <td><a target="_blank" href="/api/<%= config.name + '/' + model.get('_id') %>"><i class="fa fa-link"></i></a></td>
             </tr>
             <% }) %>

@@ -6,6 +6,8 @@ require.config({
             text: '/third-party/requirejs-text/text.js',
             json: '/third-party/requirejs-json/json.js',
             css: '/third-party/require-css/css.js',
+            async: '/third-party/requirejs-plugins/src/async.js',
+            goog: '/third-party/requirejs-plugins/src/goog.js',
         },
     },
     paths: {
@@ -15,6 +17,7 @@ require.config({
         spin: '/third-party/ladda-bootstrap/dist/spin.min',
         bootstrap: '/third-party/bootstrap/dist/js/bootstrap.min',
         admin_lte: '/admin-lte',
+        propertyParser: '/third-party/requirejs-plugins/src/propertyParser',
     },
     shim: {
         underscore: { exports: '_' },
