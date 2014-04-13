@@ -6,7 +6,6 @@ define('views/dashboard/widget/collections-pie/view', [
     return Backbone.View.extend({
 
         events: {
-            'click .pagination li a': 'gotoPage'
         },
 
         initialize: function (options) {
@@ -26,7 +25,6 @@ define('views/dashboard/widget/collections-pie/view', [
                 for (var i = 0; i < arguments.length; i+=2) {
                     var config = arguments[i];
                         response = arguments[i+1];
-                    console.log(config.humanName, response.pager.total_count);
                     pieData.push({
                         label: config.humanName,
                         value: response.pager.total_count
