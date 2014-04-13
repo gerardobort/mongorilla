@@ -12,13 +12,22 @@
             <tr>
                 <th style="width: 10px">#</th>
                 <th><%= config.schema[ config.toStringField ].title || 'Title' %></a></th>
+                <th style="width: 10px"></th>
                 <th>Modified <i class="fa fa-caret-down"></i></th>
                 <th>API Endpoint</th>
             </tr>
             <% _(collection.models).each(function (model, i) { %>
             <tr>
                 <td style="width: 10px"><%= (i+1) + (pager.ipp * (pager.p-1)) %></td>
-                <td><a href="/edit/<%= config.name %>/<%= model.get('_id') %>"><%= model.toString() %></a></td>
+                <td style="width: 50%">
+                    <a href="/edit/<%= config.name %>/<%= model.get('_id') %>"><%= model.toString() %></a>
+                    <% if ((new Date(model.get(config.createdField.key))) > (new Date(Date.now() - 60*60*3000))) { %>
+                        &nbsp; <span class="label label-success">New &nbsp; <i class="fa fa-clock-o"></i></span>
+                    <% } else if ((new Date(model.get(config.updatedField.key))) > (new Date(Date.now() - 60*60*3000))) { %>
+                        &nbsp; <span class="label label-info">Recently edited &nbsp; <i class="fa fa-clock-o"></i></span>
+                    <% } %>
+                </td>
+                <td><a class="btn btn-default btn-xs" target="_blank" href="/preview/<%= config.name + '/' + model.get('_id') %>"><i class="fa fa-eye"></i></a></td>
                 <td><time datetime="<%= model.get(config.updatedField.key) %>"></time></td>
                 <td><a target="_blank" href="/api/<%= config.name + '/' + model.get('_id') %>"><i class="fa fa-link"></i></a></td>
             </tr>
