@@ -119,5 +119,5 @@ app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.d
 app.locals(global.config);
 
 http.createServer(app).listen(app.get('port'), function () {
-    console.log('Mongorila server listening on port ' + app.get('port') + ' on ' + app.get('env') + ' env.');
+    console.log('Mongorilla server listening on port ' + app.get('port') + ' on ' + app.get('env') + ' env.');
 });
