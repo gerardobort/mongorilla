@@ -40,6 +40,7 @@
     "twitter-bootstrap-typeahead": "https://github.com/tcrosen/twitter-bootstrap-typeahead.git",
     "BootstrapCK4-Skin": "https://github.com/Kunstmaan/BootstrapCK4-Skin.git",
     "ladda-bootstrap": "~0.1.0",
-    "AdminLTE": "https://github.com/almasaeed2010/AdminLTE.git"
+    "AdminLTE": "https://github.com/almasaeed2010/AdminLTE.git",
+    "requirejs-plugins": "~1.0.2"
   }
 }

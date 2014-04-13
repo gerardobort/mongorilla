@@ -25,6 +25,11 @@ define('routers/main', [
         },
 
         dashboard: function () {
+            require(['views/dashboard/widget/collections-pie/view'], function (WidgetRecentView) {
+                var el = $('[data-view="dashboard/widget/collections-pie/view"]').get(0);
+                (new Spinner(spinnerOptions)).spin(el);
+                var view = new WidgetRecentView({ el: el });
+            });
             $('[data-view="dashboard/widget/recent/view"]').each(function (i, el) {
                 require(['views/dashboard/widget/recent/view'], function (WidgetRecentView) {
                     (new Spinner(spinnerOptions)).spin(el);

@@ -1,0 +1,30 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">
+            Content Quick View
+        </h3>
+    </div><!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="chart"></div>
+            </div>
+            <div class="col-md-4">
+                <table class="table table-stripped">
+                    <tr>
+                        <th><%= 'Content Type' %></a></th>
+                        <th>Total</th>
+                    </tr>
+                    <% _(data).each(function (collection, i) { %>
+                    <tr>
+                        <td><%= collection.label %></td>
+                        <td><%= collection.value %></td>
+                    </tr>
+                    <% }) %>
+                </table>
+            </div>
+        </div>
+    </div><!-- /.box-body -->
+    <div class="box-footer clearfix">
+    </div>
+</div><!-- /.box -->

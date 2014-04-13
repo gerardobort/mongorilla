@@ -31,6 +31,7 @@ define('views/dashboard/widget/recent/view', [
                             collection: collection,
                             pager: collection.pager
                         }));
+                        instance.$('time').humaneDates({ lowercase: true});
                     }, this);
                     instance.collection.fetch({
                         data: instance.pager
