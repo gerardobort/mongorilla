@@ -16,7 +16,6 @@ define('views/dashboard/widget/recent/view', [
                 'json!/config/' + instance.collectionName + '.json',
                 'collections/' + instance.collectionName
                 ], function (config, Collection) {
-                    instance.config = config;
                     instance.pager = {
                         p: 1,
                         ipp: 5,
@@ -26,11 +25,16 @@ define('views/dashboard/widget/recent/view', [
                         })({}),
                     };
                     instance.collection = new Collection();
+                    instance.collection.on('sync', function (collection, response, xhr) {
+                        instance.$el.html(_.template(templateHtml, {
+                            config: config,
+                            collection: collection,
+                            pager: collection.pager
+                        }));
+                        instance.$('time').humaneDates({ lowercase: true});
+                    }, this);
                     instance.collection.fetch({
-                        data: instance.pager,
-                        success: function () {
-                            instance.onCollecitonFetchSucces.apply(instance, arguments);
-                        }
+                        data: instance.pager
                     });
             });
             instance.delegateEvents();
@@ -57,16 +61,6 @@ define('views/dashboard/widget/recent/view', [
             }
             event.preventDefault();
         },
-
-        onCollecitonFetchSucces: function (response, collection, xhr) {
-            var instance = this;
-            instance.$el.html(_.template(templateHtml, {
-                config: instance.config,
-                collection: collection,
-                pager: collection.pager
-            }));
-            instance.$('time').humaneDates({ lowercase: true});
-        }
 
     });
 

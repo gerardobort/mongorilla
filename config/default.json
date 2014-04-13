@@ -12,7 +12,8 @@
                 "instrument": "crud",
                 "opus": "crud",
                 "period": "crud",
-                "score": "crud"
+                "score": "crud",
+                "toto": "crud"
             }
         }
     ],
@@ -21,6 +22,30 @@
         { "username": "gbort", "password": "5ap1t0!B", "fullname": "Gerardo Bort", "roles": ["editor"] }
     ],
     "collections": [
+        {
+            "name": "toto",
+            "humanName": "Toto",
+            "previewUrl": "http://damusiq.com/test/${name}.html",
+            "backboneForms": {
+                "schema": {
+                    "name": { "type": "Text", "title": "Name (English)", "validators": ["required"] }
+                }
+            },
+            "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
+            "fastSearch": {
+                "find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "created", "updated"]
+            },
+            "mongoose": {
+                "schema": null
+            },
+            "readonly": false,
+            "revisionable": true
+        },
         {
             "name": "composer",
             "humanName": "Composer",

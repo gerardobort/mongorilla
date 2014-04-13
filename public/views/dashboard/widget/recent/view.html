@@ -8,6 +8,7 @@
         </div>
     </div><!-- /.box-header -->
     <div class="box-body">
+        <% if (collection.models.length) { %>
         <table class="table table-stripped">
             <tr>
                 <th style="width: 10px">#</th>
@@ -33,6 +34,12 @@
             </tr>
             <% }) %>
         </table>
+        <% } else { %>
+        <div class="alert alert-warning alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Oops!</strong> No content found.
+        </div>
+        <% } %>
     </div><!-- /.box-body -->
     <div class="box-footer clearfix">
 

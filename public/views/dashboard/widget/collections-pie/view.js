@@ -44,7 +44,7 @@ define('views/dashboard/widget/collections-pie/view', [
                 );
 
                 var options = {
-                    title: 'Content Types Quick View',
+                    //title: 'Content Types Quick View',
                     pieHole: 0.4
                 };
                 var chart = new google.visualization.PieChart(instance.$('.chart').get(0));
