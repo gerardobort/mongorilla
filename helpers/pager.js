@@ -12,6 +12,9 @@ exports.Pager = function (currentUrl) {
     _this.ipp = parseInt(url_parts.query.ipp, 10) || DEFAULT_IPP;
 
     function parseQuerystringArray(key) {
+        // parses either: 
+        //   ?param[]=ke1=val1&param[]=key2=val2
+        //   ?param=val
         if ('object' === typeof url_parts.query[key + '[]']) {
             return _.reduce(
                 _(url_parts.query[key + '[]']).map(function (filter) {

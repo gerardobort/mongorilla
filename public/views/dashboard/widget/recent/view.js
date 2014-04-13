@@ -21,10 +21,9 @@ define('views/dashboard/widget/recent/view', [
                         ipp: 5,
                         'sort[]': (function (map) {
                             map[ config.updatedField.key ] = -1;
-                            return map;
+                            return $.param(map);
                         })({}),
                     };
-
                     instance.collection = new Collection();
                     instance.collection.on('add', function (response, collection, xhr) {
                         instance.$el.html(_.template(templateHtml, {
@@ -51,9 +50,9 @@ define('views/dashboard/widget/recent/view', [
                 var pager = $el.data('pager'),
                     data = {
                         p: pager.p,
-                        ipp: pager.ipp,
-                        sort: pager.sort,
-                        filter: pager.filter,
+                        ipp: instance.pager.ipp,
+                        filter: instance.pager.filter,
+                        'sort[]': instance.pager['sort[]'],
                     };
                 instance.collection.fetch({ data: data });
             } else {
