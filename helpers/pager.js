@@ -137,12 +137,13 @@ exports.GetListRouter = function (req, res, mongooseModel, options) {
     var _ = require('underscore'),
         mongoose = require('mongoose'),
         pager = new exports.Pager(req.url),
-        options = _.extend({ sort: null, populate: null }, options);
+        options = _.extend({ sort: null, populate: null, fields: {} }, options);
     
     this.send = function () {
         mongooseModel.collection
             .find(
                 pager.getMongoFilter(true),
+                options.fields,
                 {
                     skip: pager.getMongoSkip(),
                     limit: pager.getMongoLimit(),

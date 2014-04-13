@@ -17,10 +17,6 @@ exports.getModel = function (collectionName) {
 
     } else {
 
-        var collection = _(global.config.collections).find(function (col) {
-            return col.name === collectionName;
-        });
-
         // _id should not be specified in schema ... http://stackoverflow.com/a/10835032
         var schema = {
             objectId: { type: ObjectId, ref: collectionName },
@@ -44,12 +40,18 @@ exports.getModel = function (collectionName) {
 
         mongoose.model(collectionName + 'Revision', ModelSchema, 'mongorillaRevision');
 
-        // this is only for loading purposes: whitout this the refs may not work
-        _(collection.relations).each(function (relation, key) {
-            if (!mongoose.models[relation.relatedCollection] && 'fs.files' !== relation.relatedCollection) {
-                var relatedModel = getModel(relation.relatedCollection);
-            }
+        var collection = _(global.config.collections).find(function (col) {
+            return col.name === collectionName;
         });
+
+        if (collection) {
+            // this is only for loading purposes: whitout this the refs may not work
+            _(collection.relations).each(function (relation, key) {
+                if (!mongoose.models[relation.relatedCollection] && 'fs.files' !== relation.relatedCollection) {
+                    var relatedModel = getModel(relation.relatedCollection);
+                }
+            });
+        }
 
         return mongoose.model(collectionName + 'Revision');
     }

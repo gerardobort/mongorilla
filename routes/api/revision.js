@@ -24,7 +24,21 @@ function getCollection(req, res) {
     return collection;
 };
 
-exports.get = function(req, res){
+
+exports.getList = function (req, res) {
+    var pager = require('../../helpers/pager');
+    var router = new pager.GetListRouter(req, res, getRevisionModel(), { fields: {
+        objectId: 1,
+        collectionName: 1,
+        user: 1,
+        created: 1,
+        is_draft: 1
+    } });
+    router.send();
+};
+
+
+exports.getLatestList = function(req, res){
     var objectId = req.route.params.objectId,
         collection = getCollection(req, res);
 

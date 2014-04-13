@@ -102,6 +102,12 @@ app.get('/api/fs.files/:objectId', authRoute.bootstrap, apiFileRoute.get);
 app.get('/api/fs.files/:objectId/:view', authRoute.bootstrap, apiFileRoute.get);
 app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiFileRoute.del);
 
+// api revision
+app.get('/api/revision', /*authRoute.bootstrap, */apiRevisionRoute.getList);
+app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.getLatestList);
+app.post('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.post);
+app.del('/api/:collectionName/:objectId/revisions/:revisionId', authRoute.bootstrap, apiRevisionRoute.del);
+
 // api generic
 app.get('/api/search/:collectionName', authRoute.bootstrap, apiGenericRoute.getSearch);
 app.get('/api/:collectionName', authRoute.bootstrap, apiGenericRoute.getList);
@@ -109,11 +115,6 @@ app.post('/api/:collectionName', authRoute.bootstrap, apiGenericRoute.post);
 app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.get);
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.put);
 app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.del);
-
-// api revision
-app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.get);
-app.post('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.post);
-app.del('/api/:collectionName/:objectId/revisions/:revisionId', authRoute.bootstrap, apiRevisionRoute.del);
 
 app.locals(global.config);
 
