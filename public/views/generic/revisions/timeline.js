@@ -125,7 +125,8 @@ define('views/generic/revisions/timeline', ['text!views/generic/revisions/timeli
                     valTo = _.isObject(valTo) ? (valTo[schema.autocompleteField] || valTo.filename || valTo._id) : valTo;
                 }
 
-                if (valFrom !== valTo) {
+                if (valFrom !== valTo && !(!valFrom && !valTo)) {
+                    console.log(fieldName, '<',valFrom, '><' ,valTo,'>')
                     valFrom = valFrom ? $('<div>' + valFrom.toString() + '</div>').text() : '';
                     valTo = valTo ? $('<div>' + valTo.toString() + '</div>').text() : '';
                     if (valFrom.length > 500) {
