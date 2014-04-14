@@ -144,7 +144,7 @@ define('views/generic/revisions/timeline', ['text!views/generic/revisions/timeli
             report += '<h4>Changelog</h4>';
             report += '<table class="table table-stripped"><tr><th></th><th>From</th><th>To</th></tr>';
                 if (instance.previousRevision && instance.currentRevision) {
-                    report += '<tr><th>Revision</th><td class="bg-danger"><strong>' + instance.previousRevision.user + '</strong> (' + humaneDate(instance.previousRevision.created).toLowerCase() + ')<p>"' + instance.currentRevision.description + '"</p></td>'
+                    report += '<tr><th>Revision</th><td class="bg-danger"><strong>' + instance.previousRevision.user + '</strong> (' + humaneDate(instance.previousRevision.created).toLowerCase() + ')<p>"' + instance.previousRevision.description + '"</p></td>'
                     report += '<td class="bg-success"><strong>' + instance.currentRevision.user + '</strong> (' + humaneDate(instance.currentRevision.created).toLowerCase() + ')<p>"' + instance.currentRevision.description + '"</p></td></tr>';
                 }
             report += '<tr>' + diffs.join('</tr><tr>') + '</tr>';
