@@ -108,7 +108,7 @@ exports.post = function (req, res) {
             delete responseData.__v;
 
             if (collection.revisionable) {
-                require('../../models/revision').saveRevisionSnapshot(collection, model._id, description, req.session.user, function (err, revision) {
+                require('../../models/revision').saveRevisionSnapshot(collection, model._id, description, req.session.user, true, function (err, revision) {
                     res.send(responseData);
                 });
             } else {
@@ -161,7 +161,7 @@ exports.put = function (req, res) {
                 res.send(err);
             } else {
                 if (collection.revisionable) {
-                    require('../../models/revision').saveRevisionSnapshot(collection, objectId, description, req.session.user, function (err, revision) {
+                    require('../../models/revision').saveRevisionSnapshot(collection, objectId, description, req.session.user, false, function (err, revision) {
                         res.send(responseData);
                     });
                 } else {

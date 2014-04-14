@@ -23,6 +23,7 @@ define('views/dashboard/widget/editions-chart/view', [
                             created: rev.created,
                             step: step,
                             is_draft: rev.is_draft,
+                            first_revision: rev.first_revision,
                         };
 
                     if (pieData[step]) {
@@ -45,8 +46,8 @@ define('views/dashboard/widget/editions-chart/view', [
                         return [
                             new Date(stepData[0].step),
                             _(stepData).filter(function (r) { return r.is_draft; }).length,
-                            0,
-                            _(stepData).filter(function (r) { return !r.is_draft; }).length,
+                            _(stepData).filter(function (r) { return !r.first_revision; }).length,
+                            _(stepData).filter(function (r) { return r.first_revision; }).length,
                         ];
                     })
                 );
