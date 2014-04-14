@@ -135,20 +135,29 @@ define('views/generic/revisions/timeline', ['text!views/generic/revisions/timeli
                     if (valTo.length > 500) {
                         valTo = valTo.substr(0, 500) + '...';
                     }
-                    diffs.push('<h4>' + fieldName + '</h4><p><span class="bg-danger">' + valFrom + '</span> <i class="glyphicon glyphicon-arrow-right"></i> <span class="bg-success">' + valTo + '</span></p>');
+                    diffs.push('<td>' + fieldName + '</td><td class="bg-danger">' + valFrom + '</td><td class="bg-success">' + valTo + '</td>');
                 }
             });
-            report = '<div class="modal-header"><h3>Changelog</h3>'
-            if (instance.previousRevision && instance.currentRevision) {
-                report += '<span class="bg-danger"><strong>' + instance.previousRevision.user + '</strong> (' + humaneDate(instance.previousRevision.created).toLowerCase() + ')</span>'
-                report += ' <i class="glyphicon glyphicon-arrow-right"></i> '
-                report += '<span class="bg-success"><strong>' + instance.currentRevision.user + '</strong> (' + humaneDate(instance.currentRevision.created).toLowerCase() + ')</span>';
+            report = '<div class="alert alert-success alert-dismissable diff-report">';
+            report += '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+            if (diffs.length) {
+            report += '<h4>Changelog</h4>';
+            report += '<table class="table table-stripped"><tr><th></th><th>From</th><th>To</th></tr>';
+                if (instance.previousRevision && instance.currentRevision) {
+                    report += '<tr><th>Revision</th><td class="bg-danger"><strong>' + instance.previousRevision.user + '</strong> (' + humaneDate(instance.previousRevision.created).toLowerCase() + ')<p>"' + instance.currentRevision.description + '"</p></td>'
+                    report += '<td class="bg-success"><strong>' + instance.currentRevision.user + '</strong> (' + humaneDate(instance.currentRevision.created).toLowerCase() + ')<p>"' + instance.currentRevision.description + '"</p></td></tr>';
+                }
+            report += '<tr>' + diffs.join('</tr><tr>') + '</tr>';
+            } else {
+            report += '<strong>Woha!</strong> No changes found.';
             }
+            report += '</table>';
             report += '</div>';
-            report += '<div class="modal-body">';
-            report += diffs.length ? diffs.join('') : '<div class="alert alert-warning">Woha! No changes found.</div>';
-            report += '</div>';
-            alertify.alert(report);
+            //alertify.alert(report);
+            var $report = $(report);
+            $('.diff-report').fadeOut(0, function () { $(this).remove(); });
+            $('#collection-form').before($report);
+            $report.hide().fadeIn(600);
         },
 
         remove: function (event) {

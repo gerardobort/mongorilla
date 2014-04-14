@@ -85,7 +85,7 @@ define('views/generic/form', [
                 if (instance.objectId) {
                     controlsHtml += '<button class="btn btn-primary btn-lg submit-draft ladda-button" data-style="expand-right"><i class="fa fa-star"></i> Save draft</button>';
                 }
-                controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right"><i class="fa fa-pencil"></i> ' + (instance.objectId ? 'Save' : 'Create') + '</button>';
+                controlsHtml += '<button class="btn btn-primary btn-lg submit ladda-button" data-style="expand-right"><i class="fa fa-pencil"></i> ' + (instance.objectId ? 'Save & Publish' : 'Create') + '</button>';
             }
             if (!instance.model.isNew()) {
                 controlsHtml += '<a class="btn btn-info btn-lg preview" href="/preview/'
