@@ -32,7 +32,8 @@ exports.getList = function (req, res) {
         collectionName: 1,
         user: 1,
         created: 1,
-        is_draft: 1
+        is_draft: 1,
+        first_revision: 1
     } });
     router.send();
 };

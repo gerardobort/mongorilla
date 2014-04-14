@@ -103,7 +103,7 @@ app.get('/api/fs.files/:objectId/:view', authRoute.bootstrap, apiFileRoute.get);
 app.del('/api/fs.files/:objectId', authRoute.bootstrap, apiFileRoute.del);
 
 // api revision
-app.get('/api/revision', /*authRoute.bootstrap, */apiRevisionRoute.getList);
+app.get('/api/revision', authRoute.bootstrap, apiRevisionRoute.getList);
 app.get('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.getLatestList);
 app.post('/api/:collectionName/:objectId/revisions', authRoute.bootstrap, apiRevisionRoute.post);
 app.del('/api/:collectionName/:objectId/revisions/:revisionId', authRoute.bootstrap, apiRevisionRoute.del);
