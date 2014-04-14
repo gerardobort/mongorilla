@@ -84,8 +84,10 @@
             "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
                 "find": {
-                    "firstname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] },
-                    "lastname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] }
+                    "$or": [
+                        { "firstname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "lastname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                    ]
                 },
                 "sort": { "updated": -1 },
                 "limit": 10,

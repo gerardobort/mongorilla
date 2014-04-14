@@ -49,6 +49,10 @@ define('views/generic/form', [
                 });
 
                 $('#collection-form').html(instance.form.render().$el);
+
+                // prevent undesired form submissions
+                $('#collection-form').on('submit', function (event) { event.preventDefault(); })
+
                 instance.renderFormControls();
                 if (instance.objectId) {
                     instance.renderRevisionsControls();
