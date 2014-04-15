@@ -116,6 +116,7 @@ app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.g
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.put);
 app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.del);
 
+// expose config to the app local context
 app.locals(global.config);
 
 // frontend optimization
