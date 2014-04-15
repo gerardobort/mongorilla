@@ -1,6 +1,7 @@
 (function() {
 
-    window.CKEDITOR_BASEPATH = '/third-party/ckeditor/';
+    window.CKEDITOR.basePath = window.CKEDITOR_BASEPATH = '/third-party/ckeditor/';
+    window.CKEDITOR.config.contentsCss = window.CKEDITOR.basePath + 'contents.css';
 
     /**
      * Backbone Forms CKEditor editor
@@ -19,6 +20,7 @@
             editor.$el.css({ width: '100%', height: 'auto' });
             setTimeout(function () {
                 editor.ck = CKEDITOR.appendTo(editor.id, {
+                    basePath: '/third-party/ckeditor/',
                     toolbar: 'Basic',
                     skin: '../../../third-party/BootstrapCK4-Skin/skins/bootstrapck'
                 }, editor.value);

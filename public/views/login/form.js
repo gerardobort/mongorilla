@@ -1,5 +1,5 @@
 define('views/login/form', [
-        '/third-party/ladda-bootstrap/dist/ladda.min.js',
+        'third-party/ladda-bootstrap/dist/ladda.min',
     ], function (Ladda) {
 
     return Backbone.View.extend({

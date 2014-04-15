@@ -4,4 +4,5 @@ node_modules
 .bower-registry
 .bower-tmp
 .bower-cache
+public/init-build.js
 .*.swp

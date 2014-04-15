@@ -12,7 +12,7 @@ define('views/dashboard/widget/editions-chart/view', [
             var instance = this;
             instance.setElement(options.el);
             require([
-                    'json!/api/revision?ipp=30&sort[]=created=-1'
+                    'json!/api/revision' + '?ipp=30&sort[]=created=-1'
                 ], function (response) {
                 var pieData = {};
                 for (var i = 0; i < response.data.length; i++) {

@@ -118,6 +118,12 @@ app.del('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.d
 
 app.locals(global.config);
 
+// frontend optimization
+global.frontendBuilt = false;
+fs.exists('./public/init-build.js', function (exsists) {
+    global.frontendBuilt = exsists;
+});
+
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Mongorilla server listening on port ' + app.get('port') + ' on ' + app.get('env') + ' env.');
 });

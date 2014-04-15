@@ -246,7 +246,7 @@
             </div>
         </footer>
 
-        <script src="/third-party/requirejs/require.js" data-main="/init.js" ></script>
+        <script src="/third-party/requirejs/require.js" data-main="/init<%= frontendBuilt ? '-build.js' : '' %>" ></script>
 
     </body>
 </html>

@@ -127,7 +127,7 @@
 
             $('.remove-file', editor.$el).on('click', function (event) {
                 event.preventDefault();
-                require(['/third-party/alertify.js/lib/alertify.min.js'], function () {
+                require(['third-party/alertify.js/lib/alertify.min'], function () {
                     alertify.confirm('Are you sure you want to remove this file?', function (ok) {
                         if (ok) {
                             $.ajax({

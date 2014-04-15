@@ -1,19 +1,19 @@
 define('views/generic/form', [
-        '/third-party/ladda-bootstrap/dist/ladda.min.js',
-        '/third-party/bootstrap-datepicker/js/bootstrap-datepicker.js',
-        '/third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal.js',
-        '/third-party/bs-fancyfile/js/bootstrap-fancyfile.min.js',
-        '/third-party/ckeditor/ckeditor.js',
-        '/third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead.js',
+        'third-party/ladda-bootstrap/dist/ladda.min',
+        'third-party/bootstrap-datepicker/js/bootstrap-datepicker',
+        //'third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal',
+        'third-party/bs-fancyfile/js/bootstrap-fancyfile.min',
+        'third-party/ckeditor/ckeditor',
+        'third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead',
 
-        '/backbone-forms/editors/list.js',
-        '/backbone-forms/editors/file.js',
-        '/backbone-forms/editors/image.js',
-        '/backbone-forms/editors/object-id.js',
-        '/backbone-forms/editors/ckeditor.js',
-        '/backbone-forms/editors/datepicker.js',
+        'backbone-forms/editors/list',
+        'backbone-forms/editors/file',
+        'backbone-forms/editors/image',
+        'backbone-forms/editors/object-id',
+        'backbone-forms/editors/ckeditor',
+        'backbone-forms/editors/datepicker',
 
-        '/third-party/backbone-forms/distribution/templates/bootstrap3.js',
+        'third-party/backbone-forms/distribution/templates/bootstrap3',
     ], function (Ladda) {
 
     return Backbone.View.extend({

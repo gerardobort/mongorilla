@@ -1,7 +1,7 @@
 define('routers/main', [
         'spin',
         'mongorilla/config/spinner-default',
-        '/third-party/ladda-bootstrap/dist/ladda.min.js',
+        'third-party/ladda-bootstrap/dist/ladda.min',
     ], function (Spinner, spinnerOptions, Ladda) {
 
     return Backbone.Router.extend({

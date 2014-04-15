@@ -18,7 +18,8 @@
     "underscore": "*",
     "knox": "*",
     "sha1": "^1.1.0",
-    "mongodb": "^1.4.0"
+    "mongodb": "^1.4.0",
+    "requirejs": "^2.1.11"
   },
   "main": "server.js",
   "devDependencies": {},
