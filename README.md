@@ -50,3 +50,5 @@ Mongorilla is a NodeJS application, distributed via NPM which also have both: NP
 ## Roadmap
 * Improve documentation
 * Make all the configuration (schemas and users) be editable from the same admin panel.
+
+:monkey_face:  :hamburger:
