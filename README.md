@@ -1,4 +1,4 @@
-Mongorilla is a simple and powerful CMS (Content Management System) for MongoDB.
+## Mongorilla is a simple and powerful CMS for MongoDB.
 
 [![Build Status](https://travis-ci.org/gerardobort/mongorilla.svg?branch=master)](https://travis-ci.org/gerardobort/mongorilla)
 
