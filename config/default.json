@@ -8,7 +8,8 @@
             "name": "root",
             "permissions": {
                 "developer": "crud",
-                "company": "crud"
+                "company": "crud",
+                "mongorillaUser": "crud"
             }
         },
         {
@@ -149,6 +150,63 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri"]
+            },
+            "mongoose": {
+                "schema": null
+            },
+            "readonly": false,
+            "revisionable": true
+        },
+        {
+            "name": "mongorillaUser",
+            "humanName": "Mongorilla User",
+            "previewUrl": "/user/${username}",
+            "backboneForms": {
+                "schema": {
+                    "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"], "editorAttrs": { "placeholder": "John Doe" } }, 
+                    "email": { "type": "Text", "title": "Email", "validators": ["required", "email"], "editorAttrs": { "placeholder": "john-doe@example.com" } }, 
+                    "password": { "type": "Password", "title": "Password", "validators": ["required"], "editorAttrs": { "placeholder": "password" } }, 
+                    "username": {
+                        "validators": [
+                            "required",
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z\\.]{2,}[0-9a-z\\.]$"] }
+                            }
+                        ],
+                        "title": "Username",
+                        "editorAttrs": { "placeholder": "john-doe" }, 
+                        "help": "Users can login using either <strong>email</strong> or <strong>username</strong>." 
+                    },
+                    "roles": { "type": "List", "itemType": "Text", "title": "Roles" },
+                    "bio": { "type": "CKEditor", "title": "Bio" },
+                    "photo": { "type": "Image", "title": "Photo", "pushToS3": true },
+                    "position": { "type": "Text", "title": "Position", "validators": [] },
+                    "company": { "type": "Text", "title": "Company", "validators": [] }
+                },
+                "defaults": {
+                }
+            },
+            "toStringField": "fullname",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
+            "fastSearch": {
+                "find": {
+                    "$or": [
+                        { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "username": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "email": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                    ]
+                },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["fullname", "email", "username", "created", "updated"]
+            },
+            "relations": { 
+                "photo": {
+                    "type": "HasOne",
+                    "relatedCollection": "fs.files"
+                }
             },
             "mongoose": {
                 "schema": null

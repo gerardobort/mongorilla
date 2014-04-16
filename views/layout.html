@@ -75,7 +75,7 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header bg-light-blue">
-                                    <img src="/images/mock/gorilla-user-1.jpg" class="img-circle" alt="User Image" />
+                                    <img src="<%= sessionUser.photo_url %>" class="img-circle" alt="User Image" />
                                     <p>
                                         <%= sessionUser.fullname %> - <%= sessionUser.roles.join(', ') %> 
                                         <small>Member since Nov. 2013</small>
@@ -96,7 +96,9 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <% if (sessionUser._id) { %>
+                                        <a href="/user/<%= sessionUser._id %>" class="btn btn-default btn-flat">Profile</a>
+                                        <% } %>
                                     </div>
                                     <div class="pull-right">
                                         <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>
@@ -119,7 +121,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="/images/mock/gorilla-user-1.jpg" class="img-circle" alt="User Image" />
+                            <img src="<%= sessionUser.photo_url %>" class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info">
                             <p>Hello, <%= sessionUser.fullname  %></p>
@@ -152,7 +154,7 @@
                             </a>
                             <ul class="treeview-menu">
                             <% collections.forEach(function (collection) { %>
-                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r') && !collection.name.match(/^mongorilla/)) { %>
                                 <li><a href="/search/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
                                 <% } %>
                             <% }) %>
@@ -166,10 +168,21 @@
                             </a>
                             <ul class="treeview-menu">
                             <% collections.forEach(function (collection) { %>
-                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
+                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r') && !collection.name.match(/^mongorilla/)) { %>
                                 <li><a href="/add/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
                                 <% } %>
                             <% }) %>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-wrench"></i>
+                                <span>Settings</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="/search/mongorillaUser"><i class="fa fa-user"></i> Manage Users</a></li>
+                                <li><a href="/search/mongorillaCollection"><i class="fa fa-folder-open"></i> Manage Content Types</a></li>
                             </ul>
                         </li>
                         <li class="treeview">
