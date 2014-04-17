@@ -1,12 +1,10 @@
-<!--div class="page-header">
-    <h1>
-        <% if (global.helpers.hasPermission(sessionUser, collection.name, 'ru')) { %>
-            <small> <span data-collection-tostringfield></span>  <span class="glyphicon glyphicon-edit"></span></small>
-        <% } else { %>
-            <small> <span data-collection-tostringfield></span>  <span class="glyphicon glyphicon-eye-open"></span></small>
-        <% } %>
-    </h1>
-</div-->
+<% if (collection.name.match(/^mongorilla/)) { %>
+<div class="alert alert-warning alert-dismissable diff-report">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <h3><strong>Warning!</strong> <code><%= collection.humanName %></code> is currently an experimental feature.</h3>
+    <p>We don't guarantee future support yet, since this is now subject to testing and approval.</p>
+</div>
+<% } %>
 
 <div class="container-fluid">
     <div class="row">
