@@ -3,12 +3,14 @@ var _ = require('underscore');
 
 var MongorillaUser = function(data) {
 
-    if (data.photo && data.photo.metadata && data.photo.metadata.s3_url) {
-        data.photo_url = data.photo.metadata.s3_url;
-    } else if (data.photo) {
-        data.photo_url = '/api/fs.files/' + data.photo._id + '/raw';
-    } else {
-        data.photo_url = '/images/mock/gorilla-user-1.jpg';
+    if (!data.photo_url) {
+        if (data.photo && data.photo.metadata && data.photo.metadata.s3_url) {
+            data.photo_url = data.photo.metadata.s3_url;
+        } else if (data.photo) {
+            data.photo_url = '/api/fs.files/' + data.photo._id + '/raw';
+        } else {
+            data.photo_url = '/images/mock/gorilla-user-1.jpg';
+        }
     }
 
     _.extend(this, {
