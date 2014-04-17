@@ -298,7 +298,7 @@
                 "defaults": {
                 }
             },
-            "toStringField": "fullname",
+            "toStringField": "humanName",
             "updatedField": { "key": "updated", "type": "Date" },
             "createdField": { "key": "created", "type": "Date" },
             "fastSearch": {
