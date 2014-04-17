@@ -36,58 +36,15 @@ exports.getLogin = function(req, res){
 
 exports.postLogin = function(req, res){
     var url = require('url'),
-        url_parts = url.parse(req.url, true);
+        url_parts = url.parse(req.url, true),
+        MongorillaUser = require('../models/helpers/user').MongorillaUser;
 
-    var sessionUser = _(global.config.users).find(function (u) {
-        return u.username === req.body.user && u.password === req.body.pass;
-    });
-
-    var userPromise = new mongoose.Promise();
-    if (sessionUser) {
-        userPromise.resolve(null, sessionUser);
-    } else {
-        getModel('mongorillaUser')
-            .findOne({
-                $or: [
-                    { username: req.body.user, password: req.body.pass },
-                    { email: req.body.user, password: req.body.pass }
-                ]
-            })
-            .populate('photo')
-            .exec()
-            .then(function (sessionUser) {
-                userPromise.resolve(null, sessionUser);
-            })
-            .reject(function () {
-                userPromise.resolve(null, null);
-            });
-    }
-
-    mongoose.Promise.when(userPromise).addBack(function (err, sessionUserData) {
-        var sessionUser = _.clone(sessionUserData);
-
-        if (sessionUser.photo && sessionUser.photo.metadata && sessionUser.photo.metadata.s3_url) {
-            sessionUser.photo_url = sessionUser.photo.metadata.s3_url;
-        } else if (sessionUser.photo) {
-            sessionUser.photo_url = '/api/fs.files/' + sessionUser.photo._id + '/raw';
-        } else {
-            sessionUser.photo_url = '/images/mock/gorilla-user-1.jpg';
-        }
-        delete sessionUser.password;
-
-        req.session.user = _.extend({}, {
-            _id: sessionUser._id,
-            fullname: sessionUser.fullname,
-            username: sessionUser.username,
-            email: sessionUser.email,
-            roles: sessionUser.roles,
-            photo_url: sessionUser.photo_url,
-        });
-
-        if (req.session.user) {
+    var callback = function (mongorillaUser) {
+        if (mongorillaUser) {
+            req.session.user = mongorillaUser;
             if (req.xhr) {
                 res.send({
-                    user: req.session.user,
+                    user: mongorillaUser,
                     ok: true
                 });
             } else {
@@ -97,7 +54,13 @@ exports.postLogin = function(req, res){
             res.status(403);
             res.send({ ok: false });
         }
-    });
+    };
+
+    if (!(mongorillaUser = MongorillaUser.getFromConfigByAuth(req.body.user, req.body.pass))) {
+        MongorillaUser.getFromMongoByAuth(req.body.user, req.body.pass, callback);
+    } else {
+        callback.call(null, mongorillaUser);
+    }
 };
 
 exports.postLogout = function(req, res){

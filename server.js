@@ -42,6 +42,10 @@ app.use(express.limit('30mb'));
 // development only
 if ('development' == app.get('env')) {
     app.use(express.errorHandler());
+} else {
+    process.on('uncaughtException', function () {
+        console.log('Fatal:', arguments);
+    });
 }
 
 global.config = require('./helpers/config').loadConfig();
