@@ -5,24 +5,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId,
-    _ = require('underscore');
-
-
-function getCollection(req, res) {
-    var collectionName = req.route.params.collectionName;
-
-    var collection = _(global.config.collections).find(function (col) {
-        return col.name === collectionName;
-    });
-
-    if (!collection) {
-        res.status(400);
-        res.send({ error: 'bad request' });
-        return;
-    }
-
-    return collection;
-};
+    _ = require('underscore'),
+    MongorillaCollection = require('../../models/helpers/collection').MongorillaCollection;
 
 function checkAcl(req, res) {
     var collectionName = req.route.params.collectionName;
@@ -39,7 +23,7 @@ function checkAcl(req, res) {
 
 exports.get = function (req, res) {
     var objectId = req.route.params.objectId,
-        collection = getCollection(req, res);
+        collection = MongorillaCollection.getByRouterParams(req, res);
 
     if (!collection) {
         return;
@@ -63,7 +47,7 @@ exports.get = function (req, res) {
 
 exports.post = function (req, res) {
     var objectId = req.route.params.objectId,
-        collection = getCollection(req, res),
+        collection = MongorillaCollection.getByRouterParams(req, res),
         url = require('url'),
         url_parts = url.parse(req.url, true),
         description = url_parts.query.description || '';
@@ -120,7 +104,7 @@ exports.post = function (req, res) {
 
 exports.put = function (req, res) {
     var objectId = req.route.params.objectId,
-        collection = getCollection(req, res),
+        collection = MongorillaCollection.getByRouterParams(req, res),
         url = require('url'),
         url_parts = url.parse(req.url, true),
         description = url_parts.query.description || '';
@@ -195,7 +179,7 @@ exports.getSearch = function (req, res) {
     var url = require('url'),
         url_parts = url.parse(req.url, true),
         q = (url_parts.query.q||'').sanitize().makeSafeForRegex(),
-        collection = getCollection(req, res);
+        collection = MongorillaCollection.getByRouterParams(req, res);
 
     if (!collection) {
         return;
@@ -230,7 +214,7 @@ exports.getSearch = function (req, res) {
 
 exports.getList = function (req, res) {
     var pager = require('../../helpers/pager'),
-        collection = getCollection(req, res);
+        collection = MongorillaCollection.getByRouterParams(req, res);
 
     if (!collection) {
         return;
