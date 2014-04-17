@@ -1,15 +1,15 @@
 <section class="content">
     <div class="row">
-        <div class="col-md-6 pull-left"
+        <div class="col-xs-12 col-md-6"
             data-view="dashboard/widget/collections-pie/view"
             data-collection-names="<%= _(config.collections).pluck('name').join() %>"
             ><div class="box"><br><br><br><br></div></div>
-        <div class="col-md-6 pull-right"
+        <div class="col-xs-12 col-md-6"
             data-view="dashboard/widget/editions-chart/view"
             ><div class="box"><br><br><br><br></div></div>
     <% _(config.collections).each(function (collection, i) { %>
         <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
-        <div class="col-md-6 <%= i%2 ? 'pull-right' : 'pull-left' %>"
+        <div class="col-xs-12 col-md-6"
             data-view="dashboard/widget/recent/view"
             data-collection-name="<%= collection.name %>"
             ><div class="box"><br><br><br><br></div></div>
