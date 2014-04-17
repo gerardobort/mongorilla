@@ -57,6 +57,7 @@ exports.getModel = function (collectionName) {
                 case 'DateTime': schema[key] = Date; break;
                 case 'File':     schema[key] = 'File'; break;
                 case 'Image':    schema[key] = 'File'; break;
+                case 'Checkboxes':    schema[key] = [String]; break;
                 // TODO review this
             }
         });

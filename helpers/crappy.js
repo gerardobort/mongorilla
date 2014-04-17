@@ -9,7 +9,7 @@ exports.stringify = function (obj) {
     var nobj = _(obj).clone();
     nobj = objToStringJS(nobj);
     var str = JSON.stringify(nobj);
-    str = str.replace(/"__js:([^"]*)"/g, '$1');
+    str = str.replace(/"__js:([^"]*)"/g, '$1').replace(/\\n/g, '\n');
     return str;
 };
 
@@ -122,7 +122,12 @@ function objToJS__construct(constructor, args) {
 function objToStringJS(obj) {
 
     if (obj.__constructor) {
-        return '__js:'+objToJS__construct(global[obj.__constructor], obj.__arguments||[]).toString();
+
+        var func = objToJS__construct(global[obj.__constructor], obj.__arguments||[]);
+        if (obj.__call) {
+            return '__js:' + func.call(obj.__call); //.toString();
+        }
+        return '__js:' + func.toString();
     }
 
     for (var key in obj) {
