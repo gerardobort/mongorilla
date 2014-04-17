@@ -213,6 +213,105 @@
             },
             "readonly": false,
             "revisionable": true
+        },
+        {
+            "name": "mongorillaCollection",
+            "humanName": "Mongorilla Collection",
+            "previewUrl": "/search/${name}",
+            "backboneForms": {
+                "schema": {
+                    "name": {
+                        "validators": [
+                            "required",
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[A-Za-z]{2,}[0-9A-Za-z_\\.]$"] }
+                            }
+                        ],
+                        "title": "MongoDB Collection Name",
+                        "editorAttrs": { "placeholder": "super_monkey" }, 
+                        "help": "example: mongo&gt; db.<strong>super_monkey</strong>.find()" 
+                    },
+                    "humanName": { "type": "Text", "title": "Human Name", "validators": ["required"], "editorAttrs": { "placeholder": "Super Monkey" } }, 
+                    "previewUrl": { "type": "Text", "title": "Preview URL", "validators": ["url"], "editorAttrs": { "placeholder": "http://example.com/${uri}.html" } }, 
+                    "backboneForms.schema": {
+                        "title": "Backbone Forms Schema",
+                        "type": "List",
+                        "itemType": "Object",
+                        "subSchema": {
+                            "type": {
+                                "type": "Select", "options": [
+                                    "Text",
+                                    "TextArea",
+                                    "Checkboxes",
+                                    "Select",
+                                    "Radio",
+                                    "Date",
+                                    "DateTime",
+                                    "List",
+                                    "Object",
+                                    "CKEditor",
+                                    "Datepicker",
+                                    "File",
+                                    "Image",
+                                    "ObjectId"
+                                ],
+                                "validators": ["required"]
+                            },
+                            "title": { "type": "Text", "title": "Field Label" },
+                            "validators": {
+                                "type": "Checkboxes", "options": [
+                                    "required",
+                                    "number",
+                                    "email",
+                                    "url",
+                                    "match - TODO",
+                                    "regexp - TODO"
+                                ]
+                            },
+                            "aditorAttrs": { "type": "List", "itemType": "Text", "title": "Editor Attributes" }
+                        }
+                    },
+                    "defaults": { "type": "List", "itemType": "Text", "title": "Default Values" },
+                    "toStringField": { "type": "Text", "title": "To String Field" },
+                    "updatedField.key": { "type": "Text", "title": "Updated Field" },
+                    "createdField.key": { "type": "Text", "title": "Created Field" },
+                    "revisionable": { "type": "Radio", "title": "Is Revisionable", 
+                        "options": [{ "val": true, "label": "Yes" }, { "val": false, "label": "No" }]
+                    },
+                    "readonly": { "type": "Radio", "title": "Is Read-Only", 
+                        "options": [{ "val": true, "label": "Yes" }, { "val": false, "label": "No" }]
+                    }
+                },
+                "defaults": {
+                }
+            },
+            "toStringField": "fullname",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
+            "fastSearch": {
+                "find": {
+                    "$or": [
+                        { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "username": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "email": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                    ]
+                },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["fullname", "email", "username", "created", "updated"]
+            },
+            "relations": { 
+                "photo": {
+                    "type": "HasOne",
+                    "relatedCollection": "fs.files"
+                }
+            },
+            "mongoose": {
+                "schema": null
+            },
+            "readonly": false,
+            "revisionable": true
         }
     ]
 }
