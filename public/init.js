@@ -36,7 +36,7 @@ require.config({
         },
         'third-party/backbone-deep-model/distribution/deep-model.min': { deps: ['backbone'] },
         'third-party/backbone-forms/distribution/backbone-forms.min': { deps: ['backbone'] },
-        'third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal': { deps: ['backbone'] },
+        'backbone-forms/adapters/bootstrap-modal': { deps: ['backbone'] },
         'backbone-forms/editors/list': { deps: ['backbone'] },
         'backbone-forms/editors/file': { deps: ['backbone'] },
         'backbone-forms/editors/image': { deps: ['backbone'] },
@@ -61,7 +61,7 @@ require(['backbone', 'bootstrap'], function (Backbone) {
             'third-party/alertify.js/lib/alertify.min',
             'third-party/backbone-deep-model/distribution/deep-model.min',
             'third-party/backbone-forms/distribution/backbone-forms.min',
-            //'third-party/bootstrap-modal/js/bootstrap-modal',
+            'backbone-forms/adapters/bootstrap-modal',
             'third-party/humane-dates/humane',
             'admin-lte',
             'helpers/string'

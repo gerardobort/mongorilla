@@ -1,8 +1,5 @@
 (function() {
 
-    window.CKEDITOR.basePath = window.CKEDITOR_BASEPATH = '/third-party/ckeditor/';
-    window.CKEDITOR.config.contentsCss = window.CKEDITOR.basePath + 'contents.css';
-
     /**
      * Backbone Forms CKEditor editor
      * @author gerardobort <gerardobort@gmail.com>
@@ -14,6 +11,10 @@
 
         render: function() {
             var editor = this;
+
+            window.CKEDITOR.basePath = window.CKEDITOR_BASEPATH = '/third-party/ckeditor/';
+            window.CKEDITOR.config.contentsCss = window.CKEDITOR.basePath + 'contents.css';
+
             editor.id = 'ck-' + Math.random().toString().slice(2);
             editor.$el = $(editor.el);
             editor.$el.attr('id', editor.id);

@@ -1,7 +1,6 @@
 define('views/generic/form', [
         'third-party/ladda-bootstrap/dist/ladda.min',
         'third-party/bootstrap-datepicker/js/bootstrap-datepicker',
-        //'third-party/backbone-forms/distribution/adapters/backbone.bootstrap-modal',
         'third-party/bs-fancyfile/js/bootstrap-fancyfile.min',
         'third-party/ckeditor/ckeditor',
         'third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead',
