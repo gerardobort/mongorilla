@@ -235,10 +235,13 @@
                     "humanName": { "type": "Text", "title": "Human Name", "validators": ["required"], "editorAttrs": { "placeholder": "Super Monkey" } }, 
                     "previewUrl": { "type": "Text", "title": "Preview URL", "validators": ["url"], "editorAttrs": { "placeholder": "http://example.com/${uri}.html" } }, 
                     "backboneForms.schema": {
-                        "title": "Backbone Forms Schema",
+                        "title": "Document Schema Attributes",
                         "type": "List",
                         "itemType": "Object",
+                        "help": "Although MongoDB does not requier any Schema, Mongorilla uses it to render the CMS Forms.",
                         "subSchema": {
+                            "path": { "type": "Text", "title": "Property Path",
+                                "help": "example: db.super_monkey.find('<strong>preferences.favourite_banana_types</strong>': 'peruvian')" },
                             "type": {
                                 "type": "Select", "options": [
                                     "Text",

@@ -89,6 +89,7 @@ app.get('/auth/login', authRoute.bootstrap, authRoute.getLogin);
 app.post('/auth/login', authRoute.postLogin);
 app.post('/auth/logout', authRoute.postLogout);
 app.get('/dashboard', authRoute.bootstrap, appMainRoute.getDashboard);
+app.get('/user/:username', authRoute.bootstrap, appMainRoute.getUserProfile);
 app.get('/add/:collectionName', authRoute.bootstrap, appGenericRoute.getAdd);
 app.get('/search/:collectionName', authRoute.bootstrap, appGenericRoute.getSearch);
 app.get('/edit/:collectionName/:objectId', authRoute.bootstrap, appGenericRoute.getEdit);
