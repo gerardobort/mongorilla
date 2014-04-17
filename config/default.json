@@ -178,7 +178,16 @@
                         "editorAttrs": { "placeholder": "john-doe" }, 
                         "help": "Users can login using either <strong>email</strong> or <strong>username</strong>." 
                     },
-                    "roles": { "type": "List", "itemType": "Text", "title": "Roles" },
+                    "roles": {
+                        "type": "Checkboxes", "title": "Roles",
+                        "options": {
+                            "__constructor": "Function",
+                            "__arguments": [
+                                "return '[\\'' + global.config.roles.map(function(r) { return r.name; }).join('\\',\\'') + '\\']';"
+                            ],
+                            "__call": []
+                        }
+                    },
                     "bio": { "type": "CKEditor", "title": "Bio" },
                     "photo": { "type": "Image", "title": "Photo", "pushToS3": true },
                     "position": { "type": "Text", "title": "Position", "validators": [] },
