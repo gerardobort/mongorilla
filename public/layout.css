@@ -16,6 +16,10 @@ ul.form-control input[type="radio"] + label {
     margin-left: 10px;
 }
 
+.bbf-list .form-control {
+    height: auto;
+}
+
 .bbf-object-id {
     clear: both;
 }

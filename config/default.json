@@ -5,11 +5,12 @@
     "project_name": "Mongorilla CMS",
     "roles": [
         {
-            "name": "root",
+            "name": "admin",
             "permissions": {
                 "developer": "crud",
                 "company": "crud",
-                "mongorillaUser": "crud"
+                "mongorillaUser": "crud",
+                "mongorillaCollection": "crud"
             }
         },
         {
@@ -280,8 +281,7 @@
                                     "match - TODO",
                                     "regexp - TODO"
                                 ]
-                            },
-                            "aditorAttrs": { "type": "List", "itemType": "Text", "title": "Editor Attributes" }
+                            }
                         }
                     },
                     "defaults": { "type": "List", "itemType": "Text", "title": "Default Values" },
@@ -304,14 +304,13 @@
             "fastSearch": {
                 "find": {
                     "$or": [
-                        { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
-                        { "username": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
-                        { "email": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                        { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "humanName": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
                     ]
                 },
                 "sort": { "updated": -1 },
                 "limit": 10,
-                "columns": ["fullname", "email", "username", "created", "updated"]
+                "columns": ["humanName", "name", "previewUrl", "created", "updated"]
             },
             "relations": { 
                 "photo": {
