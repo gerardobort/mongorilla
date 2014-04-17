@@ -25,10 +25,20 @@ var MongorillaUser = function(data) {
 
 }
 
-MongorillaUser.prototype.hasPermissions = function (mongorillaCollection, crudPermission, specificProperty) {
-    // TODO
-    return true;
-}
+MongorillaUser.prototype.hasPermissions = function (mongorillaCollection, crudActions, specificProperty) {
+    // crudActions must be a string: eg. "r", "c", or "cr"
+    return this.roles && _(this.roles).any(function (roleName, i) {
+        return _(global.config.roles).find(function (role) {
+            return role.name === roleName && _(crudActions.split()).all(function (crudAction) {
+                return !!~(role.permissions[mongorillaCollection.name]||'').indexOf(crudAction);
+            });
+        });
+    });
+};
+
+MongorillaUser.getSessionUserByRoute = function (req, res) {
+    return new MongorillaUser(req.session.user);
+};
 
 MongorillaUser.getFromConfigByAuth = function(user, pass) {
 
