@@ -51,3 +51,26 @@ exports.getDashboard = function (req, res) {
             });
         });
 };
+
+exports.getUserProfile = function (req, res) {
+    var username = req.route.params.username,
+        MongorillaUser = require('../../models/helpers/user').MongorillaUser;
+
+    var callback = function (mongorillaUser) {
+        if (mongorillaUser) {
+            res.render('app/user-profile.html', {
+                title: mongorillaUser.fullname,
+                user: mongorillaUser
+            });
+        } else {
+            res.redirect('/');
+        }
+    };
+
+    if (!(mongorillaUser = MongorillaUser.getFromConfigByUsername(username))) {
+        MongorillaUser.getFromMongoByUsername(username, callback);
+    } else {
+        callback.call(null, mongorillaUser);
+    }
+
+};

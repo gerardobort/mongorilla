@@ -78,7 +78,7 @@
                                     <img src="<%= sessionUser.photo_url %>" class="img-circle" alt="User Image" />
                                     <p>
                                         <%= sessionUser.fullname %> - <%= sessionUser.roles.join(', ') %> 
-                                        <small>Member since Nov. 2013</small>
+                                        <small>Member since <%= sessionUser.created ? (new Date(sessionUser.created)).toLocaleDateString() : 'the beginning' %></small>
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
@@ -96,9 +96,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <% if (sessionUser._id) { %>
-                                        <a href="/user/<%= sessionUser._id %>" class="btn btn-default btn-flat">Profile</a>
-                                        <% } %>
+                                        <a href="/user/<%= sessionUser.username %>" class="btn btn-default btn-flat">Profile</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="/auth/logout" class="btn btn-default btn-flat">Sign out</a>

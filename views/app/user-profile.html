@@ -1,0 +1,9 @@
+<section class="content">
+    <div class="row">
+        <p><img src="<%= user.photo_url %>" class="img-rounded" /></p>
+        <p><small>Member since <%= sessionUser.created ? (new Date(sessionUser.created)).toLocaleDateString() : 'the beginning' %></small></p>
+        <p><%= user.bio %></p>
+        <p><%= user.fullname %> <code>&lt;<%= user.email %>&gt;</code></p>
+        <p><span class="label label-primary"><%= user.roles.join('</span> &nbsp; <span class="label label-primary">') %></span></p>
+    </div>
+</section>
