@@ -220,22 +220,8 @@ require(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
   });
 
 
-  //EXPORTS
-  //CommonJS
-  if (typeof require == 'function' && typeof module !== 'undefined' && exports) {
-    module.exports = Modal;
-  }
+  Backbone.BootstrapModal = Modal;
 
-  //AMD / RequireJS
-  if (typeof define === 'function' && define.amd) {
-    return define(function() {
-      Backbone.BootstrapModal = Modal;
-    })
-  }
-
-  //Regular; add to Backbone.Bootstrap.Modal
-  else {
-    Backbone.BootstrapModal = Modal;
-  }
+  return Backbone.BootstrapModal;
 
 });
