@@ -1,4 +1,5 @@
-var _ = require('underscore');
+var _ = require('underscore'),
+    MongorillaUser = require('./user').MongorillaUser;
 
 
 var MongorillaCollection = function(data) {
@@ -6,6 +7,19 @@ var MongorillaCollection = function(data) {
     _.extend(this, data);
 
 }
+
+MongorillaCollection.prototype.isSessionUserAllowedToRoute = function(req, res) {
+    var  ops = { GET: 'r', POST: 'c', PUT: 'u', DELETE: 'd' };
+    if (!res.locals.sessionUser.hasPermissions(this, ops[req.method])) {
+        res.status(403);
+        res.send({
+            error: res.locals.sessionUser.username + ' has no enough permissions for perform this operation'
+        });
+        return false;
+    }
+    return true;
+};
+
 
 MongorillaCollection.getByName = function(name) {
 

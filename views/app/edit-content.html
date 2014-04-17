@@ -10,10 +10,10 @@
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
             <div id="collection-form" data-collection-name="<%= collection.name %>" data-object-id="<%= objectId %>" data-readonly="<%= collection.readonly ? 'true' : 'false' %>"
-                <%= global.helpers.hasPermission(sessionUser, collection.name, 'c') ? 'data-permission-c' : '' %>
-                <%= global.helpers.hasPermission(sessionUser, collection.name, 'r') ? 'data-permission-r' : '' %>
-                <%= global.helpers.hasPermission(sessionUser, collection.name, 'u') ? 'data-permission-u' : '' %>
-                <%= global.helpers.hasPermission(sessionUser, collection.name, 'd') ? 'data-permission-d' : '' %>
+                <%= sessionUser.hasPermissions(collection, 'c') ? 'data-permission-c' : '' %>
+                <%= sessionUser.hasPermissions(collection, 'r') ? 'data-permission-r' : '' %>
+                <%= sessionUser.hasPermissions(collection, 'u') ? 'data-permission-u' : '' %>
+                <%= sessionUser.hasPermissions(collection, 'd') ? 'data-permission-d' : '' %>
                 ></div>
             <div id="form-controls">
                 <div class="btn-group pull-left left"></div>

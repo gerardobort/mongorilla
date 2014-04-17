@@ -35,36 +35,6 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                    <% if (sessionUser) { %>
-                        <!--li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-search"></span> Search <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                            <% collections.forEach(function (collection) { %>
-                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
-                                <li><a href="/search/<%= collection.name %>"><%= collection.humanName %></a></li>
-                                <% } %>
-                            <% }) %>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-plus"></span> Create <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                            <% collections.forEach(function (collection) { %>
-                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r')) { %>
-                                <li><a href="/add/<%= collection.name %>"><%= collection.humanName %></a></li>
-                                <% } %>
-                            <% }) %>
-                            </ul>
-                        </li-->
-                    <% } %>
-                    </ul>
-                    <!--form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form-->
                     <ul class="nav navbar-nav navbar-right">
                     <% if (sessionUser) { %>
                         <li class="dropdown user user-menu">
@@ -152,7 +122,7 @@
                             </a>
                             <ul class="treeview-menu">
                             <% collections.forEach(function (collection) { %>
-                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r') && !collection.name.match(/^mongorilla/)) { %>
+                                <% if (sessionUser.hasPermissions(collection, 'r') && !collection.name.match(/^mongorilla/)) { %>
                                 <li><a href="/search/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
                                 <% } %>
                             <% }) %>
@@ -166,7 +136,7 @@
                             </a>
                             <ul class="treeview-menu">
                             <% collections.forEach(function (collection) { %>
-                                <% if (global.helpers.hasPermission(sessionUser, collection.name, 'r') && !collection.name.match(/^mongorilla/)) { %>
+                                <% if (sessionUser.hasPermissions(collection, 'cr') && !collection.name.match(/^mongorilla/)) { %>
                                 <li><a href="/add/<%= collection.name %>"><i class="fa fa-angle-double-right"></i> <%= collection.humanName %></a></li>
                                 <% } %>
                             <% }) %>

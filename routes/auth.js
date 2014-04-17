@@ -5,7 +5,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId,
-    _ = require('underscore');
+    _ = require('underscore'),
+    MongorillaUser = require('../models/helpers/user').MongorillaUser;
 
 exports.bootstrap = function(req, res, next){
     var url = require('url'),
@@ -19,7 +20,7 @@ exports.bootstrap = function(req, res, next){
         return;
     }
 
-    res.locals.sessionUser = req.session.user;
+    res.locals.sessionUser = req.session.user ? new MongorillaUser(req.session.user) : null;
     res.locals.host = req.headers.host;
     next();
 };

@@ -8,24 +8,12 @@ var mongoose = require('mongoose'),
     _ = require('underscore'),
     MongorillaCollection = require('../../models/helpers/collection').MongorillaCollection;
 
-function checkAcl(req, res) {
-    var collectionName = req.route.params.collectionName;
-
-    var ops = { GET: 'r', POST: 'c', PUT: 'u', DELETE: 'd' };
-    if (!global.helpers.hasPermission(req.session.user, collectionName, ops[req.method])) {
-        res.status(403);
-        res.send({ error: req.session.user.name + ' has no enough permissions for perform this operation' });
-        return false;
-    }
-
-    return true;
-};
 
 exports.get = function (req, res) {
     var objectId = req.route.params.objectId,
         collection = MongorillaCollection.getByRouterParams(req, res);
 
-    if (!collection) {
+    if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
         return;
     }
 
@@ -52,7 +40,7 @@ exports.post = function (req, res) {
         url_parts = url.parse(req.url, true),
         description = url_parts.query.description || '';
 
-    if (!collection) {
+    if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
         return;
     }
 
@@ -109,7 +97,7 @@ exports.put = function (req, res) {
         url_parts = url.parse(req.url, true),
         description = url_parts.query.description || '';
 
-    if (!collection) {
+    if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
         return;
     }
 
@@ -160,7 +148,7 @@ exports.del = function (req, res) {
     var objectId = req.route.params.objectId,
         collection = getCollection(req, res);
 
-    if (!collection) {
+    if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
         return;
     }
 
@@ -181,7 +169,7 @@ exports.getSearch = function (req, res) {
         q = (url_parts.query.q||'').sanitize().makeSafeForRegex(),
         collection = MongorillaCollection.getByRouterParams(req, res);
 
-    if (!collection) {
+    if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
         return;
     }
 
@@ -216,7 +204,7 @@ exports.getList = function (req, res) {
     var pager = require('../../helpers/pager'),
         collection = MongorillaCollection.getByRouterParams(req, res);
 
-    if (!collection) {
+    if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
         return;
     }
 
