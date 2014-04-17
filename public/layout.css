@@ -2,6 +2,19 @@
     display: inline-block;
 }
 
+/* editors.Radio */
+ul.form-control {
+    border: 0;
+    height: auto;
+    list-style: none;
+}
+ul.form-control input[type="checkbox"] + label,
+ul.form-control input[type="radio"] + label {
+    line-height: 20px;
+    vertical-align: top;
+    margin-left: 10px;
+}
+
 .bbf-object-id {
     clear: both;
 }
