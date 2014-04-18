@@ -12,7 +12,6 @@
  * cancel: The user dismissed the modal
  * ok: The user clicked OK
  */
-require(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
   //Set custom template settings
   var _interpolateBackup = _.templateSettings;
@@ -221,7 +220,3 @@ require(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
 
 
   Backbone.BootstrapModal = Modal;
-
-  return Backbone.BootstrapModal;
-
-});
