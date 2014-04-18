@@ -2,16 +2,18 @@
  * config loader.
  */
 
-var config = null,
+var config,
+    experimentalConfig,
     _ = require('underscore');
 
 exports.loadConfig = function (configFile) {
     console.log('Loading config file...  ' + configFile);
     config = require('../config/' + (process.env.NODE_ENV||'default') + '.json');
+    experimentalConfig = require('../config/experimental.json');
 
-    // checks if the collection uses Aloha, this is only for lazy loading - optimization
-    _(config.collections).each(function (collection, i) {
-        collection.requiresAloha = !!JSON.stringify(collection).match('"type":"Aloha"');
+    // add experimental configurations
+    _(experimentalConfig.collections).each(function (collection, i) {
+        config.collections.push(collection);
     });
 
     return config;
