@@ -9,6 +9,7 @@
             "permissions": {
                 "developer": "crud",
                 "company": "crud",
+                "mongorillaRole": "crud",
                 "mongorillaUser": "crud",
                 "mongorillaCollection": "crud"
             }
@@ -151,6 +152,40 @@
                 "sort": { "updated": -1 },
                 "limit": 10,
                 "columns": ["name", "uri"]
+            },
+            "mongoose": {
+                "schema": null
+            },
+            "readonly": false,
+            "revisionable": true
+        },
+        {
+            "name": "mongorillaRole",
+            "humanName": "Mongorilla Role",
+            "previewUrl": "/role/${name}",
+            "backboneForms": {
+                "schema": {
+                    "name": { "type": "Text", "title": "Name", "validators": ["required"], "editorAttrs": { "placeholder": "Content Editor" } }, 
+                    "description": { "type": "CKEditor", "title": "Description" }
+                },
+                "defaults": {
+                }
+            },
+            "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
+            "fastSearch": {
+                "find": {
+                    "$or": [
+                        { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "description": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                    ]
+                },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "description", "created", "updated"]
+            },
+            "relations": { 
             },
             "mongoose": {
                 "schema": null
