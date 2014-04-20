@@ -490,10 +490,10 @@
 
         if (_.isUndefined(val) || _.isNull(val)) val = '';
 
-        parts.push(desc + ': ' + val);
+        parts.push('<span data-key="' + key + '" data-desc=' + desc + '">' + val + '</span>');
       });
 
-      return parts.join('<br />');
+      return parts.join('');
     },
 
     /**
