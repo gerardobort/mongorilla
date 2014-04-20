@@ -1,6 +1,7 @@
 define('forms/mongorillaCollection', [
     'forms/base/mongorillaCollection',
-    'models/mongorillaCollection'
+    'models/mongorillaCollection',
+    'css!./mongorillaCollection.css'
     ], function (MongorillaCollectionFormBase, MongorillaCollectionModel) {
 
     Backbone.Form.MongorillaCollection = MongorillaCollectionFormBase.extend({
