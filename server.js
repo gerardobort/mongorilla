@@ -99,7 +99,7 @@ app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appGenericRou
 // dynamic javascript assets
 app.get('/models/:collectionName.js', authRoute.bootstrap, appJsRoute.getModel);
 app.get('/collections/:collectionName.js', authRoute.bootstrap, appJsRoute.getCollection);
-app.get('/forms/base/:collectionName.js', authRoute.bootstrap, appJsRoute.getForm);
+app.get('/forms/:collectionName.base.js', authRoute.bootstrap, appJsRoute.getForm);
 app.get('/forms/:collectionName.js', authRoute.bootstrap, appJsRoute.getForm);
 app.get('/config/:collectionName.json', authRoute.bootstrap, appJsRoute.getConfig);
 

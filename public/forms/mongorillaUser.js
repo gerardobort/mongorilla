@@ -1,5 +1,5 @@
 define('forms/mongorillaUser', [
-    'forms/base/mongorillaUser',
+    'forms/mongorillaUser.base',
     'models/mongorillaUser'
     ], function (MongorillaUserFormBase, MongorillaUserModel) {
 

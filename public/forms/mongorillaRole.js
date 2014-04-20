@@ -1,5 +1,5 @@
 define('forms/mongorillaRole', [
-    'forms/base/mongorillaRole',
+    'forms/mongorillaRole.base',
     'models/mongorillaRole'
     ], function (MongorillaRoleFormBase, MongorillaRoleModel) {
 
