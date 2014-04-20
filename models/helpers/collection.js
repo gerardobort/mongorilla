@@ -4,7 +4,20 @@ var _ = require('underscore'),
 
 var MongorillaCollection = function(data) {
 
-    _.extend(this, data);
+    _.extend(this, {
+            name: '',
+            humanName: '',
+            backboneForms: {
+                schema: {
+                }
+            },
+            mongoose: {
+                schema: {
+                }
+            },
+            createdField: { key: '' } ,
+            updatedField: { key: '' }
+        }, data);
 
 }
 
@@ -82,6 +95,26 @@ MongorillaCollection.createFromPostPayload = function(payload) {
     });
 
     return new MongorillaCollection(attributes);
+
+};
+
+
+MongorillaCollection.createFromMongo = function(doc) {
+
+    return new MongorillaCollection(doc);
+
+};
+
+MongorillaCollection.getAllFromMongo = function(callback) {
+
+    getModel('mongorillaCollection')
+        .findOne({})
+        .exec(function (err, collections) {
+            if (!collections) {
+                return [];
+            }
+            callback.call(null, _(collections).map(MongorillaCollection.createFromMongo));
+        });
 
 };
 

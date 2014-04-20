@@ -84,6 +84,17 @@ config.collections.forEach(function (collection) {
     getModel(collection.name);
 });
 
+var MongorillaCollection = require('./models/helpers/collection').MongorillaCollection;
+MongorillaCollection.getAllFromMongo(function (collections) {
+
+    _(collections).each(function (collection) {
+        console.log('loading collection' + collection.name);
+        global.config.collections.push(collection);
+        getModel(collection.name);
+    });
+
+});
+
 // frontend
 app.get('/', authRoute.bootstrap, appMainRoute.getIndex);
 app.get('/auth/login', authRoute.bootstrap, authRoute.getLogin);
