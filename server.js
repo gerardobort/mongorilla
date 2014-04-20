@@ -35,8 +35,9 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
-app.use(app.router);
+// static files have higher priority over server routers
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(app.router);
 app.use(express.limit('30mb'));
 
 // development only
@@ -98,6 +99,7 @@ app.get('/preview/:collectionName/:objectId', authRoute.bootstrap, appGenericRou
 // dynamic javascript assets
 app.get('/models/:collectionName.js', authRoute.bootstrap, appJsRoute.getModel);
 app.get('/collections/:collectionName.js', authRoute.bootstrap, appJsRoute.getCollection);
+app.get('/forms/base/:collectionName.js', authRoute.bootstrap, appJsRoute.getForm);
 app.get('/forms/:collectionName.js', authRoute.bootstrap, appJsRoute.getForm);
 app.get('/config/:collectionName.json', authRoute.bootstrap, appJsRoute.getConfig);
 

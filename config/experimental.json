@@ -1,0 +1,218 @@
+{
+    "collections": [
+        {
+            "name": "mongorillaRole",
+            "humanName": "Mongorilla Role",
+            "previewUrl": "/role/${name}",
+            "backboneForms": {
+                "schema": {
+                    "name": { "type": "Text", "title": "Name", "validators": ["required"], "editorAttrs": { "placeholder": "Content Editor" } }, 
+                    "description": { "type": "TextArea", "title": "Description" }
+                },
+                "defaults": {
+                }
+            },
+            "toStringField": "name",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
+            "fastSearch": {
+                "find": {
+                    "$or": [
+                        { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "description": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                    ]
+                },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["name", "description", "created", "updated"]
+            },
+            "relations": { 
+            },
+            "mongoose": {
+                "schema": null
+            },
+            "readonly": false,
+            "revisionable": true
+        },
+        {
+            "name": "mongorillaUser",
+            "humanName": "Mongorilla User",
+            "previewUrl": "/user/${username}",
+            "backboneForms": {
+                "schema": {
+                    "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"], "editorAttrs": { "placeholder": "John Doe" } }, 
+                    "email": { "type": "Text", "title": "Email", "validators": ["required", "email"], "editorAttrs": { "placeholder": "john-doe@example.com" } }, 
+                    "password": { "type": "Password", "title": "Password", "validators": ["required"], "editorAttrs": { "placeholder": "password" } }, 
+                    "username": {
+                        "validators": [
+                            "required",
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z\\.]{2,}[0-9a-z\\.]$"] }
+                            }
+                        ],
+                        "title": "Username",
+                        "editorAttrs": { "placeholder": "john-doe" }, 
+                        "help": "Users can login using either <strong>email</strong> or <strong>username</strong>." 
+                    },
+                    "roles": {
+                        "type": "Checkboxes", "title": "Roles",
+                        "options": {
+                            "__constructor": "Function",
+                            "__arguments": [
+                                "return '[\\'' + global.config.roles.map(function(r) { return r.name; }).join('\\',\\'') + '\\']';"
+                            ],
+                            "__call": []
+                        }
+                    },
+                    "bio": { "type": "CKEditor", "title": "Bio" },
+                    "photo": { "type": "Image", "title": "Photo", "pushToS3": true },
+                    "position": { "type": "Text", "title": "Position", "validators": [] },
+                    "company": { "type": "Text", "title": "Company", "validators": [] }
+                },
+                "defaults": {
+                }
+            },
+            "toStringField": "fullname",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
+            "fastSearch": {
+                "find": {
+                    "$or": [
+                        { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "username": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "email": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                    ]
+                },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["fullname", "email", "username", "created", "updated"]
+            },
+            "relations": { 
+                "photo": {
+                    "type": "HasOne",
+                    "relatedCollection": "fs.files"
+                }
+            },
+            "mongoose": {
+                "schema": null
+            },
+            "readonly": false,
+            "revisionable": true
+        },
+        {
+            "name": "mongorillaCollection",
+            "humanName": "Mongorilla Collection",
+            "previewUrl": "/search/${name}",
+            "backboneForms": {
+                "schema": {
+                    "name": {
+                        "validators": [
+                            "required",
+                            {
+                                "type": "regexp",
+                                "regexp": { "__constructor": "RegExp", "__arguments": ["^[A-Za-z]{2,}[0-9A-Za-z_\\.]$"] }
+                            }
+                        ],
+                        "title": "Collection Name",
+                        "editorAttrs": { "placeholder": "super_monkey" }, 
+                        "help": "<i>This is the MongoDB collection name</i> - example: mongo&gt; db.<strong>super_monkey</strong>.find()" 
+                    },
+                    "humanName": { "type": "Text", "title": "Human Name", "validators": ["required"], "editorAttrs": { "placeholder": "Super Monkey" } }, 
+                    "previewUrl": { "type": "Text", "title": "Preview URL", "validators": ["url"], "editorAttrs": { "placeholder": "http://example.com/${uri}.html" } }, 
+                    "backboneForms.schema": {
+                        "title": "Document Schema Attributes",
+                        "type": "List",
+                        "itemType": "Object",
+                        "help": "Although MongoDB does not requier any Schema, Mongorilla uses it to render the CMS Forms.",
+                        "subSchema": {
+                            "path": { "type": "Text", "title": "Property Path",
+                                "help": "example: <strong>preferences.favourite_banana_types</strong>" },
+                            "type": {
+                                "type": "Select", "options": [
+                                    "Text",
+                                    "TextArea",
+                                    "Checkboxes",
+                                    "Select",
+                                    "Radio",
+                                    "Date",
+                                    "DateTime",
+                                    "List",
+                                    "Object",
+                                    "CKEditor",
+                                    "Datepicker",
+                                    "File",
+                                    "Image",
+                                    "ObjectId"
+                                ],
+                                "validators": ["required"]
+                            },
+                            "title": { "type": "Text", "title": "Field Label" },
+                            "validators": {
+                                "type": "Checkboxes", "options": [
+                                    "required",
+                                    "number",
+                                    "email",
+                                    "url",
+                                    "match",
+                                    "regexp"
+                                ]
+                            },
+                            "validators_settings.regexp": {
+                                "type": "Text", "title": "RegExp",
+                                "editorAttrs": { "placeholder": "/^starts-with/i" },
+                                "help": "Warning: sometimes adding the 'g' modifier can make your RegExp work bad, if you're checking for a full string match."
+                            },
+                            "validators_settings.match.field": {
+                                "type": "Text", "title": "Match/Field",
+                                "editorAttrs": { "placeholder": "enter_here.other_property.path" }
+                            },
+                            "validators_settings.match.message": {
+                                "type": "Text", "title": "Match/Message",
+                                "editorAttrs": { "placeholder": "a message in case of validation fail" }
+                            },
+                            "default_value": { "type": "Text", "title": "Default Value" },
+                            "placeholder": { "type": "Text", "title": "Placeholder" }
+                        }
+                    },
+                    "toStringField": { "type": "Text", "title": "To String Field" },
+                    "updatedField.key": { "type": "Text", "title": "Updated Field" },
+                    "createdField.key": { "type": "Text", "title": "Created Field" },
+                    "revisionable": { "type": "Radio", "title": "Is Revisionable", 
+                        "options": [{ "val": true, "label": "Yes" }, { "val": false, "label": "No" }]
+                    },
+                    "readonly": { "type": "Radio", "title": "Is Read-Only", 
+                        "options": [{ "val": true, "label": "Yes" }, { "val": false, "label": "No" }]
+                    }
+                },
+                "defaults": {
+                }
+            },
+            "toStringField": "humanName",
+            "updatedField": { "key": "updated", "type": "Date" },
+            "createdField": { "key": "created", "type": "Date" },
+            "fastSearch": {
+                "find": {
+                    "$or": [
+                        { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                        { "humanName": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+                    ]
+                },
+                "sort": { "updated": -1 },
+                "limit": 10,
+                "columns": ["humanName", "name", "previewUrl", "created", "updated"]
+            },
+            "relations": { 
+                "photo": {
+                    "type": "HasOne",
+                    "relatedCollection": "fs.files"
+                }
+            },
+            "mongoose": {
+                "schema": null
+            },
+            "readonly": false,
+            "revisionable": true
+        }
+    ]
+}
