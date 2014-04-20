@@ -1,5 +1,5 @@
 define('forms/mongorillaCollection', [
-    'forms/base/mongorillaCollection',
+    'forms/mongorillaCollection.base',
     'models/mongorillaCollection',
     'css!./mongorillaCollection.css'
     ], function (MongorillaCollectionFormBase, MongorillaCollectionModel) {
