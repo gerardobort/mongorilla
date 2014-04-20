@@ -1,0 +1,40 @@
+/* collectionForm */
+#collection-form[data-collection-name="mongorillaCollection"] .bbf-list[name="backboneForms.schema"] .bbf-list-modal {
+    border: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+}
+#collection-form[data-collection-name="mongorillaCollection"] .bbf-list[name="backboneForms.schema"] span[data-key] {
+    display: none;
+}
+#collection-form[data-collection-name="mongorillaCollection"] .bbf-list[name="backboneForms.schema"] span[data-key="path"] {
+    display: block;
+    font-weight: 900;
+    float: left;
+}
+#collection-form[data-collection-name="mongorillaCollection"] .bbf-list[name="backboneForms.schema"] span[data-key="type"] {
+    display: block;
+    float: right;
+}
+.modal-dialog {
+    width: 70%;
+}
+.modal-body .form-horizontal {
+    width: 90%;
+    margin: 30px auto 0;
+}
+.modal-body .field-validators li {
+    float: left;
+    margin: 0 20px 0 0;
+}
+.modal-body .field-validators_settings\.regexp,
+.modal-body .field-validators_settings\.match\.field,
+.modal-body .field-validators_settings\.match\.message {
+    display: none;
+}
+/*
+.modal-body .field-validators li input[value="regexp"]:checked + label:after {
+    content: 'please, configure the highligthed new fields for this validator';
+}*/
+
