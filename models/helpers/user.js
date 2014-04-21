@@ -13,17 +13,7 @@ var MongorillaUser = function(data) {
         }
     }
 
-    _.extend(this, {
-        _id: data._id,
-        fullname: data.fullname,
-        username: data.username,
-        bio: data.bio,
-        email: data.email,
-        roles: data.roles,
-        photo_url: data.photo_url,
-        description: data.description,
-        created: data.created,
-    });
+    _.extend(this, data);
 
 }
 
@@ -65,7 +55,7 @@ MongorillaUser.getFromMongoByAuth = function(user, pass, callback) {
         .exec(function (err, userData) {
             var user;
             if (userData) {
-                user = new MongorillaUser(userData);
+                user = new MongorillaUser(userData.toJSON());
             }
             callback.call(null, user);
         });
@@ -90,7 +80,7 @@ MongorillaUser.getFromMongoByUsername = function(username, callback) {
         .exec(function (err, userData) {
             var user;
             if (userData) {
-                user = new MongorillaUser(userData);
+                user = new MongorillaUser(userData.toJSON());
             }
             callback.call(null, user);
         });
