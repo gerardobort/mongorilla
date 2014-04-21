@@ -11,7 +11,8 @@
                 "company": "crud",
                 "mongorillaRole": "crud",
                 "mongorillaUser": "crud",
-                "mongorillaCollection": "crud"
+                "mongorillaCollection": "crud",
+                "fruit": "crud"
             }
         },
         {

@@ -15,8 +15,8 @@ var MongorillaCollection = function(data) {
                 schema: {
                 }
             },
-            createdField: { key: '' } ,
-            updatedField: { key: '' }
+            createdField: { key: 'created', type: 'Date' },
+            updatedField: { key: 'updated', type: 'Date' }
         }, data);
 
 }
@@ -101,18 +101,40 @@ MongorillaCollection.createFromPostPayload = function(payload) {
 
 MongorillaCollection.createFromMongo = function(doc) {
 
-    return new MongorillaCollection(doc);
+    var docJson = doc.toJSON();
+        tmpSchema = {};
+
+    _(docJson.backboneForms.schema).each(function (prop) {
+        tmpSchema[prop.path] = prop;
+    });
+    docJson.backboneForms.schema = tmpSchema;
+
+    var collection = new MongorillaCollection(docJson);
+
+    // map mongo structure to system structure
+    collection.fastSearch = {
+        find: (function (doc) { 
+            var o = {};
+            o[doc.toStringField] = { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] };
+            return o;
+        }(doc)),
+        sort: { updated: -1 },
+        limit: 10,
+        columns: _(docJson.backboneForms.schema).keys()
+    };
+    collection.relations = { };
+    collection.fastSearch
+
+    return collection;
 
 };
 
 MongorillaCollection.getAllFromMongo = function(callback) {
 
     getModel('mongorillaCollection')
-        .findOne({})
+        .find({})
         .exec(function (err, collections) {
-            if (!collections) {
-                return [];
-            }
+            collections = collections || [];
             callback.call(null, _(collections).map(MongorillaCollection.createFromMongo));
         });
 
