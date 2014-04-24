@@ -81,6 +81,14 @@ exports.getModel = function (collectionName) {
         };
         var ModelSchema = new Schema(schema, options);
 
+        try {
+            var schemaExtension = require('./plugins/' + collectionName);
+            ModelSchema.plugin(schemaExtension);
+            console.log('Plugin found for this generic model: ' + collectionName);
+        } catch (e) {
+            console.log('No plugin found for this generic model, no problem')
+        }
+
         ModelSchema.methods = {
         };
 
