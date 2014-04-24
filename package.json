@@ -19,7 +19,8 @@
     "knox": "*",
     "sha1": "^1.1.0",
     "mongodb": "^1.4.0",
-    "requirejs": "^2.1.11"
+    "requirejs": "^2.1.11",
+    "gzippo": "^0.2.0"
   },
   "main": "server.js",
   "devDependencies": {},

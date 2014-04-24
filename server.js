@@ -12,6 +12,7 @@ var express = require('express'),
     gridfs = require('gridfs-stream'),
     _ = require('underscore'),
     moment = require('moment'),
+    gzippo = require('gzippo'),
     authRoute = require('./routes/auth'),
     appMainRoute = require('./routes/app/main'),
     appGenericRoute = require('./routes/app/generic'),
@@ -36,7 +37,8 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 // static files have higher priority over server routers
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(gzippo.staticGzip(__dirname + '/public'));
 app.use(app.router);
 app.use(express.limit('30mb'));
 
