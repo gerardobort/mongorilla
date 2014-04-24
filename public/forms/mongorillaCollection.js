@@ -11,8 +11,12 @@ define('forms/mongorillaCollection', [
             'click #validators li input': 'toggleValidatorsConditionalFields',
         },
 
-        initialize: function () {
+        render: function () {
             var instance = this;
+
+            setTimeout(function () {
+                instance.trigger('backboneForms.schema:change', instance, instance.getEditor('backboneForms.schema'));
+            }, 300);
 
             setTimeout(function () {
                 var warning = '\
@@ -25,6 +29,21 @@ define('forms/mongorillaCollection', [
                 $('.experimental-warn').remove();
                 $('#main-container').prepend(warning);
             }, 0);
+
+            return Backbone.Form.prototype.render.apply(this, arguments);
+        },
+
+        initialize: function () {
+            var instance = this;
+
+            instance.bind('backboneForms.schema:change', function (form, field) {
+                var toStringFieldEditor = instance.getEditor('toStringField');
+                toStringFieldEditor.schema.options = _(field.getValue()).map(function (field) {
+                    return { val: field.path, label: field.title };
+                });
+                toStringFieldEditor.render();
+            });
+
             return Backbone.Form.prototype.initialize.apply(this, arguments);
         },
 
