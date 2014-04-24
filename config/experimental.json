@@ -175,7 +175,7 @@
                             "placeholder": { "type": "Text", "title": "Placeholder" }
                         }
                     },
-                    "toStringField": { "type": "Text", "title": "To String Field" },
+                    "toStringField": { "type": "Select", "title": "To String Field", "options": ["a", "b"] },
                     "updatedField.key": { "type": "Text", "title": "Updated Field" },
                     "createdField.key": { "type": "Text", "title": "Created Field" },
                     "revisionable": { "type": "Radio", "title": "Is Revisionable", 
