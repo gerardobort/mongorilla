@@ -127,18 +127,24 @@ exports.put = function (req, res) {
     attributesToSet[collection.updatedField.key] = new global[collection.createdField.type||'Date']().toISOString();
 
 
+    // @see https://github.com/LearnBoost/mongoose/issues/964
     getModel(collection.name)
-        .findByIdAndUpdate(objectId, { $set: attributesToSet }, function (err, model) {
+        .findById(objectId, function (err, model) {
             if (err) {
                 res.send(err);
             } else {
-                if (collection.revisionable) {
-                    require('../../models/revision').saveRevisionSnapshot(collection, objectId, description, req.session.user, false, function (err, revision) {
+                _.extend(model, attributesToSet);
+                model.save(function (err) {
+                    if (err) {
+                        res.send(err);
+                    } else if (collection.revisionable) {
+                        require('../../models/revision').saveRevisionSnapshot(collection, objectId, description, req.session.user, false, function (err, revision) {
+                            res.send(responseData);
+                        });
+                    } else {
                         res.send(responseData);
-                    });
-                } else {
-                    res.send(responseData);
-                }
+                    }
+                });
             }
         });
 
