@@ -36,15 +36,32 @@ define('forms/mongorillaCollection', [
         initialize: function () {
             var instance = this;
 
-            instance.bind('backboneForms.schema:change', function (form, field) {
+            instance.bind('backboneForms.schema:change', function (form, editor) {
                 var toStringFieldEditor = instance.getEditor('toStringField');
-                toStringFieldEditor.schema.options = _(field.getValue()).map(function (field) {
-                    return { val: field.path, label: field.title };
+                toStringFieldEditor.schema.options = _(editor.getValue()).map(function (editor) {
+                    return { val: editor.path, label: editor.title };
                 });
                 toStringFieldEditor.render();
             });
 
-            return Backbone.Form.prototype.initialize.apply(this, arguments);
+            instance.bind('humanName:change', function (form, editor) {
+                var nameEditor = instance.getEditor('name');
+                if (nameEditor.tainted) {
+                    return;
+                }
+                nameEditor.setValue(
+                    editor.getValue().replace(/\W+/g, '_').replace(/^\W*(.*)\W$/, '$1').toLowerCase()
+                );
+            });
+
+            instance.bind('name:change', function (form, editor) {
+                editor.tainted = true;
+            });
+
+            var ret = Backbone.Form.prototype.initialize.apply(this, arguments);
+            // @see editors.List openEditor method (backbone-forms/editors/list.js:515)
+            instance.getEditor('backboneForms.schema').form = new Backbone.Form({});
+            return ret;
         },
 
         toggleTypeConditionalFields: function (event) {

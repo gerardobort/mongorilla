@@ -58,22 +58,6 @@ MongorillaCollection.getByRouterParams = function(req, res) {
     return collection;
 };
 
-MongorillaCollection.getFrom__ = function(name, callback) {
-
-    getModel('mongorillaCollection')
-        .findOne({
-            name: name
-        })
-        .exec(function (err, collectionData) {
-            var collection;
-            if (collectionData) {
-                collection = new MongorillaUser(collectionData);
-            }
-            callback.call(null, collection);
-        });
-
-};
-
 MongorillaCollection.createFromPostPayload = function(payload) {
 
     var attributes = _.clone(payload);
