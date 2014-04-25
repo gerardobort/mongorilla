@@ -7,6 +7,7 @@
 * Make validations work on bootstrap-modal (editor type: Object)
 * Add field validtor "Callback" or "Custom Validator"
 * Add fastSearch editor
+* Object Modal - DeepModel and dotnotation - should fix
 
 #### Mongoose Model
 * Reload model schema on save (backend) and update global.config if necessary :heavy_check_mark:
