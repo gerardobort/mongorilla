@@ -106,6 +106,7 @@
             "previewUrl": "/search/${name}",
             "backboneForms": {
                 "schema": {
+                    "humanName": { "type": "Text", "title": "Human Name", "validators": ["required"], "editorAttrs": { "placeholder": "Super Monkey" } }, 
                     "name": {
                         "validators": [
                             "required",
@@ -118,7 +119,6 @@
                         "editorAttrs": { "placeholder": "super_monkey" }, 
                         "help": "<i>This is the MongoDB collection name</i> - example: mongo&gt; db.<strong>super_monkey</strong>.find()" 
                     },
-                    "humanName": { "type": "Text", "title": "Human Name", "validators": ["required"], "editorAttrs": { "placeholder": "Super Monkey" } }, 
                     "previewUrl": { "type": "Text", "title": "Preview URL", "validators": ["url"], "editorAttrs": { "placeholder": "http://example.com/${uri}.html" } }, 
                     "backboneForms.schema": {
                         "title": "Document Schema Attributes",
@@ -147,6 +147,7 @@
                                 ],
                                 "validators": ["required"]
                             },
+                            "is_array": { "type": "Checkbox", "title": "Is Array" },
                             "title": { "type": "Text", "title": "Field Label" },
                             "validators": {
                                 "type": "Checkboxes", "options": [
@@ -172,17 +173,27 @@
                                 "editorAttrs": { "placeholder": "a message in case of validation fail" }
                             },
                             "default_value": { "type": "Text", "title": "Default Value" },
-                            "placeholder": { "type": "Text", "title": "Placeholder" }
+                            "placeholder": { "type": "Text", "title": "Placeholder" },
+                            "objectid_settings.relations.related_collection": {
+                                "type": "Select", "title": "Related Collection", 
+                                "options": {
+                                    "__constructor": "Function",
+                                    "__arguments": [
+                                        "return '[\\'' + global.config.collections.map(function(c) { return c.name; }).join('\\',\\'') + '\\']';"
+                                    ],
+                                    "__call": []
+                                }
+                            }
                         }
                     },
                     "toStringField": { "type": "Select", "title": "To String Field", "options": ["a", "b"] },
-                    "updatedField.key": { "type": "Text", "title": "Updated Field" },
-                    "createdField.key": { "type": "Text", "title": "Created Field" },
-                    "revisionable": { "type": "Radio", "title": "Is Revisionable", 
+                    "updatedField.key": { "type": "Text", "title": "Updated Field Path" },
+                    "createdField.key": { "type": "Text", "title": "Created Field Path" },
+                    "revisionable": { "type": "Radio", "title": "Is Revisionable",
                         "options": [{ "val": true, "label": "Yes" }, { "val": false, "label": "No" }]
                     },
-                    "readonly": { "type": "Radio", "title": "Is Read-Only", 
-                        "options": [{ "val": true, "label": "Yes" }, { "val": false, "label": "No" }]
+                    "readonly": { "type": "Radio", "title": "Is Read-Only",
+                       "options": [{ "val": true, "label": "Yes" }, { "val": false, "label": "No" }]
                     }
                 },
                 "defaults": {
