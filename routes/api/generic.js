@@ -124,10 +124,7 @@ exports.put = function (req, res) {
 
     // TODO skip all attributes not specified in schema
     var attributesToSet = global.helpers.toFlat(attributes);
-    //var attributesToSet = global.helpers.deepClone(attributes);
     attributesToSet[collection.updatedField.key] = new global[collection.createdField.type||'Date']().toISOString();
-
-console.log(JSON.stringify(attributesToSet))
 
     // @see https://github.com/LearnBoost/mongoose/issues/964
     getModel(collection.name)
