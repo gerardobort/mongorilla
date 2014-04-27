@@ -45,20 +45,24 @@ exports.getModel = function (collectionName) {
         */
 
         _(collection.backboneForms.schema).each(function (def, key) {
-            switch (def.type) {
+            switch (def.itemType || def.type) {
                 default:
-                case 'Text':     schema[key] = String; break;
-                case 'TextArea': schema[key] = String; break;
-                case 'Number':   schema[key] = Number; break;
-                case 'Object':   schema[key] = Object; break;
-                case 'List':     schema[key] = Array; break;
-                case 'Date':     schema[key] = Date; break;
-                case 'Datepicker': schema[key] = Date; break;
-                case 'DateTime': schema[key] = Date; break;
-                case 'File':     schema[key] = 'File'; break;
-                case 'Image':    schema[key] = 'File'; break;
-                case 'Checkboxes':    schema[key] = [String]; break;
+                case 'Text':        schema[key] = String; break;
+                case 'TextArea':    schema[key] = String; break;
+                case 'Number':      schema[key] = Number; break;
+                case 'Object':      schema[key] = Object; break;
+                case 'NestedModel': schema[key] = Object; break;
+                case 'List':        schema[key] = Array; break;
+                case 'Date':        schema[key] = Date; break;
+                case 'Datepicker':  schema[key] = Date; break;
+                case 'DateTime':    schema[key] = Date; break;
+                case 'File':        schema[key] = 'File'; break;
+                case 'Image':       schema[key] = 'File'; break;
+                case 'Checkboxes':  schema[key] = [String]; break;
                 // TODO review this
+            }
+            if (def.itemType) { // case of List
+                schema[key] = Array; //[schema[key]];
             }
         });
 

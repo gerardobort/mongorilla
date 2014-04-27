@@ -123,11 +123,20 @@
                     "backboneForms.schema": {
                         "title": "Document Schema Attributes",
                         "type": "List",
-                        "itemType": "Object",
+                        "itemType": "NestedModel", "model": "TestModel",
                         "help": "Although MongoDB does not requier any Schema, Mongorilla uses it to render the CMS Forms.",
                         "subSchema": {
-                            "path": { "type": "Text", "title": "Property Path",
-                                "help": "example: <strong>preferences.favourite_banana_types</strong>" },
+                            "path": {
+                                "type": "Text", "title": "Property Path",
+                                "help": "example: <strong>preferences.favourite_banana_types</strong>",
+                                "validators": [
+                                    "required",
+                                    {
+                                        "type": "regexp",
+                                        "regexp": { "__constructor": "RegExp", "__arguments": ["^[a-z]{1,}[0-9a-z\\.]*$"] }
+                                    }
+                                ]
+                            },
                             "type": {
                                 "type": "Select", "options": [
                                     "Text",
@@ -197,6 +206,8 @@
                     }
                 },
                 "defaults": {
+                    "updatedField.key": "updated",
+                    "createdField.key": "created"
                 }
             },
             "toStringField": "humanName",

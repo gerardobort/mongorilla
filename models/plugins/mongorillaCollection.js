@@ -5,12 +5,17 @@ module.exports = function (schema, options) {
         var _ = require('underscore');
         var MongorillaCollection = require('../helpers/collection').MongorillaCollection;
         var collection = MongorillaCollection.createFromMongo(this);
+        console.log('created collection', collection);
 
         // update global config
         var configCollection = _(global.config.collections).find(function (configCollection) {
             return configCollection.name === collection.name;
         });
-        global.config.collections[ global.config.collections.indexOf(configCollection) ] = collection;
+        if (-1 !== global.config.collections.indexOf(configCollection)) {
+            global.config.collections[ global.config.collections.indexOf(configCollection) ] = collection;
+        } else {
+            global.config.collections.push(collection);
+        }
     
         // update mongoose model
         delete mongoose.models[collection.name];

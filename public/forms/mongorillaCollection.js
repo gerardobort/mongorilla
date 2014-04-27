@@ -4,6 +4,15 @@ define('forms/mongorillaCollection', [
     'css!./mongorillaCollection.css'
     ], function (MongorillaCollectionFormBase, MongorillaCollectionModel) {
 
+
+/*
+    MongorillaCollectionFormBase.prototype.schema['backboneForms.schema'].model = Backbone.DeepModel.extend({
+        schema: {
+            "test": { "type": "Text", "title": "Test", "validators": ["required"], "editorAttrs": { "placeholder": "Super Monkey" } }, 
+        }
+    });
+*/
+
     Backbone.Form.MongorillaCollection = MongorillaCollectionFormBase.extend({
 
         events: {
@@ -85,6 +94,13 @@ define('forms/mongorillaCollection', [
         },
 
     });
+
+
+    window.f = Backbone.Form.MongorillaCollection.prototype.schema['backboneForms.schema'].model = Backbone.DeepModel.extend({
+        schema: Backbone.Form.MongorillaCollection.prototype.schema['backboneForms.schema'].subSchema
+    });
+
+    window.form = Backbone.Form.MongorillaCollection;
 
     return Backbone.Form.MongorillaCollection;
 

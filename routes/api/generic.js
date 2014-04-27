@@ -123,10 +123,11 @@ exports.put = function (req, res) {
     delete attributes['_id'];
 
     // TODO skip all attributes not specified in schema
-    //var attributesToSet = global.helpers.toFlat(attributes);
-    var attributesToSet = global.helpers.deepClone(attributes);
+    var attributesToSet = global.helpers.toFlat(attributes);
+    //var attributesToSet = global.helpers.deepClone(attributes);
     attributesToSet[collection.updatedField.key] = new global[collection.createdField.type||'Date']().toISOString();
 
+console.log(JSON.stringify(attributesToSet))
 
     // @see https://github.com/LearnBoost/mongoose/issues/964
     getModel(collection.name)
@@ -134,7 +135,9 @@ exports.put = function (req, res) {
             if (err) {
                 res.send(err);
             } else {
-                _.extend(model, attributesToSet);
+                //_.extend(model, attributesToSet);
+                model.set(attributesToSet);
+                console.log(model.schema, attributesToSet)
                 model.save(function (err) {
                     if (err) {
                         res.send(err);
