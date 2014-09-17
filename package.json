@@ -10,16 +10,17 @@
   "dependencies": {
     "bower": "*",
     "express": "3.x",
+    "glob": "^4.0.5",
     "gridfs-stream": "*",
+    "knox": "*",
     "moment": "*",
+    "mongodb": "^1.4.0",
     "mongoose": "*",
     "mongoose-when": "*",
-    "uinexpress": "*",
-    "underscore": "*",
-    "knox": "*",
+    "requirejs": "^2.1.11",
     "sha1": "^1.1.0",
-    "mongodb": "^1.4.0",
-    "requirejs": "^2.1.11"
+    "uinexpress": "*",
+    "underscore": "*"
   },
   "main": "server.js",
   "devDependencies": {},

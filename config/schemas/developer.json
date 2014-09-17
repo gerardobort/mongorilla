@@ -1,0 +1,96 @@
+{
+    "name": "developer",
+    "humanName": "Developer",
+    "previewUrl": "http://example.com/${uri}.html",
+    "backboneForms": {
+        "schema": {
+            "firstname": { "type": "Text", "title": "First Name", "validators": ["required"] },
+            "lastname": { "type": "Text", "title": "Last Name", "validators": ["required"] },
+            "twitter.username": { "type": "Text", "title": "Twitter Username", "editorAttrs": { "placeholder": "@YourTwitterAccount" } },
+            "github.username": { "type": "Text", "title": "GitHub Username", "help": "e.g. pepe" },
+            "dob": { "type": "Datepicker", "title": "Day of Birth", "editorAttrs": { "placeholder": "dd/mm/yyyy", "format": "dd/mm/yyyy" } },
+            "death_year": { "type": "Number", "title": "Death Year" },
+            "bio": { "type": "CKEditor", "title": "Bio" },
+            "website_url": { "type": "Text", "validators": ["url"], "title": "Website URL", "help": "please, include http:// prefix", "editorAttrs": { "placeholder": "http://" } },
+            "photo": { "type": "Image", "title": "Photo", "pushToS3": true },
+            "other_photos": { "type": "List", "itemType": "Image", "title": "Other Photos", "pushToS3": true },
+            "cv": { "type": "File", "title": "Curriculum Vitae", "pushToS3": true },
+            "position": { "type": "Text", "title": "Current Position", "validators": ["required"] },
+            "company": { "type": "ObjectId", "title": "Actual Company", "validators": [] },
+            "previous_companies": { "type": "List", "itemType": "ObjectId", "title": "Previous Companies" },
+            "uri": {
+                "validators": [
+                    "required",
+                    {
+                        "type": "regexp",
+                        "regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$"] }
+                    }
+                ],
+                "title": "URI",
+                "editorAttrs": { "placeholder": "developer-name" }, 
+                "help": "URI is a slug token that helps to construct URLs:  example: /developers/developer-name.html" 
+            }
+        },
+        "fieldsets": [
+            {
+                "legend": "Basic Information",
+                "fields": ["firstname", "lastname", "dob", "photo", "other_photos"]
+            },
+            {
+                "legend": "About",
+                "fields": ["github.username", "twitter.username", "bio", "website_url"]
+            },
+            {
+                "legend": "Work",
+                "fields": ["cv", "position", "company", "previous_companies"]
+            },
+            {
+                "legend": "System Data",
+                "fields": ["uri"]
+            }
+        ],
+        "defaults": {
+        }
+    },
+    "toStringField": "lastname",
+    "updatedField": { "key": "updated", "type": "Date" },
+    "createdField": { "key": "created", "type": "Date" },
+    "fastSearch": {
+        "find": {
+            "$or": [
+                { "firstname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+                { "lastname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } }
+            ]
+        },
+        "sort": { "updated": -1 },
+        "limit": 10,
+        "columns": ["lastname", "firstname", "uri", "created", "updated"]
+    },
+    "relations": { 
+        "photo": {
+            "type": "HasOne",
+            "relatedCollection": "fs.files"
+        },
+        "other_photos": {
+            "type": "HasMany",
+            "relatedCollection": "fs.files"
+        },
+        "cv": {
+            "type": "HasOne",
+            "relatedCollection": "fs.files"
+        },
+        "company": {
+            "type": "HasOne",
+            "relatedCollection": "company"
+        },
+        "previous_companies": {
+            "type": "HasMany",
+            "relatedCollection": "company"
+        }
+    },
+    "mongoose": {
+        "schema": null
+    },
+    "readonly": false,
+    "revisionable": true
+}
