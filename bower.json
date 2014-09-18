@@ -41,6 +41,7 @@
     "BootstrapCK4-Skin": "https://github.com/Kunstmaan/BootstrapCK4-Skin.git",
     "ladda-bootstrap": "~0.1.0",
     "AdminLTE": "https://github.com/almasaeed2010/AdminLTE.git",
-    "requirejs-plugins": "~1.0.2"
+    "requirejs-plugins": "~1.0.2",
+    "eonasdan-bootstrap-datetimepicker": "~3.1.3"
   }
 }

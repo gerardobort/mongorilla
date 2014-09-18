@@ -1,8 +1,7 @@
 (function() {
 	/**
 	 * Backbone forms colorpicker editor
-	 * @author Michael May
-	 * 
+	 * @author Michael May | Ivan Mayes
 	 */
 
 	Backbone.Form.editors.Colorpicker = Backbone.Form.editors.Text.extend({

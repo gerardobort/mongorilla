@@ -16,8 +16,10 @@ require.config({
         backbone: 'third-party/backbone/backbone',
         spin: 'third-party/ladda-bootstrap/dist/spin.min',
         bootstrap: 'third-party/bootstrap/dist/js/bootstrap.min',
+        moment: 'third-party/moment/moment',
         admin_lte: 'admin-lte',
         propertyParser: 'third-party/requirejs-plugins/src/propertyParser',
+        datetimePicker: 'third-party/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min'
     },
     shim: {
         underscore: { exports: '_' },
@@ -34,6 +36,11 @@ require.config({
                 'bootstrap'
             ]
         },
+        datetimePicker: {
+        	deps: [
+        		'moment'
+        	]
+        },
         'third-party/backbone-deep-model/distribution/deep-model.min': { deps: ['backbone'] },
         'third-party/backbone-forms/distribution/backbone-forms': { deps: ['backbone'] },
         'backbone-forms/adapters/bootstrap-modal': { deps: ['jquery', 'underscore', 'backbone'] },
@@ -43,7 +50,8 @@ require.config({
         'backbone-forms/editors/object-id': { deps: ['backbone'] },
         'backbone-forms/editors/ckeditor': { deps: ['backbone'] },
         'backbone-forms/editors/datepicker': { deps: ['backbone'] },
-        'backbone-forms/editors/colorpicker': { deps: ['backbone', '/third-party/AdminLTE/js/plugins/colorpicker/bootstrap-colorpicker.min.js'] }
+        'backbone-forms/editors/datetimepicker': { deps: ['backbone', 'datetimePicker'] },
+        'backbone-forms/editors/colorpicker': { deps: ['backbone'] }
     }
 });
 
