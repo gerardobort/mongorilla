@@ -51,7 +51,7 @@ require.config({
         'backbone-forms/editors/ckeditor': { deps: ['backbone'] },
         'backbone-forms/editors/datepicker': { deps: ['backbone'] },
         'backbone-forms/editors/datetimepicker': { deps: ['backbone', 'datetimePicker'] },
-        'backbone-forms/editors/colorpicker': { deps: ['backbone', '/third-party/AdminLTE/js/plugins/colorpicker/bootstrap-colorpicker.min.js'] }
+        'backbone-forms/editors/colorpicker': { deps: ['backbone', 'third-party/AdminLTE/js/plugins/colorpicker/bootstrap-colorpicker.min'] }
     }
 });
 

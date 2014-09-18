@@ -9,73 +9,52 @@
 
 		tagName: 'input',
 
-		events: {
-			'change': function() {
-				// The 'change' event should be triggered whenever something happens
-				// that affects the result of `this.getValue()`.
-				this.trigger('change', this);
-			},
-			'focus': function() {
-				// The 'focus' event should be triggered whenever an input within
-				// this editor becomes the `document.activeElement`.
-				this.trigger('focus', this);
-				// This call automatically sets `this.hasFocus` to `true`.
-			},
-			'blur': function() {
-				// The 'blur' event should be triggered whenever an input within
-				// this editor stops being the `document.activeElement`.
-				this.trigger('blur', this);
-				// This call automatically sets `this.hasFocus` to `false`.
-			}
-		},
-
-		initialize: function(options) {
-			// Call parent constructor
-			Backbone.Form.editors.Base.prototype.initialize.call(this, options);
-
-			this.$el
-				//.append('<div class="input-append color" data-color="rgb(255, 146, 180)" data-color-format="rgb"><input type="text" class="span2" value="" ><span class="add-on"><i style="background-color: rgb(255, 146, 180)"></i></span></div>')
-				.colorpicker();
-
-			console.log('color')
-
-			// Custom setup code.
-			if (this.schema.customParam) this.doSomething();
-		},
-
 		render: function() {
-			this.setValue(this.value);
+			var editor = this;
+			editor.id = 'colorpicker-' + Math.random().toString().slice(2);
+			editor.$el = $(editor.el);
+			editor.$el.attr('id', editor.id);
+			editor.$el.attr('data-color-format', 'hex');
+			editor.$el.colorpicker();
 
+			var options = options || {};
+
+            //Set initial value
+            if (options.model) {
+                if (!options.key) throw "Missing option: 'key'";
+
+                this.model = options.model;
+
+                // string from model
+                this.value = this.model.get(options.key);
+            } else if (options.value) {
+                // object from list
+                this.value = options.value;
+            }
+
+            if (this.value) {
+                this.setValue(this.value);
+            }
 			return this;
 		},
 
-		getValue: function() {
-			return this.$el.val();
-		},
+		/**
+         * Returns the current editor value
+         * @return {String}
+         */
+        getValue: function() {
+            this.value = this.$el.val();
+            return this.value;
+        },
 
-		setValue: function(value) {
-			this.$el.val(value);
-		},
-
-		focus: function() {
-			if (this.hasFocus) return;
-
-			// This method call should result in an input within this edior
-			// becoming the `document.activeElement`.
-			// This, in turn, should result in this editor's `focus` event
-			// being triggered, setting `this.hasFocus` to `true`.
-			// See above for more detail.
-			this.$el
-				.colorpicker('place')
-				.colorpicker('show')
-				.focus();
-		},
-
-		blur: function() {
-			if (!this.hasFocus) return;
-
-			this.$el.blur();
-		}
+        /**
+         * Sets the value of the form element
+         * @param {String}
+         */
+        setValue: function(value) { 
+            this.value = value;
+            this.$el.val(this.value);
+        }
 	});
 
 })();
