@@ -11,6 +11,7 @@ define('views/generic/form', [
         'backbone-forms/editors/object-id',
         'backbone-forms/editors/ckeditor',
         'backbone-forms/editors/datepicker',
+        'backbone-forms/editors/colorpicker',
 
         'third-party/backbone-forms/distribution/templates/bootstrap3',
     ], function (Ladda) {

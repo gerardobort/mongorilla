@@ -43,6 +43,7 @@ require.config({
         'backbone-forms/editors/object-id': { deps: ['backbone'] },
         'backbone-forms/editors/ckeditor': { deps: ['backbone'] },
         'backbone-forms/editors/datepicker': { deps: ['backbone'] },
+        'backbone-forms/editors/colorpicker': { deps: ['backbone'] }
     }
 });
 
