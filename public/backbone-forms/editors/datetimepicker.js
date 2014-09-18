@@ -14,11 +14,9 @@
             editor.id = 'datetimepicker-' + Math.random().toString().slice(2);
             editor.$el = $(editor.el);
             editor.$el.attr('id', editor.id);
-            setTimeout(function() {
-            	editor.$el.datetimepicker();
-                editor.$el.parent().addClass('input-group date');
-                editor.$el.after('<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>');
-            }, 200);
+            editor.$el.datetimepicker();
+            editor.$el.parent().addClass('input-group date');
+            editor.$el.after('<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>');
 
             var options = options || {};
 
@@ -46,7 +44,7 @@
          * @return {String}
          */
         getValue: function() {
-            this.value = this.$el.data('DateTimePicker').getDate();
+            this.value = this.$el.data('DateTimePicker').getDate()._d;
             return this.value;
         },
         

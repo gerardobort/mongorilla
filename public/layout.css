@@ -1,3 +1,6 @@
+@import "third-party/AdminLTE/css/colorpicker/bootstrap-colorpicker.min.css";
+@import "third-party/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css";
+
 .bbf-date-container {
     display: inline-block;
 }
