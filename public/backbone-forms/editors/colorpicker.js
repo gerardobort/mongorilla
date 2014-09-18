@@ -1,6 +1,6 @@
 (function() {
 	/**
-	 * Backbone forms color editor
+	 * Backbone forms colorpicker editor
 	 * @author Michael May | Ivan Mayes
 	 * 
 	 */
@@ -33,6 +33,12 @@
 			// Call parent constructor
 			Backbone.Form.editors.Base.prototype.initialize.call(this, options);
 
+			this.$el
+				//.append('<div class="input-append color" data-color="rgb(255, 146, 180)" data-color-format="rgb"><input type="text" class="span2" value="" ><span class="add-on"><i style="background-color: rgb(255, 146, 180)"></i></span></div>')
+				.colorpicker();
+
+			console.log('color')
+
 			// Custom setup code.
 			if (this.schema.customParam) this.doSomething();
 		},
@@ -59,7 +65,10 @@
 			// This, in turn, should result in this editor's `focus` event
 			// being triggered, setting `this.hasFocus` to `true`.
 			// See above for more detail.
-			this.$el.focus();
+			this.$el
+				.colorpicker('place')
+				.colorpicker('show')
+				.focus();
 		},
 
 		blur: function() {
