@@ -31,7 +31,7 @@ require.config({
             deps: [
                 'third-party/AdminLTE/js/plugins/slimScroll/jquery.slimscroll.min',
                 'third-party/AdminLTE/js/plugins/iCheck/icheck.min',
-                'bootstrap',
+                'bootstrap'
             ]
         },
         'third-party/backbone-deep-model/distribution/deep-model.min': { deps: ['backbone'] },
@@ -43,7 +43,7 @@ require.config({
         'backbone-forms/editors/object-id': { deps: ['backbone'] },
         'backbone-forms/editors/ckeditor': { deps: ['backbone'] },
         'backbone-forms/editors/datepicker': { deps: ['backbone'] },
-        'backbone-forms/editors/colorpicker': { deps: ['backbone'] }
+        'backbone-forms/editors/colorpicker': { deps: ['backbone', '/third-party/AdminLTE/js/plugins/colorpicker/bootstrap-colorpicker.min.js'] }
     }
 });
 
