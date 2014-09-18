@@ -65,7 +65,7 @@
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["firstname", "lastname", "dob", "color_picker", "event_start", "event_end", "photo", "other_photos"]
+                        "fields": ["firstname", "lastname", "dob", "photo", "other_photos"]
                     },
                     {
                         "legend": "About",
