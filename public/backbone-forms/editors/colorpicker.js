@@ -1,7 +1,7 @@
 (function() {
 	/**
-	 * Backbone forms daterange editor
-	 * @author Michael May
+	 * Backbone forms color editor
+	 * @author Michael May | Ivan Mayes
 	 * 
 	 */
 

@@ -41,6 +41,8 @@
                     "github.username": { "type": "Text", "title": "GitHub Username", "help": "e.g. pepe" },
                     "dob": { "type": "Datepicker", "title": "Day of Birth", "editorAttrs": { "placeholder": "dd/mm/yyyy", "format": "dd/mm/yyyy" } },
                     "color_picker": { "type": "Colorpicker", "title": "Color" },
+                    "event_start": { "type": "Datetimepicker", "title": "Event Start", "validators": ["required"], "editorAttrs": { "placeholder": "dd/mm/yyyy hh:mm AM", "format": "dd/mm/yyyy hh:mm" } },
+                    "event_end": { "type": "Datetimepicker", "title": "Event End", "validators": ["required"], "editorAttrs": { "placeholder": "dd/mm/yyyy hh:mm AM", "format": "dd/mm/yyyy hh:mm" } },
                     "death_year": { "type": "Number", "title": "Death Year" },
                     "bio": { "type": "CKEditor", "title": "Bio" },
                     "website_url": { "type": "Text", "validators": ["url"], "title": "Website URL", "help": "please, include http:// prefix", "editorAttrs": { "placeholder": "http://" } },
@@ -66,7 +68,7 @@
                 "fieldsets": [
                     {
                         "legend": "Basic Information",
-                        "fields": ["firstname", "lastname", "dob", "color_picker", "photo", "other_photos"]
+                        "fields": ["firstname", "lastname", "dob", "color_picker", "event_start", "event_end", "photo", "other_photos"]
                     },
                     {
                         "legend": "About",
