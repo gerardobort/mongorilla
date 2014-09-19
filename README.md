@@ -47,6 +47,60 @@ Mongorilla is a NodeJS application, distributed via NPM which also have both: NP
 3. Run the server instance: ``$ nodejs node_modules/mongorilla/server.js``
 4. Enjoy!
 
+## Configuration
+
+### Currently Supported Schema Types
+* Text
+* TextArea
+* Number
+* Object
+* List
+* Date
+* Datepicker
+* DateTime
+* Colorpicker
+* File
+* Image
+* Checkboxes
+
+### Building Custom Schema Types (Editors)
+
+Here are the steps to building your own custom editors:
+
+1. Duplicate or create a new editor file at `public/backbone-forms/editors`
+2. Add require paths to your editor file at these locations:
+    * `public/init.js`
+    * `public/views/generic/form.js`
+3. Add the correct Mongoose property to the switch statement in `models/generic.js`
+4. Add a field to your JSON schema with the type property named after your editor
+5. Build out your functionality!
+
+## Dependent Fields
+
+Dependent fields allow you to show or hide form elements based on a set of rules you define. 
+This can be because it allows you to surface or remove certain inputs as they are, or are not, needed for completion of your form.
+
+Currently, simple (on/off) dependent fields are supported.  
+
+To use this feature you need to apply some attributes to the dependent field's schema.  
+The object is formatted like this:  
+
+	"yourDependentField" : {  
+		...  
+		"depends" : {  
+			"nameOfParentField" : {  
+				"value" : "action"  
+			}  
+		}  
+	}  
+
+The "value" key should match the value you want the parent to have in order to apply the "action" to the child form. "*" is supported as a wildcard to match any non-empty value.
+
+The "action" value currently supports "show" and "hide".  
+Forms with the "show" action start off hidden.  
+Forms with the "hide" action start off visible.
+
+
 ## Roadmap
 * Improve documentation
 * Make all the configuration (schemas and users) be editable from the same admin panel.

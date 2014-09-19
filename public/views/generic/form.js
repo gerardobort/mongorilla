@@ -20,7 +20,7 @@ define('views/generic/form', [
         events: {
             'click .submit': 'submit',
             'click .submit-draft': 'submitDraft',
-            'click .remove': 'remove',
+            'click .remove': 'remove'
         },
 
         initialize: function (options) {
@@ -48,6 +48,9 @@ define('views/generic/form', [
                 });
 
                 $('#collection-form').html(instance.form.render().$el);
+
+                // Handle conditional forms
+                instance.buildDependencyTree(Form.prototype.schema, instance);
 
                 // prevent undesired form submissions
                 $('#collection-form').on('submit', function (event) { event.preventDefault(); })
@@ -228,6 +231,53 @@ define('views/generic/form', [
                     });
                 }
             });
+        },
+
+        buildDependencyTree: function(schema, instance) {
+        	var tree = {};
+
+        	for(var s in schema) {
+        		var prop = schema[s];
+
+        		if(prop.hasOwnProperty('depends')) {
+        			var initial;
+
+        			for(var p in prop.depends) {
+        				if(!tree.hasOwnProperty(p)) {
+        					tree[p] = {};
+        				}
+        				// Save the information about the child element
+        				tree[p][s] = prop.depends[p];
+
+        				for(var rule in tree[p][s]) {
+        					initial = (tree[p][s][rule] == 'show') ? 'hide' : 'show';
+        				}
+        			}
+        			$('.form-control[name="' + s + '"]').closest('.form-group')[initial]();
+					$('.form-control[name="' + p + '"]').on('change, keyup', function (event) {
+			        	instance.checkConditionals(event, tree[p]);
+			        });
+        		}
+        	}
+        },
+
+        /* Handles conditional form fields */
+        checkConditionals: function (event, deps) {
+        	var target = $(event.target);
+        	var value = target.val();
+
+        	for(var d in deps) {
+        		for(var r in deps[d]) {
+        			var action = deps[d][r];
+        			var reaction = (action == 'show') ? 'slideUp' : 'slideDown';
+        			
+        			if(value.trim() == r || (r == '*' && value.trim() !== '')) {
+        				$('.form-control[name="' + d + '"]').closest('.form-group')[action]();
+        			} else {
+        				$('.form-control[name="' + d + '"]').closest('.form-group')[reaction]();
+        			}
+        		}
+        	}
         },
 
         /* adds compatibility to form refreshing on model change */
