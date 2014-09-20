@@ -47,6 +47,34 @@ Mongorilla is a NodeJS application, distributed via NPM which also have both: NP
 3. Run the server instance: ``$ nodejs node_modules/mongorilla/server.js``
 4. Enjoy!
 
+## Configuration
+
+### Currently Supported Schema Types
+* Text
+* TextArea
+* Number
+* Object
+* List
+* Date
+* Datepicker
+* DateTime
+* Colorpicker
+* File
+* Image
+* Checkboxes
+
+### Building Custom Schema Types (Editors)
+
+Here are the steps to building your own custom editors:
+
+1. Duplicate or create a new editor file at `public/backbone-forms/editors`
+2. Add require paths to your editor file at these locations:
+    * `public/init.js`
+    * `public/views/generic/form.js`
+3. Add the correct Mongoose property to the switch statement in `models/generic.js`
+4. Add a field to your JSON schema with the type property named after your editor
+5. Build out your functionality!
+
 ## Roadmap
 * Improve documentation
 * Make all the configuration (schemas and users) be editable from the same admin panel.
