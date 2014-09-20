@@ -42,7 +42,12 @@
                 "schema": {
                     "fullname": { "type": "Text", "title": "Full Name", "validators": ["required"], "editorAttrs": { "placeholder": "John Doe" } }, 
                     "email": { "type": "Text", "title": "Email", "validators": ["required", "email"], "editorAttrs": { "placeholder": "john-doe@example.com" } }, 
-                    "password": { "type": "Password", "title": "Password", "validators": ["required"], "editorAttrs": { "placeholder": "password" } }, 
+                    "password": { 
+                        "type": "Password", 
+                        "title": "Password", 
+                        "validators": ["required"], 
+                        "editorAttrs": { "placeholder": "password" }
+                    }, 
                     "username": {
                         "validators": [
                             "required",

@@ -53,7 +53,7 @@ define('routers/main', [
             var el = $('#collection-form').get(0);
             (new Spinner(spinnerOptions)).spin(el);
             require(['views/generic/form'], function (GenericFormView) {
-                var form = new GenericFormView({ collectionName: collectionName });
+                var form = new GenericFormView({ collectionName: collectionName, page: "create" });
             });
         },
 
@@ -61,7 +61,7 @@ define('routers/main', [
             var el = $('#collection-form').get(0);
             (new Spinner(spinnerOptions)).spin(el);
             require(['views/generic/form'], function (GenericFormView) {
-                var form = new GenericFormView({ collectionName: collectionName, objectId: objectId });
+                var form = new GenericFormView({ collectionName: collectionName, objectId: objectId, page: "edit" });
             });
         },
 

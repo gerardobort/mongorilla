@@ -40,13 +40,118 @@ define('views/generic/form', [
                 'json!/api/' + instance.collectionName + '/' + (instance.objectId||'default'),
                 ], function (Model, Form, config, modelData) {
 
+                
+                var schema = Form.prototype.schema; // force the schema against the model one
+                var roles = Form.prototype.userRoles;
+
+                if( schema ) {
+                    // Iterate through the schema fields to run processing
+                    $.each(schema, function(field_name, field) {
+
+                        /**
+                         * Conditionals
+                         * Change Values or remove a property based on page or role
+                         *
+                         * Example:
+                         * "password": {
+                                "type": "Select",
+                                "title": "Roles",
+                                "options": ["admin", "editor"],
+                                "conditionals": [
+                                    {
+                                        // This conditional will only work when creating an item. 'create' or 'edit'
+                                        "page": "create", 
+                                        // This conditional will only work for the roles in this array
+                                        "roles": ["admin"],
+                                        "props": {
+                                            "options": ["super_admin"]
+                                        }
+                                    }
+                                ]
+                            }
+                         */
+                        if( field.conditionals ) {
+                            $.each(field.conditionals, function(k, conditional) {
+                                var page_test = true;
+                                var role_test = false;
+
+                                // Does this conditional work on this page?
+                                if( conditional.page && conditional.page !== options.page ) {
+                                    page_test = false;
+                                }
+
+                                // Does this conditional apply to specific roles?
+                                if( conditional.roles ) {
+                                    $.each(conditional.roles, function(k2,role) {
+                                        // Test if the role is matched to our user
+                                        if(roles.indexOf(role) > -1) {
+                                            role_test = true;
+                                        }
+                                    });
+                                }else{
+                                    role_test = true;
+                                }
+
+                                // Process changes
+                                if(page_test && role_test) {
+
+                                    // Check for prop changes
+                                    var props = conditional.props;
+                                    if ( props ) {
+                                        $.each(props, function(prop, value) {
+                                            schema[field_name][prop] = value;
+                                        });
+                                    }
+
+                                    // Remove if the flag is true
+                                    if ( conditional.remove ) {
+                                        delete schema[field_name];
+                                        delete config.schema[field_name];
+                                    }
+
+                                }
+
+                            });
+                        }
+
+                        /**
+                         * Permissions
+                         * Removes a field if the user isnt a role in the permissions array
+                         *
+                         * Example:
+                         * "password": { 
+                                "type": "Password", 
+                                "title": "Password",
+                                "permissions": ["admin", "editor"]
+                            }
+                         */
+                        if( field.permissions ) {
+
+                            var permissions_test = false;
+                            $.each(field.permissions, function(k2,role) {
+                                // Test if the role is matched to our user
+                                if(roles.indexOf(role) > -1) {
+                                    permissions_test = true;
+                                }
+                            });
+
+                            // Remove object if we dont have permission
+                            if(!permissions_test) {
+                                delete schema[field_name];
+                                delete config.schema[field_name];
+                            }
+
+                        }
+
+                    });
+                }
 
                 instance.config = config;
                 instance.model = new Model(modelData);
                 instance.form = new Form({
                     model: instance.model,
                     fieldsets: instance.config.fieldsets,
-                    schema: Form.prototype.schema // force the schema against the model one
+                    schema: schema 
                 });
 
                 $('#collection-form').html(instance.form.render().$el);

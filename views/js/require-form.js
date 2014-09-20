@@ -15,10 +15,12 @@ define(/*'forms/<%= collection.name %>',*/['models/<%= collection.name %>'], fun
                 schema[key].autocompleteCollectionName = relatedCol.name;
             }
         });
+
     %>
 
     Backbone.Form.<%= collection.name.toCamelCase() %> = Backbone.Form.extend({
-        schema: <%= global.helpers.stringify(schema) %>
+        schema: <%= global.helpers.stringify(schema) %>,
+        userRoles: <%= global.helpers.stringify(userRoles) %>
     });
 
     return Backbone.Form.<%= collection.name.toCamelCase() %>;

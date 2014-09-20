@@ -96,7 +96,8 @@ exports.getForm = function (req, res) {
     res.header('Content-Type', 'text/javascript');
     res.render('js/require-form.js', {
         collection: collection,
-        layout: null
+        layout: null,
+        userRoles: req.session.user.roles
     });
 };
 
