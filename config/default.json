@@ -18,7 +18,7 @@
             "name": "editor",
             "permissions": {
                 "developer": "cru",
-                "company": "cru"
+                "company": "cru",
                 "mongorillaRole": "r",
                 "mongorillaUser": "r",
                 "mongorillaCollection": "r"

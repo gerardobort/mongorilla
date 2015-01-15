@@ -149,10 +149,6 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-<<<<<<< HEAD
-                                <li><a href="/search/mongorillaRole"><i class="fa fa-users"></i> Manage Roles</a></li>
-                                <li><a href="/search/mongorillaUser"><i class="fa fa-user"></i> Manage Users</a></li>
-=======
                                 <% if (sessionUser.hasPermissions(_(collections).findWhere({ name: 'mongorillaRole' }), 'crud')) { %>
                                 <li><a href="/search/mongorillaRole"><i class="fa fa-users"></i> Manage Roles</a></li>
                                 <% } %>
@@ -160,8 +156,8 @@
                                 <li><a href="/search/mongorillaUser"><i class="fa fa-user"></i> Manage Users</a></li>
                                 <% } %>
                                 <% if (sessionUser.hasPermissions(_(collections).findWhere({ name: 'mongorillaCollection' }), 'crud')) { %>
->>>>>>> 7bd809d... bugfix perms
                                 <li><a href="/search/mongorillaCollection"><i class="fa fa-th"></i> Manage Content Types</a></li>
+                                <% } %>
                             </ul>
                         </li>
                         <li class="treeview">
