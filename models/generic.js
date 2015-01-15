@@ -59,7 +59,8 @@ exports.getModel = function (collectionName) {
                 case 'Colorpicker': schema[key] = String; break;
                 case 'File':     schema[key] = 'File'; break;
                 case 'Image':    schema[key] = 'File'; break;
-                case 'Checkboxes':    schema[key] = [String]; break;
+                case 'Checkbox':    schema[key] = Boolean; break;
+                case 'Checkboxes':    schema[key] = [Boolean]; break;
                 // TODO review this
             }
         });
