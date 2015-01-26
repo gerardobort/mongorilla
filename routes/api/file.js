@@ -9,8 +9,8 @@ var mongoose = require('mongoose'),
 
 
 exports.get = function (req, res) {
-    var objectId = req.route.params.objectId,
-        view = req.route.params.view,
+    var objectId = req.params.objectId,
+        view = req.params.view,
         gfs = req.app.get('gfs');
 
     if ('raw' === view) {
@@ -41,7 +41,7 @@ exports.get = function (req, res) {
 }
 
 exports.post = function (req, res) {
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         fs = require('fs'),
         gfs = req.app.get('gfs');
 
@@ -136,7 +136,7 @@ exports.post = function (req, res) {
 
 
 exports.del = function (req, res) {
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         gfs = req.app.get('gfs');
 
     gfs.remove({ _id: ObjectId }, function (err) {

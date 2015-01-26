@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 
 exports.getModel = function (req, res) {
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
+        collectionName = req.params.collectionName,
         url_parts = url.parse(req.url, true),
         _ = require('underscore'),
         isRevisionModel = false;
@@ -47,7 +47,7 @@ exports.getModel = function (req, res) {
 
 exports.getCollection = function (req, res) {
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
+        collectionName = req.params.collectionName,
         url_parts = url.parse(req.url, true),
         _ = require('underscore'),
         isRevisionModel = false;
@@ -85,7 +85,7 @@ exports.getCollection = function (req, res) {
 
 exports.getForm = function (req, res) {
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
+        collectionName = req.params.collectionName,
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
@@ -102,7 +102,7 @@ exports.getForm = function (req, res) {
 
 exports.getConfig = function (req, res) {
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
+        collectionName = req.params.collectionName,
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 

@@ -28,21 +28,41 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.engine('html', require('uinexpress').__express);
 app.engine('js', require('uinexpress').__express);
-app.set('view engine', 'html')
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser('your secret here'));
-app.use(express.session());
+app.set('view engine', 'html');
+
+//DISCOMMENT THIS WHEN YOU PLACE A FAVICON
+//app.use(require('serve-favicon')(__dirname + '/public/images/favicon.ico'));
+
+app.use(require('method-override')());
+app.use(require('body-parser').urlencoded({
+    extended: true,
+    limit: '30mb'
+}));
+app.use(require('body-parser').json({
+    limit: '30mb'
+}));
+app.use(require('multer')({
+    dest: './uploads/',
+    limits: {
+        fileSize: 30 * 1024 * 1024
+    }
+}));
+app.use(require('cookie-parser')('mongorilla cookie secret'));
+app.use(require('morgan')('dev'));
+app.use(require('express-session')({
+    resave: false,
+    saveUninitialized: true,
+    secret: 'mongorilla session secret'
+}));
 // static files have higher priority over server routers
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(app.router);
-app.use(express.limit('30mb'));
+app.use(require('compression')({
+    threshold: 512
+}));
 
 // development only
 if ('development' == app.get('env')) {
-    app.use(express.errorHandler());
+    app.use(require('errorhandler')());
 } else {
     process.on('uncaughtException', function () {
         console.log('Fatal:', arguments);
@@ -93,6 +113,14 @@ MongorillaCollection.getAllFromMongo(function (collections) {
     });
 });
 
+// expose config to the app local context
+app.use(function(req, res, next){
+    for(key in global.config){
+        app.locals[key] = global.config[key];
+    }
+    next();
+});
+
 // frontend
 app.get('/', authRoute.bootstrap, appMainRoute.getIndex);
 app.get('/auth/login', authRoute.bootstrap, authRoute.getLogin);
@@ -131,9 +159,6 @@ app.post('/api/:collectionName', authRoute.bootstrap, apiGenericRoute.post);
 app.get('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.get);
 app.put('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.put);
 app.delete('/api/:collectionName/:objectId', authRoute.bootstrap, apiGenericRoute.del);
-
-// expose config to the app local context
-app.locals(global.config);
 
 // frontend optimization
 global.frontendBuilt = false;

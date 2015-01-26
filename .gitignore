@@ -7,3 +7,5 @@ node_modules
 public/init-build.js
 .*.swp
 .*.swo
+nodemon.json
+uploads

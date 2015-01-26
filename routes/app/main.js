@@ -53,7 +53,7 @@ exports.getDashboard = function (req, res) {
 };
 
 exports.getUserProfile = function (req, res) {
-    var username = req.route.params.username,
+    var username = req.params.username,
         MongorillaUser = require('../../models/helpers/user').MongorillaUser;
 
     var callback = function (mongorillaUser) {
