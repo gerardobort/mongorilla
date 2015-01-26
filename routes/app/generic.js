@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 
 exports.getAdd = function (req, res) {
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
+        collectionName = req.params.collectionName,
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
@@ -26,8 +26,8 @@ exports.getAdd = function (req, res) {
 
 exports.getEdit = function (req, res) {
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
-        objectId = req.route.params.objectId,
+        collectionName = req.params.collectionName,
+        objectId = req.params.objectId,
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
@@ -45,7 +45,7 @@ exports.getEdit = function (req, res) {
 
 exports.getSearch = function (req, res) {
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
+        collectionName = req.params.collectionName,
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 
@@ -62,8 +62,8 @@ exports.getSearch = function (req, res) {
 
 exports.getPreview = function(req, res){
     var url = require('url'),
-        collectionName = req.route.params.collectionName,
-        objectId = req.route.params.objectId,
+        collectionName = req.params.collectionName,
+        objectId = req.params.objectId,
         url_parts = url.parse(req.url, true),
         _ = require('underscore');
 

@@ -10,7 +10,7 @@ var mongoose = require('mongoose'),
 
 
 exports.get = function (req, res) {
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         collection = MongorillaCollection.getByRouterParams(req, res);
 
     if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
@@ -34,7 +34,7 @@ exports.get = function (req, res) {
 };
 
 exports.post = function (req, res) {
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         collection = MongorillaCollection.getByRouterParams(req, res),
         url = require('url'),
         url_parts = url.parse(req.url, true),
@@ -91,7 +91,7 @@ exports.post = function (req, res) {
 };
 
 exports.put = function (req, res) {
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         collection = MongorillaCollection.getByRouterParams(req, res),
         url = require('url'),
         url_parts = url.parse(req.url, true),
@@ -152,7 +152,7 @@ exports.put = function (req, res) {
 };
 
 exports.del = function (req, res) {
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         collection = getCollection(req, res);
 
     if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {

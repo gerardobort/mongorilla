@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
 
 
 function getCollection(req, res) {
-    var collectionName = req.route.params.collectionName;
+    var collectionName = req.params.collectionName;
 
     var collection = _(global.config.collections).find(function (col) {
         return col.name === collectionName;
@@ -40,7 +40,7 @@ exports.getList = function (req, res) {
 
 
 exports.getLatestList = function(req, res){
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         collection = getCollection(req, res);
 
     if (!collection) {
@@ -61,7 +61,7 @@ exports.getLatestList = function(req, res){
 };
 
 exports.post = function (req, res) {
-    var objectId = req.route.params.objectId,
+    var objectId = req.params.objectId,
         collection = getCollection(req, res);
 
     if (!collection) {
@@ -122,8 +122,8 @@ exports.post = function (req, res) {
 };
 
 exports.del = function (req, res) {
-    var objectId = req.route.params.objectId,
-        revisionId = req.route.params.revisionId,
+    var objectId = req.params.objectId,
+        revisionId = req.params.revisionId,
         collection = getCollection(req, res);
 
     if (!collection) {

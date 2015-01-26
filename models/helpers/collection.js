@@ -46,7 +46,7 @@ MongorillaCollection.getByName = function(name) {
 
 MongorillaCollection.getByRouterParams = function(req, res) {
 
-    var collectionName = req.route.params.collectionName,
+    var collectionName = req.params.collectionName,
         collection =  MongorillaCollection.getByName(collectionName);
 
     if (!collection) {
