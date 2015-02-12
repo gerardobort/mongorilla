@@ -13,7 +13,7 @@ The principle of Mongorilla is to store your documents *the way you defined them
 
 ## Dependencies
 Mongorilla is a NodeJS application, distributed via NPM which also have both: NPM and Bower dependencies.  The application is built on top of:
-* Express3
+* ExpressJS 4
 * Mongoose
 * BackboneJS
 * Backbone-Forms in combination with Backbone-Deep-Model
