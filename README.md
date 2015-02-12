@@ -7,9 +7,9 @@ Check the [Live demo!](http://mongorilla.herokuapp.com)
 
 
 ## Why Mongorilla
-Mongoorilla let you define your Mongo Documnets schemas by simply editing a [JSON config file](https://github.com/gerardobort/mongorilla/blob/master/config/default.json).
-Once you have the JSON setup, It will generate (on the fly) the administrator views and forms, including dashboards and search tools.
-The principle of Mongorilla is to store your documents *as you defined* directly in MongoDB.  This means *no extra metadata embed on your documents*.  You define the documents structure as you want!
+Mongorilla lets you define your Mongo Document schemas simply by editing a [JSON config file](https://github.com/gerardobort/mongorilla/blob/master/config/default.json).
+Once you have the JSON setup, it will generate (on the fly) the administrator views and forms, including dashboards and search tools.
+The principle of Mongorilla is to store your documents *the way you defined them* directly in MongoDB.  This means *no extra metadata embeded into your documents*. You can define the documents structure in any way you want!
 
 ## Dependencies
 Mongorilla is a NodeJS application, distributed via NPM which also have both: NPM and Bower dependencies.  The application is built on top of:
@@ -66,7 +66,7 @@ Mongorilla is a NodeJS application, distributed via NPM which also have both: NP
 
 ### Building Custom Schema Types (Editors)
 
-Here are the steps to building your own custom editors:
+Here are the steps for building your own custom editors:
 
 1. Duplicate or create a new editor file at `public/backbone-forms/editors`
 2. Add require paths to your editor file at these locations:
