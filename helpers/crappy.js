@@ -71,19 +71,6 @@ function deepClone(item) {
 
 exports.deepClone = deepClone;
 
-function deepExtend(target, source){
-    for (var prop in source){
-        if (prop in target && typeof(target[prop]) == 'object'){
-            deepExtend(target[prop], source[prop]);
-        }else{
-            target[prop] = source[prop];
-        }
-    }
-    return target;
-}
-
-exports.deepExtend = deepExtend;
-
 /**
  * Takes a nested object and returns a shallow object keyed with the path names
  * e.g. { "level1.level2": "value" }
