@@ -134,7 +134,7 @@ exports.put = function (req, res) {
             if (err) {
                 res.send(err);
             } else {
-                _.extend(model, attributesToSet);
+                global.helpers.deepExtend(model, attributesToSet);
                 model.save(function (err) {
                     if (err) {
                         res.send(err);
