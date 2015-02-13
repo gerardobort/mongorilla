@@ -134,8 +134,9 @@ exports.put = function (req, res) {
             if (err) {
                 res.send(err);
             } else {
-                global.helpers.deepExtend(model, attributesToSet);
-                model.save(function (err) {
+                model.update({
+                    $set: attributesToSet
+                }, function (err) {
                     if (err) {
                         res.send(err);
                     } else if (collection.revisionable) {
