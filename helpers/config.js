@@ -15,8 +15,10 @@ exports.loadConfig = function (configFile) {
     // Load any schemas in config/schemas into collections object
     var schemas = glob.sync("./config/schemas/**/*.json");
     schemas.forEach(function(filename) {
-        var schema = require('../'+filename);
-        config.collections.push(schema);
+        if (filename.match(/\.json$/)) {
+            var schema = require('../'+filename);
+            config.collections.push(schema);
+        }
     });
 
     // add experimental configurations
