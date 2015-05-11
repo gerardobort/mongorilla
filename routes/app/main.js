@@ -30,8 +30,8 @@ exports.getDashboard = function (req, res) {
         sort[col.updatedField.key] = -1;
         sort[col.createdField.key] = -1;
         mongoose.Promise.when(
-            getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({}).count().exec(),
-            getModel(col.name, [col.toStringField, col.updatedField].join(' ')).find({ }).sort(sort).limit(5).exec()
+            getModel(col.name).find({}, { _id: true }).count().exec(),
+            getModel(col.name).find({}, _.object([col.toStringField, col.updatedField], [true, true])).sort(sort).limit(5).exec()
         ).addBack(function (err, colTotalCount, colLastCreated) {
             colStatPromise.resolve(null, {
                 collection: col,

@@ -40,12 +40,7 @@ function addToSchema(schema, key, type) {
     return schema;
 }
 
-exports.getModel = function (collectionName, mongooseInstance) {
-    if(mongooseInstance){
-        mongoose = mongooseInstance;
-        Schema = mongoose.Schema;
-        ObjectId = Schema.Types.ObjectId;
-    }
+exports.getModel = function (collectionName) {
     
     var model = mongoose.models[collectionName];
 

@@ -44,16 +44,13 @@ exports.post = function (req, res) {
         return;
     }
 
-    var attributes = _.clone(req.body);
-    var responseData = _.clone(attributes);
+    var attributes = JSON.parse(JSON.stringify(req.body));
+    var responseData = JSON.parse(JSON.stringify(attributes));
 
     delete attributes['_id'];
 
-    // TODO skip all attributes not specified in schema
-    var attributesToSet = global.helpers.toFlat(attributes);
-
     var model = new getModel(collection.name)();
-    model.set(attributesToSet);
+    model.set(attributes);
     model.set(collection.createdField.key, new global[collection.createdField.type||'Date']());
     model.set(collection.updatedField.key, new global[collection.createdField.type||'Date']());
     model.save(function (err, model) {
@@ -85,8 +82,8 @@ exports.put = function (req, res) {
         return;
     }
 
-    var attributes = _.clone(req.body);
-    var responseData = _.clone(attributes);
+    var attributes = JSON.parse(JSON.stringify(req.body));
+    var responseData = JSON.parse(JSON.stringify(attributes));
 
     delete attributes['_id'];
 
@@ -105,6 +102,7 @@ exports.put = function (req, res) {
                 model.update({
                     $set: attributesToSet
                 }, function (err) {
+                    console.log(model, err);
                     if (err) {
                         res.send(err);
                     } else if (collection.revisionable) {
@@ -122,7 +120,7 @@ exports.put = function (req, res) {
 
 exports.del = function (req, res) {
     var objectId = req.params.objectId,
-        collection = getCollection(req, res);
+        collection = MongorillaCollection.getByRouterParams(req, res);
 
     if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
         return;
@@ -143,6 +141,7 @@ exports.getSearch = function (req, res) {
     var url = require('url'),
         url_parts = url.parse(req.url, true),
         q = (url_parts.query.q||'').sanitize().makeSafeForRegex(),
+        p = parseInt(url_parts.query.p||1, 10),
         collection = MongorillaCollection.getByRouterParams(req, res);
 
     if (!collection || !collection.isSessionUserAllowedToRoute(req, res)) {
@@ -160,20 +159,82 @@ exports.getSearch = function (req, res) {
         return arg.replace(/\$\{q\}/g, q);
     });
 
+    p = p < 1 ? 1 : p;
+    var ipp = collection.fastSearch.limit || 10;
+
+    var findKeys = {};
+    _(['_id', collection.toStringField, 'type'].concat(collection.fastSearch.columns)).each(function (c) { findKeys[c] = true; });
+
     getModel(collection.name)
-        .find(findParams, collection.fastSearch.columns.join(' ') + ' ' + collection.toStringField)
-        .sort(collection.fastSearch.sort)
-        .limit(collection.fastSearch.limit)
-        .exec()
-        .then(function (results) {
-            res.send({
-                collectionName: collection.name,
-                q: q,
-                columns: collection.fastSearch.columns,
-                columnsHumanNames: columnsHumanNames,
-                data: results
+        .collection
+        .find(
+            findParams,
+            findKeys,
+            {
+                skip: (p -1) * ipp,
+                limit: ipp,
+                sort: collection.fastSearch.sort,
+            }, function (err, cursor) {
+                cursor.count(false, function (err, total) {
+                    var populatePromises = [];
+                    cursor.toArray(function (err, data) {
+                        _(data).each(function (modelData) {
+                            // type gives compat with mongoose-schema-extend module
+                            var MongoosePopulateModel = mongoose.models[modelData.type] || getModel(collection.name);
+                            var populatePromise = new mongoose.Promise();
+                            MongoosePopulateModel
+                                .findOne({ _id: modelData._id }, findKeys)
+                                .populate(collection.fastSearch.populate || '')
+                                .exec(function (err, model) {
+                                    if (!err && !model) {
+                                        populatePromise.resolve(null, modelData);
+                                    } else {
+                                        populatePromise.resolve(err, model);
+                                    }
+                                });
+                            populatePromises.push(populatePromise);
+                        });
+                        mongoose.Promise
+                            .when.apply(null, populatePromises)
+                            .addBack(function () {
+                                var data = _.toArray(arguments).slice(1);
+                                // replace populated docs with their respective toStringFields
+                                data.forEach(function (model, i) { 
+                                    if (model && !model.toObject) { // treat those that weren't able to get found by populate
+                                        return true;
+                                    }
+                                    var result = model.toObject();
+                                    _(collection.fastSearch.columns).each(function (prop, i) {
+                                        if (model.get(prop)){
+                                            if (collection.relations && collection.relations[prop]) {
+                                                var relatedCollection = MongorillaCollection.getByName(collection.relations[prop].relatedCollection);
+                                                if (collection.relations[prop].type == "HasOne") {
+                                                    result[prop] = model.get(prop).get(relatedCollection.toStringField);
+                                                } else if (collection.relations[prop].type == "HasMany") {
+                                                    result[prop] = (model.get(prop) || []).map(function(item) { return item.get(relatedCollection.toStringField); });
+                                                }
+                                            }
+                                        }
+                                    });
+                                    result = _(result).pick(['_id'].concat(collection.fastSearch.columns)); // clean up deep objects, and left only dot written props
+                                    data[i] = result;
+                                });
+                                res.send({
+                                    collectionName: collection.name,
+                                    q: q,
+                                    p: p,
+                                    ipp: ipp,
+                                    count: data.length,
+                                    total_count: total,
+                                    total_pages: Math.ceil(total/(ipp||1)),
+                                    columns: collection.fastSearch.columns,
+                                    columnsHumanNames: columnsHumanNames,
+                                    data: _.isArray(data[0]) ? [] : data
+                                });
+                            });
+                    });
+                });
             });
-        });
 };
 
 exports.getList = function (req, res) {
