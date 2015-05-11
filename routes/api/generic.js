@@ -47,22 +47,6 @@ exports.post = function (req, res) {
     var attributes = _.clone(req.body);
     var responseData = _.clone(attributes);
 
-    _(collection.relations).each(function (data, relKey) {
-        if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
-            attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
-                if ('string' === typeof val ) {
-                    return val;
-                }
-                return val['_id'] ? val['_id'].toString() : '';
-            });
-            if (0 === attributes[relKey].length) {
-                delete attributes[relKey];
-            }
-        } else if (_.isObject(req.body[relKey]) && req.body[relKey]['_id']) {
-            attributes[relKey] = req.body[relKey]['_id'].toString();
-        }
-    });
-
     delete attributes['_id'];
 
     // TODO skip all attributes not specified in schema
@@ -103,22 +87,6 @@ exports.put = function (req, res) {
 
     var attributes = _.clone(req.body);
     var responseData = _.clone(attributes);
-
-    _(collection.relations).each(function (data, relKey) {
-        if (_.isArray(req.body[relKey]) && req.body[relKey].length) {
-            attributes[relKey] = _(req.body[relKey]).map(function (val, key) {
-                if ('string' === typeof val ) {
-                    return val;
-                }
-                return val['_id'] ? val['_id'].toString() : '';
-            });
-            if (0 === attributes[relKey].length) {
-                delete attributes[relKey];
-            }
-        } else if (_.isObject(req.body[relKey]) && req.body[relKey]['_id']) {
-            attributes[relKey] = req.body[relKey]['_id'].toString();
-        }
-    });
 
     delete attributes['_id'];
 

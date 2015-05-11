@@ -2,14 +2,51 @@
  * generic model
  */
 
-var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId,
-    _ = require('underscore');
+var _ = require('underscore');
+var mongoose = require('mongoose');
+var util = require('util');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
 require('./file').getModel();
 
-exports.getModel = function (collectionName) {
+function addToSchema(schema, key, type) {
+    if (key.indexOf('.') !== -1) {
+        var keys = key.split('.');
+
+        // TODO need recursive support here - this is ugly, i know
+        if (2 === keys.length) {
+            schema[keys[0]] = schema[keys[0]] || {};
+            schema[keys[0]][keys[1]] = type;
+        } else if (3 === keys.length) {
+            schema[keys[0]] = schema[keys[0]] || {};
+            schema[keys[0]][keys[1]] = schema[keys[0]][keys[1]] || {};
+            schema[keys[0]][keys[1]][keys[2]] = type;
+        } else if (4 === keys.length) {
+            schema[keys[0]] = schema[keys[0]] || {};
+            schema[keys[0]][keys[1]] = schema[keys[0]][keys[1]] || {};
+            schema[keys[0]][keys[1]][keys[2]] = schema[keys[0]][keys[1]][keys[2]] || {};
+            schema[keys[0]][keys[1]][keys[2]][keys[3]] = type;
+        } else if (5 === keys.length) {
+            schema[keys[0]] = schema[keys[0]] || {};
+            schema[keys[0]][keys[1]] = schema[keys[0]][keys[1]] || {};
+            schema[keys[0]][keys[1]][keys[2]] = schema[keys[0]][keys[1]][keys[2]] || {};
+            schema[keys[0]][keys[1]][keys[2]][keys[3]] = schema[keys[0]][keys[1]][keys[2]][keys[3]] || {};
+            schema[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]] = type;
+        }
+    } else {
+        schema[key] = type;
+    }
+    return schema;
+}
+
+exports.getModel = function (collectionName, mongooseInstance) {
+    if(mongooseInstance){
+        mongoose = mongooseInstance;
+        Schema = mongoose.Schema;
+        ObjectId = Schema.Types.ObjectId;
+    }
+    
     var model = mongoose.models[collectionName];
 
     if (model) {
@@ -17,6 +54,11 @@ exports.getModel = function (collectionName) {
         return model;
 
     } else {
+
+        if(!global.config.collections){
+            tempconfig = require('../helpers/config').loadConfig();
+            global.config.collections = tempconfig.collections;
+        }
 
         var collection = _(global.config.collections).find(function (col) {
             return col.name === collectionName;
@@ -45,61 +87,82 @@ exports.getModel = function (collectionName) {
         */
 
         _(collection.backboneForms.schema).each(function (def, key) {
+            var val = null;
             switch (def.type) {
                 default:
-                case 'Text':     schema[key] = String; break;
-                case 'TextArea': schema[key] = String; break;
-                case 'Number':   schema[key] = Number; break;
-                case 'Object':   schema[key] = Object; break;
-                case 'List':     schema[key] = Array; break;
-                case 'Date':     schema[key] = Date; break;
-                case 'Datepicker': schema[key] = Date; break;
-                case 'DateTime': schema[key] = Date; break;
-                case 'Datetimepicker' : schema[key] = Date; break;
-                case 'Colorpicker': schema[key] = String; break;
-                case 'File':     schema[key] = 'File'; break;
-                case 'Image':    schema[key] = 'File'; break;
-                case 'Checkbox':    schema[key] = Boolean; break;
-                case 'Checkboxes':    schema[key] = [String]; break;
+                case 'Text':     val = String; break;
+                case 'TextArea': val = String; break;
+                case 'Select':     val = String; break;
+                case 'Number':   val = Number; break;
+                case 'Object':   val = Object; break;
+                case 'List':     val = Array; break;
+                case 'Date':     val = Date; break;
+                case 'Datepicker': val = Date; break;
+                case 'DateTime': val = Date; break;
+                case 'Datetimepicker' : val = Date; break;
+                case 'Colorpicker': val = String; break;
+                case 'File':     val = Object; break;
+                case 'Image':    val = Object; break;
+                case 'Checkbox':    val = Boolean; break;
+                case 'Checkboxes':    val = [String]; break;
                 // TODO review this
             }
+            schema = addToSchema(schema, key, val);
         });
 
         /// add custom relations
         _(collection.relations).each(function (relation, key) {
-            if ('HasMany' === relation.type) {
-                schema[key] = [ { type: ObjectId, ref: relation.relatedCollection } ];
-            } else if ('HasOne' === relation.type) {
-                schema[key] = { type: ObjectId, ref: relation.relatedCollection };
-            }
+            var relationSchema = { type: ObjectId, ref: relation.relatedCollection };
+            relationSchema = ('HasMany' === relation.type ? [relationSchema] : relationSchema);
+            schema = addToSchema(schema, key, relationSchema);
+            console.log(schema, key, relationSchema);
         });
 
 
-        schema[collection.createdField.key] = global[collection.createdField.type||'Date'];
-        schema[collection.updatedField.key] = global[collection.updatedField.type||'Date'];
+        addToSchema(schema, collection.createdField.key, global[collection.createdField.type||'Date']);
+        addToSchema(schema, collection.updatedField.key, global[collection.updatedField.type||'Date']);
 
         var options = {
             // http://aaronheckmann.tumblr.com/post/48943525537/mongoose-v3-part-1-versioning
             versionKey: '_mongorillaVersion'
         };
+
         var ModelSchema = new Schema(schema, options);
+        if(collection.mongoCollection){
+            function BaseSchema() {
+                Schema.apply(this, arguments);
+            }
+            util.inherits(BaseSchema, Schema);
+
+            var ParentSchema = new BaseSchema(null);
+            ModelSchema = new BaseSchema(schema);
+
+            try{
+                var Parent = mongoose.model(collection.mongoCollection);
+            }catch(e){
+                var Parent = mongoose.model(collection.mongoCollection, ParentSchema, collection.mongoCollection);
+            }
+            var Model = Parent.discriminator(collection.name, ModelSchema);
+        }
 
         try {
             var schemaExtension = require('./plugins/' + collectionName);
             ModelSchema.plugin(schemaExtension);
             console.log('Plugin found for this generic model: ' + collectionName);
         } catch (e) {
-            console.log('No plugin found for this generic model, no problem')
+            console.log('No plugin found for this generic model, no problem: ' + collectionName);
         }
 
         ModelSchema.methods = {
         };
 
-        mongoose.model(collectionName, ModelSchema, collectionName);
+        if(!collection.mongoCollection){
+            mongoose.model(collectionName, ModelSchema, collectionName);
+        }
 
         // this is only for loading purposes: whitout this the refs may not work
         _(collection.relations).each(function (relation, key) {
-            if (!mongoose.models[relation.relatedCollection] && 'fs.files' !== relation.relatedCollection) {
+            if (!mongoose.models[relation.relatedCollection]) {
                 var relatedModel = exports.getModel(relation.relatedCollection);
             }
         });
