@@ -102,7 +102,6 @@ exports.put = function (req, res) {
                 model.update({
                     $set: attributesToSet
                 }, function (err) {
-                    console.log(model, err);
                     if (err) {
                         res.send(err);
                     } else if (collection.revisionable) {

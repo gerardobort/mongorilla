@@ -110,7 +110,6 @@ exports.getModel = function (collectionName) {
             var relationSchema = { type: ObjectId, ref: relation.relatedCollection };
             relationSchema = ('HasMany' === relation.type ? [relationSchema] : relationSchema);
             schema = addToSchema(schema, key, relationSchema);
-            console.log(schema, key, relationSchema);
         });
 
 

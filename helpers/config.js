@@ -26,7 +26,5 @@ exports.loadConfig = function (configFile) {
         config.collections.push(collection);
     });
 
-    console.log(config.collections);
-
     return config;
 };
