@@ -49,6 +49,7 @@ require.config({
         'backbone-forms/editors/image': { deps: ['backbone'] },
         'backbone-forms/editors/object-id': { deps: ['backbone'] },
         'backbone-forms/editors/ckeditor': { deps: ['backbone'] },
+        'backbone-forms/editors/checkbox': { deps: ['backbone'] },
         'backbone-forms/editors/datepicker': { deps: ['backbone'] },
         'backbone-forms/editors/datetimepicker': { deps: ['backbone', 'datetimePicker'] },
         'backbone-forms/editors/colorpicker': { deps: ['backbone', 'third-party/AdminLTE/plugins/colorpicker/bootstrap-colorpicker.min'] }

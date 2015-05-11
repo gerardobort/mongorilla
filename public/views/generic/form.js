@@ -10,6 +10,7 @@ define('views/generic/form', [
         'backbone-forms/editors/image',
         'backbone-forms/editors/object-id',
         'backbone-forms/editors/ckeditor',
+        'backbone-forms/editors/checkbox',
         'backbone-forms/editors/datepicker',
         'backbone-forms/editors/colorpicker',
         'backbone-forms/editors/datetimepicker',
