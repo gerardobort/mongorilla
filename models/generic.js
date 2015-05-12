@@ -13,26 +13,14 @@ require('./file').getModel();
 function addToSchema(schema, key, type) {
     if (key.indexOf('.') !== -1) {
         var keys = key.split('.');
-
-        // TODO need recursive support here - this is ugly, i know
-        if (2 === keys.length) {
-            schema[keys[0]] = schema[keys[0]] || {};
-            schema[keys[0]][keys[1]] = type;
-        } else if (3 === keys.length) {
-            schema[keys[0]] = schema[keys[0]] || {};
-            schema[keys[0]][keys[1]] = schema[keys[0]][keys[1]] || {};
-            schema[keys[0]][keys[1]][keys[2]] = type;
-        } else if (4 === keys.length) {
-            schema[keys[0]] = schema[keys[0]] || {};
-            schema[keys[0]][keys[1]] = schema[keys[0]][keys[1]] || {};
-            schema[keys[0]][keys[1]][keys[2]] = schema[keys[0]][keys[1]][keys[2]] || {};
-            schema[keys[0]][keys[1]][keys[2]][keys[3]] = type;
-        } else if (5 === keys.length) {
-            schema[keys[0]] = schema[keys[0]] || {};
-            schema[keys[0]][keys[1]] = schema[keys[0]][keys[1]] || {};
-            schema[keys[0]][keys[1]][keys[2]] = schema[keys[0]][keys[1]][keys[2]] || {};
-            schema[keys[0]][keys[1]][keys[2]][keys[3]] = schema[keys[0]][keys[1]][keys[2]][keys[3]] || {};
-            schema[keys[0]][keys[1]][keys[2]][keys[3]][keys[4]] = type;
+        var obj = schema;
+        for (var i = 0; i < keys.length; i++) {
+            if (keys.length-1 === i) {
+                obj[keys[i]] = type; // last key elem
+            } else {
+                obj[keys[i]] = obj[keys[i]] || { };
+                obj = obj[keys[i]];
+            }
         }
     } else {
         schema[key] = type;
