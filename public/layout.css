@@ -142,5 +142,10 @@ ol.example li.placeholder:before {
 }
 
 .btn-drag {
+  visibility: hidden;
+}
+
+ul:hover .btn-drag {
   cursor: move !important;
+  visibility: visible;
 }
