@@ -45,6 +45,19 @@
       })();
 
       this.items = [];
+
+      this.initializeSortableTemplate();
+    },
+
+    initializeSortableTemplate: function () {
+      // this should be placed anywhere else... it's overriding list template with bootstrap3 base markup
+      Form.editors.List.Item.template = _.template('\
+        <li class="clearfix">\
+          <div class="pull-left" data-editor></div>\
+          <button type="button" class="btn bbf-del" data-action="remove">&times;</button>\
+          <div class="btn btn-drag" data-action="drag"><i class="fa fa-navicon"></i></div>\
+        </li>\
+      ');
     },
 
     render: function() {
@@ -80,7 +93,62 @@
             
       if (this.hasFocus) this.trigger('blur', this);
       
+      this.makeSortable();
+      window.list = this;
       return this;
+    },
+
+    makeSortable: function () {
+      var adjustment;
+      var indexFrom, indexTo;
+      var instance = this;
+
+      function swapListEditorsPosition (indexFrom, indexTo) {
+        var list = instance.getValue();
+        var splicedElem = list.splice(indexFrom,1);
+        list = list.slice(0, indexTo).concat(splicedElem).concat(list.slice(indexTo));
+        instance.setValue(list);
+      }
+
+      this.$('ul[data-items]').sortable({
+        //pullPlaceholder: false,
+        handle: 'li',
+        // animation on drop
+        onDrop: function  (item, targetContainer, _super) {
+          var clonedItem = $('<li/>').css({height: 0})
+          item.before(clonedItem);
+          clonedItem.animate({'height': item.height()});
+          
+          item.animate(clonedItem.position(), function  () {
+            clonedItem.detach();
+            _super(item);
+            indexTo = $(item).index();
+            // re-arrange editor's list
+            swapListEditorsPosition(indexFrom, indexTo);
+          });
+        },
+
+        // set item relative to cursor position
+        onDragStart: function ($item, container, _super) {
+          var offset = $item.offset(),
+          pointer = container.rootGroup.pointer;
+
+          adjustment = {
+            left: pointer.left - offset.left,
+            top: pointer.top - offset.top
+          };
+
+          _super($item, container);
+          indexFrom = $item.index();
+        },
+
+        onDrag: function ($item, position) {
+          $item.css({
+            left: position.left - adjustment.left,
+            top: position.top - adjustment.top
+          });
+        }
+      });
     },
 
     /**

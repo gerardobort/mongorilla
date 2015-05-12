@@ -4,6 +4,7 @@ define('views/generic/form', [
         'third-party/bs-fancyfile/js/bootstrap-fancyfile.min',
         'third-party/ckeditor/ckeditor',
         'third-party/twitter-bootstrap-typeahead/js/bootstrap-typeahead',
+        'third-party/jquery-sortable/source/js/jquery-sortable-min',
 
         'backbone-forms/editors/list',
         'backbone-forms/editors/file',

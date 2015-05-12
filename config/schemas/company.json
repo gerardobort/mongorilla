@@ -5,6 +5,7 @@
         "schema": {
             "name": { "type": "Text", "title": "Name", "validators": ["required"] },
             "description": { "type": "CKEditor", "title": "Description" },
+            "phones": { "type": "List", "itemType": "Text", "title": "Phone Numbers" },
             "uri": {
                 "validators": [
                     "required",
