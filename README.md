@@ -26,7 +26,7 @@ Mongorilla is a NodeJS application, distributed via NPM which also have both: NP
 * Revisioning - You can rollback document revisions very easily, by navigating an edition tmieline!
 * Customizing Mongorilla from the source code is not as terrible as in other CMSs.  Even tweaking forms, you can create your own editors, create backend hooks and even, re-use the REST API to serve the content to your frontend app.
 
-##Installation
+## Installation
 
 ### Using Git
 1. Clone this repository: ``$ git clone https://github.com/gerardobort/mongorilla.git``
