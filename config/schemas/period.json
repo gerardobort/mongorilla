@@ -1,0 +1,64 @@
+{
+	"name": "period",
+	"humanName": "Period",
+	"previewUrl": "http://damusiq.com/periods/${uri}.html",
+	"backboneForms": {
+		"schema": {
+			"name": { "type": "Text", "title": "Name (English)", "validators": ["required"] },
+			"t.name.es": { "type": "Text", "title": "Name (Spanish)" },
+			"t.name.it": { "type": "Text", "title": "Name (Italian)" },
+			"description": { "type": "CKEditor", "title": "Description (English)" },
+			"t.description.es": { "type": "CKEditor", "title": "Description (Spanish)" },
+			"t.description.it": { "type": "CKEditor", "title": "Description (Italian)" },
+			"wiki_url": { "type": "Text", "title": "Wiki URL (English)" },
+			"t.wiki_url.es": { "type": "Text", "title": "Wiki URL (Spanish)" },
+			"t.wiki_url.it": { "type": "Text", "title": "Wiki URL (Italian)" },
+			"from_year": { "type": "Number", "title": "From (Year)" },
+			"to_year": { "type": "Number", "title": "To (Year)" },
+			"uri": {
+				"type": "Text",
+				"validators": [
+					"required",
+					{
+						"type": "regexp",
+						"regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$"] }
+					}
+				], 
+				"editorAttrs": { "disabled": "disabled" }
+			},
+			"order_index": { "type": "Number", "title": "Sort Number" }
+		},
+		"fieldsets": [
+			{
+				"legend": "English Content",
+				"fields": ["name", "description", "wiki_url"]
+			},
+			{
+				"legend": "Spanish Translation",
+				"fields": ["t.name.es", "t.description.es", "t.wiki_url.es"]
+			},
+			{
+				"legend": "Italian Translation",
+				"fields": ["t.name.it", "t.description.it", "t.wiki_url.es"]
+			},
+			{
+				"legend": "System Data",
+				"fields": ["uri", "from_year", "to_year", "order_index"]
+			}
+		]
+	},
+	"toStringField": "name",
+	"updatedField": { "key": "updated", "type": "Date" },
+	"createdField": { "key": "created", "type": "Date" },
+	"fastSearch": {
+		"find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+		"sort": { "updated": -1 },
+		"limit": 10,
+		"columns": ["name", "uri", "created", "updated"]
+	},
+	"mongoose": {
+		"schema": null
+	},
+	"readonly": false,
+	"revisionable": true
+}

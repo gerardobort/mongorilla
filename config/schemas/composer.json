@@ -1,0 +1,96 @@
+{
+	"name": "composer",
+	"humanName": "Composer",
+	"previewUrl": "http://damusiq.com/${uri}.html",
+	"backboneForms": {
+		"schema": {
+			"fullname": { "type": "Text", "title": "Full Name", "validators": ["required"] },
+			"firstname": { "type": "Text", "title": "First Name", "validators": ["required"] },
+			"lastname": { "type": "Text", "title": "Last Name", "validators": ["required"] },
+			"birth_year": { "type": "Number", "title": "Birth Year" },
+			"death_year": { "type": "Number", "title": "Death Year" },
+			"wiki.en.source_url": { "type": "Text", "title": "Source URL" },
+			"wiki.en.source_name": { "type": "Text", "title": "Source Name" },
+			"wiki.en.content": { "type": "CKEditor", "title": "Content" },
+			"wiki.es.source_url": { "type": "Text", "title": "Source URL" },
+			"wiki.es.source_name": { "type": "Text", "title": "Source Name" },
+			"wiki.es.content": { "type": "CKEditor", "title": "Content" },
+			"wiki.it.source_url": { "type": "Text", "title": "Source URL" },
+			"wiki.it.source_name": { "type": "Text", "title": "Source Name" },
+			"wiki.it.content": { "type": "CKEditor", "title": "Content" },
+			"uri": {
+				"type": "Text",
+				"validators": [
+					"required",
+					{
+						"type": "regexp",
+						"regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$"] }
+					}
+				], 
+				"editorAttrs": { "disabled": "disabled" }
+			},
+			"images": { "type": "List", "itemType": "Text", "title": "Image (URL)", "validators": ["url"] },
+			"categories": { "type": "List", "itemType": "ObjectId", "title": "Categories" },
+			"periods": { "type": "List", "itemType": "ObjectId", "title": "Periods" },
+			"opuses": { "type": "List", "itemType": "ObjectId", "title": "Opuses" }
+		},
+		"fieldsets": [
+			{
+				"legend": "Basic Information",
+				"fields": ["fullname", "firstname", "lastname", "birth_year", "death_year", "images"]
+			},
+			{
+				"legend": "English Content",
+				"fields": ["wiki.en.content", "wiki.en.source_name", "wiki.en.source_url"]
+			},
+			{
+				"legend": "Spanish Content",
+				"fields": ["wiki.es.content", "wiki.es.source_name", "wiki.es.source_url"]
+			},
+			{
+				"legend": "Italian Content",
+				"fields": ["wiki.it.content", "wiki.it.source_name", "wiki.it.source_url"]
+			},
+			{
+				"legend": "System Data",
+				"fields": ["uri"]
+			},
+			{
+				"legend": "Content Relations",
+				"fields": ["categories", "periods", "opuses"]
+			}
+		],
+		"defaults": {
+			"birth_year": 1800,
+			"death_year": 1890
+		}
+	},
+	"toStringField": "fullname",
+	"updatedField": { "key": "updated", "type": "Date" },
+	"createdField": { "key": "created", "type": "Date" },
+	"fastSearch": {
+		"find": { "fullname": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+		"sort": { "updated": -1 },
+		"limit": 10,
+		"columns": ["lastname", "firstname", "uri", "created", "updated"]
+	},
+	"relations": {
+		"categories": {
+			"type": "HasMany",
+			"relatedCollection": "composerCategory"
+		},
+		"periods": {
+			"type": "HasMany",
+			"relatedCollection": "period"
+		},
+		"opuses": {
+			"type": "HasMany",
+			"relatedCollection": "opus"
+		}
+	},
+	"mongoose": {
+		"schema": null
+	},
+	"readonly": false,
+	"revisionable": true
+}

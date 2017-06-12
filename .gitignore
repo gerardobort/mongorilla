@@ -9,3 +9,4 @@ public/init-build.js
 .*.swo
 nodemon.json
 uploads
+npm-debug.log

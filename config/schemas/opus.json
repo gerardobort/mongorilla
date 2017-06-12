@@ -1,0 +1,43 @@
+{
+	"name": "opus",
+	"humanName": "Opus",
+	"previewUrl": "http://damusiq.com/${composer.uri}/${uri}.html",
+	"backboneForms": {
+		"schema": {
+			"name": { "type": "Text", "title": "Name", "validators": ["required"] },
+			"description": { "type": "CKEditor" },
+			"uri": {
+				"type": "Text",
+				"validators": [
+					"required",
+					{
+						"type": "regexp",
+						"regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$"] }
+					}
+				], 
+				"editorAttrs": { "disabled": "disabled" }
+			},
+			"composer": { "type": "ObjectId", "title": "Composer" }
+		}
+	},
+	"relations": {
+		"composer": {
+			"type": "HasOne",
+			"relatedCollection": "composer"
+		}
+	},
+	"toStringField": "name",
+	"updatedField": { "key": "updated", "type": "Date" },
+	"createdField": { "key": "created", "type": "Date" },
+	"fastSearch": {
+		"find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+		"sort": { "updated": -1 },
+		"limit": 10,
+		"columns": ["name", "uri", "created", "updated"]
+	},
+	"mongoose": {
+		"schema": null
+	},
+	"readonly": false,
+	"revisionable": true
+}

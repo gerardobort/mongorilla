@@ -7,8 +7,12 @@
         {
             "name": "admin",
             "permissions": {
-                "developer": "crud",
-                "company": "crud",
+                "composer": "crud",
+                "composerCategory": "crud",
+                "instrument": "crud",
+                "opus": "crud",
+                "period": "crud",
+                "score": "crud",
                 "mongorillaRole": "crud",
                 "mongorillaUser": "crud",
                 "mongorillaCollection": "crud"
@@ -17,8 +21,12 @@
         {
             "name": "editor",
             "permissions": {
-                "developer": "cru",
-                "company": "cru",
+                "composer": "crud",
+                "composerCategory": "crud",
+                "instrument": "crud",
+                "opus": "crud",
+                "period": "crud",
+                "score": "crud",
                 "mongorillaRole": "r",
                 "mongorillaUser": "r",
                 "mongorillaCollection": "r"

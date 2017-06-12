@@ -1,0 +1,58 @@
+{
+	"name": "instrument",
+	"humanName": "Instrument",
+	"previewUrl": "http://damusiq.com/instruments/${uri}.html",
+	"backboneForms": {
+		"schema": {
+			"name": { "type": "Text", "title": "Name (English)", "validators": ["required"] },
+			"t.name.es": { "type": "Text", "title": "Name (Spanish)" },
+			"t.name.it": { "type": "Text", "title": "Name (Italian)" },
+			"description": { "type": "CKEditor", "title": "Description (English)" },
+			"t.description.es": { "type": "CKEditor", "title": "Description (Spanish)" },
+			"t.description.it": { "type": "CKEditor", "title": "Description (Italian)" },
+			"uri": {
+				"type": "Text",
+				"validators": [
+					"required",
+					{
+						"type": "regexp",
+						"regexp": { "__constructor": "RegExp", "__arguments": ["^[0-9a-z-]{2,}[0-9a-z]$"] }
+					}
+				], 
+				"editorAttrs": { "disabled": "disabled" }
+			}
+		},
+		"fieldsets": [
+			{
+				"legend": "English Content",
+				"fields": ["name", "description"]
+			},
+			{
+				"legend": "Spanish Translation",
+				"fields": ["t.name.es", "t.description.es"]
+			},
+			{
+				"legend": "Italian Translation",
+				"fields": ["t.name.it", "t.description.it"]
+			},
+			{
+				"legend": "System Data",
+				"fields": ["uri"]
+			}
+		]
+	},
+	"toStringField": "name",
+	"updatedField": { "key": "updated", "type": "Date" },
+	"createdField": { "key": "created", "type": "Date" },
+	"fastSearch": {
+		"find": { "name": { "__constructor": "RegExp", "__arguments": ["(^|\\W*)${q}", "ig"] } },
+		"sort": { "updated": -1 },
+		"limit": 10,
+		"columns": ["name", "uri", "created", "updated"]
+	},
+	"mongoose": {
+		"schema": null
+	},
+	"readonly": false,
+	"revisionable": true
+}
