@@ -1,5 +1,5 @@
 ## Mongorilla is a simple and powerful CMS for MongoDB
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gerardobort/mongorilla?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gerardobort/mongorilla?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Build Status](https://travis-ci.org/gerardobort/mongorilla.svg?branch=master)](https://travis-ci.org/gerardobort/mongorilla)
 
@@ -26,7 +26,7 @@ Mongorilla is a NodeJS application, distributed via NPM which also have both: NP
 * Revisioning - You can rollback document revisions very easily, by navigating an edition tmieline!
 * Customizing Mongorilla from the source code is not as terrible as in other CMSs.  Even tweaking forms, you can create your own editors, create backend hooks and even, re-use the REST API to serve the content to your frontend app.
 
-##Installation
+## Installation
 
 ### Using Git
 1. Clone this repository: ``$ git clone https://github.com/gerardobort/mongorilla.git``
