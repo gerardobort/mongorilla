@@ -50,6 +50,7 @@
   },
   "resolutions": {
     "AdminLTE": "2.3.2",
-    "backbone": "~1.1.2"
+    "backbone": "~1.1.2",
+    "bootstrap": "~3.1.1"
   }
 }
