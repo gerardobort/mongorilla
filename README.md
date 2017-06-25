@@ -30,9 +30,10 @@ Mongorilla is a NodeJS application, distributed via NPM which also have both: NP
 
 ### Using Git
 1. Clone this repository: ``$ git clone https://github.com/gerardobort/mongorilla.git``
-2. Install the dependencies: (once in the repository folder) ``$ npm install``
-3. Setup your MongoDB connection: ``$ export MONGORILLA_MONGO_URL="mongodb://localhost/my_mongorilla"``
-4. Run the server instance: ``$ nodejs server.js``
+2. Install Node dependencies: (once in the repository folder) ``$ npm install``
+3. Install Bower dependencies :``$ bower install``
+4. Setup your MongoDB connection: ``$ export MONGORILLA_MONGO_URL="mongodb://localhost/my_mongorilla"``
+5. Run the server instance: ``$ npm start``
 5. Enjoy!
 
 ### Deploy to Heroku
